@@ -9,7 +9,7 @@ from lbryschema.schema.stream import Stream
 
 class Claim(Schema):
     @classmethod
-    def load(cls, message):
+    def load(cls, message, address_base=64):
         _claim = deepcopy(message)
         _message_pb = claim_pb.Claim()
         if "cert" in _claim:
@@ -22,19 +22,19 @@ class Claim(Schema):
         elif "stream" in _claim:
             _stream = _claim.pop("stream")
             if isinstance(_stream, dict):
-                stream = Stream.load(_stream)
+                stream = Stream.load(_stream, address_base)
             else:
                 stream = _stream
             _message_pb.stream.MergeFrom(stream)
         else:
             raise AttributeError
 
-        if "publisher_signature" in _claim:
-            _publisher_signature = _claim.pop("publisher_signature")
+        if "publisherSignature" in _claim:
+            _publisherSignature = _claim.pop("publisherSignature")
             if isinstance(_stream, dict):
-                publisher_signature = Signature.load(_publisher_signature)
+                publisherSignature = Signature.load(_publisherSignature)
             else:
-                publisher_signature = _publisher_signature
-            _message_pb.publisher_signature.MergeFrom(publisher_signature)
+                publisherSignature = _publisherSignature
+            _message_pb.publisherSignature.MergeFrom(publisherSignature)
 
         return cls._load(_claim, _message_pb)

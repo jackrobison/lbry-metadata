@@ -21,7 +21,7 @@ import signature_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='claim.proto',
   package='',
-  serialized_pb=_b('\n\x0b\x63laim.proto\x1a\x0cstream.proto\x1a\ncert.proto\x1a\x0fsignature.proto\"\xae\x01\n\x05\x43laim\x12\x1f\n\x07version\x18\x01 \x02(\x0e\x32\x0e.Claim.Version\x12\x19\n\x06stream\x18\x02 \x01(\x0b\x32\x07.StreamH\x00\x12\x1c\n\x0b\x63\x65rtificate\x18\x03 \x01(\x0b\x32\x05.CertH\x00\x12\'\n\x13publisher_signature\x18\x04 \x01(\x0b\x32\n.Signature\"\x15\n\x07Version\x12\n\n\x06_0_0_1\x10\x00\x42\x0b\n\tClaimType')
+  serialized_pb=_b('\n\x0b\x63laim.proto\x1a\x0cstream.proto\x1a\ncert.proto\x1a\x0fsignature.proto\"\xad\x01\n\x05\x43laim\x12\x1f\n\x07version\x18\x01 \x02(\x0e\x32\x0e.Claim.Version\x12\x19\n\x06stream\x18\x02 \x01(\x0b\x32\x07.StreamH\x00\x12\x1c\n\x0b\x63\x65rtificate\x18\x03 \x01(\x0b\x32\x05.CertH\x00\x12&\n\x12publisherSignature\x18\x04 \x01(\x0b\x32\n.Signature\"\x15\n\x07Version\x12\n\n\x06_0_0_1\x10\x00\x42\x0b\n\tClaimType')
   ,
   dependencies=[stream_pb2.DESCRIPTOR,cert_pb2.DESCRIPTOR,signature_pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -41,8 +41,8 @@ _CLAIM_VERSION = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=199,
-  serialized_end=220,
+  serialized_start=198,
+  serialized_end=219,
 )
 _sym_db.RegisterEnumDescriptor(_CLAIM_VERSION)
 
@@ -76,7 +76,7 @@ _CLAIM = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='publisher_signature', full_name='Claim.publisher_signature', index=3,
+      name='publisherSignature', full_name='Claim.publisherSignature', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -98,13 +98,13 @@ _CLAIM = _descriptor.Descriptor(
       index=0, containing_type=None, fields=[]),
   ],
   serialized_start=59,
-  serialized_end=233,
+  serialized_end=232,
 )
 
 _CLAIM.fields_by_name['version'].enum_type = _CLAIM_VERSION
 _CLAIM.fields_by_name['stream'].message_type = stream_pb2._STREAM
 _CLAIM.fields_by_name['certificate'].message_type = cert_pb2._CERT
-_CLAIM.fields_by_name['publisher_signature'].message_type = signature_pb2._SIGNATURE
+_CLAIM.fields_by_name['publisherSignature'].message_type = signature_pb2._SIGNATURE
 _CLAIM_VERSION.containing_type = _CLAIM
 _CLAIM.oneofs_by_name['ClaimType'].fields.append(
   _CLAIM.fields_by_name['stream'])

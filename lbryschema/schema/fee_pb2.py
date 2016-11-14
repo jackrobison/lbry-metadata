@@ -18,7 +18,7 @@ _sym_db = _symbol_database.Default()
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='fee.proto',
   package='',
-  serialized_pb=_b('\n\tfee.proto\"\xa4\x01\n\x03\x46\x65\x65\x12\x1d\n\x07version\x18\x01 \x02(\x0e\x32\x0c.Fee.Version\x12\x1f\n\x08\x63urrency\x18\x02 \x02(\x0e\x32\r.Fee.Currency\x12\x0f\n\x07\x61\x64\x64ress\x18\x03 \x02(\t\x12\x0e\n\x06\x61mount\x18\x04 \x02(\x02\"\x15\n\x07Version\x12\n\n\x06_0_0_1\x10\x00\"%\n\x08\x43urrency\x12\x07\n\x03LBC\x10\x00\x12\x07\n\x03\x42TC\x10\x01\x12\x07\n\x03USD\x10\x02')
+  serialized_pb=_b('\n\tfee.proto\"\xa4\x01\n\x03\x46\x65\x65\x12\x1d\n\x07version\x18\x01 \x02(\x0e\x32\x0c.Fee.Version\x12\x1f\n\x08\x63urrency\x18\x02 \x02(\x0e\x32\r.Fee.Currency\x12\x0f\n\x07\x61\x64\x64ress\x18\x03 \x02(\x0c\x12\x0e\n\x06\x61mount\x18\x04 \x02(\x02\"\x15\n\x07Version\x12\n\n\x06_0_0_1\x10\x00\"%\n\x08\x43urrency\x12\x07\n\x03LBC\x10\x00\x12\x07\n\x03\x42TC\x10\x01\x12\x07\n\x03USD\x10\x02')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -92,8 +92,8 @@ _FEE = _descriptor.Descriptor(
       options=None),
     _descriptor.FieldDescriptor(
       name='address', full_name='Fee.address', index=2,
-      number=3, type=9, cpp_type=9, label=2,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
+      number=3, type=12, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),

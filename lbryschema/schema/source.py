@@ -1,5 +1,4 @@
 from copy import deepcopy
-
 from lbryschema.schema import source_pb2
 from lbryschema.schema.schema import Schema
 
@@ -11,15 +10,25 @@ class UnknownSourceType(Exception):
     pass
 
 
+class InvalidSourceHashLength(Exception):
+    pass
+
+
 def validate_lbry_stream_source(source):
-    source_val = source.decode('hex')
-    assert len(source_val) == LBRY_SD_HASH_LENGTH
+    source_val = source.decode('base64')
+    if not len(source_val) == LBRY_SD_HASH_LENGTH:
+        source_val = source.decode('hex')
+        if not len(source_val) == LBRY_SD_HASH_LENGTH:
+            raise InvalidSourceHashLength
     return 0, source_val
 
 
 def validate_btih_stream_source(source):
-    source_val = source.decode('hex')
-    assert len(source_val) == BTIH_LENGTH
+    source_val = source.decode('base64')
+    if not len(source_val) == BTIH_LENGTH:
+        source_val = source.decode('hex')
+        if not len(source_val) == BTIH_LENGTH:
+            raise InvalidSourceHashLength
     return 1, source_val
 
 
@@ -36,9 +45,9 @@ class Source(Schema):
     @classmethod
     def load(cls, message):
         _source = deepcopy(message)
-        type_prefix, source_val = validate_source_and_get_prefix(_source.pop('source'), _source.pop('source_type'))
+        type_prefix, source_val = validate_source_and_get_prefix(_source.pop('source'), _source.pop('sourceType'))
         _message_pb = source_pb2.Source()
-        _message_pb.source_type = type_prefix
+        _message_pb.sourceType = type_prefix
         _message_pb.source = source_val
-        _message_pb.content_type = _source.pop('content_type')
+        _message_pb.contentType = _source.pop('contentType')
         return cls._load(_source, _message_pb)

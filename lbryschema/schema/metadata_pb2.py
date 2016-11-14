@@ -19,7 +19,7 @@ import fee_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='metadata.proto',
   package='',
-  serialized_pb=_b('\n\x0emetadata.proto\x1a\tfee.proto\"\xce\x02\n\x08Metadata\x12\"\n\x07version\x18\x01 \x02(\x0e\x32\x11.Metadata.Version\x12$\n\x08language\x18\x02 \x02(\x0e\x32\x12.Metadata.Language\x12\r\n\x05title\x18\x03 \x02(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x02(\t\x12\x0e\n\x06\x61uthor\x18\x05 \x02(\t\x12\x0f\n\x07license\x18\x06 \x02(\t\x12\x0c\n\x04nsfw\x18\x07 \x02(\x08\x12\x11\n\x03\x66\x65\x65\x18\x08 \x01(\x0b\x32\x04.Fee\x12\x11\n\tthumbnail\x18\t \x01(\t\x12\x0f\n\x07preview\x18\n \x01(\t\x12\x13\n\x0blicense_url\x18\x0b \x01(\t\"9\n\x07Version\x12\n\n\x06_0_0_1\x10\x00\x12\n\n\x06_0_0_2\x10\x01\x12\n\n\x06_0_0_3\x10\x02\x12\n\n\x06_0_1_0\x10\x03\"\x1e\n\x08Language\x12\x06\n\x02\x45N\x10\x00\x12\x06\n\x02\x65n\x10\x00\x1a\x02\x10\x01')
+  serialized_pb=_b('\n\x0emetadata.proto\x1a\tfee.proto\"\xcd\x02\n\x08Metadata\x12\"\n\x07version\x18\x01 \x02(\x0e\x32\x11.Metadata.Version\x12$\n\x08language\x18\x02 \x02(\x0e\x32\x12.Metadata.Language\x12\r\n\x05title\x18\x03 \x02(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x02(\t\x12\x0e\n\x06\x61uthor\x18\x05 \x02(\t\x12\x0f\n\x07license\x18\x06 \x02(\t\x12\x0c\n\x04nsfw\x18\x07 \x02(\x08\x12\x11\n\x03\x66\x65\x65\x18\x08 \x01(\x0b\x32\x04.Fee\x12\x11\n\tthumbnail\x18\t \x01(\t\x12\x0f\n\x07preview\x18\n \x01(\t\x12\x12\n\nlicenseUrl\x18\x0b \x01(\t\"9\n\x07Version\x12\n\n\x06_0_0_1\x10\x00\x12\n\n\x06_0_0_2\x10\x01\x12\n\n\x06_0_0_3\x10\x02\x12\n\n\x06_0_1_0\x10\x03\"\x1e\n\x08Language\x12\x06\n\x02\x45N\x10\x00\x12\x06\n\x02\x65n\x10\x00\x1a\x02\x10\x01')
   ,
   dependencies=[fee_pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -51,8 +51,8 @@ _METADATA_VERSION = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=275,
-  serialized_end=332,
+  serialized_start=274,
+  serialized_end=331,
 )
 _sym_db.RegisterEnumDescriptor(_METADATA_VERSION)
 
@@ -73,8 +73,8 @@ _METADATA_LANGUAGE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=_descriptor._ParseOptions(descriptor_pb2.EnumOptions(), _b('\020\001')),
-  serialized_start=334,
-  serialized_end=364,
+  serialized_start=333,
+  serialized_end=363,
 )
 _sym_db.RegisterEnumDescriptor(_METADATA_LANGUAGE)
 
@@ -157,7 +157,7 @@ _METADATA = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='license_url', full_name='Metadata.license_url', index=10,
+      name='licenseUrl', full_name='Metadata.licenseUrl', index=10,
       number=11, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -177,7 +177,7 @@ _METADATA = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=30,
-  serialized_end=364,
+  serialized_end=363,
 )
 
 _METADATA.fields_by_name['version'].enum_type = _METADATA_VERSION

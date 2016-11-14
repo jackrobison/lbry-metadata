@@ -23,5 +23,5 @@ message Metadata {
     optional Fee fee = 8;
     optional string thumbnail = 9;
     optional string preview = 10;
-    optional string license_url = 11;
+    optional string licenseUrl = 11;
 }

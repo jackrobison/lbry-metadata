@@ -28,13 +28,14 @@ def _sign_stream(stream, rsa_key):
     return sig_msg
 
 
-def sign_stream_claim(claim_dict, rsa_key):
-    claim = Claim.load(claim_dict)
+def sign_stream_claim(claim, rsa_key):
+    if isinstance(claim, dict):
+        claim = Claim.load(claim)
     signature = _sign_stream(claim, rsa_key)
     msg = {
         "version": "_0_0_1",
         "stream": claim.stream,
-        "publisher_signature": signature
+        "publisherSignature": signature
     }
     return Claim.load(msg)
 

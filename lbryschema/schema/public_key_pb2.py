@@ -18,7 +18,7 @@ _sym_db = _symbol_database.Default()
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='public_key.proto',
   package='',
-  serialized_pb=_b('\n\x10public_key.proto\"z\n\x0cRSAPublicKey\x12&\n\x07version\x18\x01 \x02(\x0e\x32\x15.RSAPublicKey.Version\x12\x17\n\x0fpublic_key_hash\x18\x02 \x02(\x0c\x12\x12\n\npublic_key\x18\x03 \x02(\x0c\"\x15\n\x07Version\x12\n\n\x06_0_0_1\x10\x00\"y\n\x0cRSASignature\x12&\n\x07version\x18\x01 \x02(\x0e\x32\x15.RSASignature.Version\x12\x17\n\x0fpublic_key_hash\x18\x02 \x02(\x0c\x12\x11\n\tsignature\x18\x03 \x02(\x0c\"\x15\n\x07Version\x12\n\n\x06_0_0_1\x10\x00')
+  serialized_pb=_b('\n\x10public_key.proto\"w\n\x0cRSAPublicKey\x12&\n\x07version\x18\x01 \x02(\x0e\x32\x15.RSAPublicKey.Version\x12\x15\n\rpublicKeyHash\x18\x02 \x02(\x0c\x12\x11\n\tpublicKey\x18\x03 \x02(\x0c\"\x15\n\x07Version\x12\n\n\x06_0_0_1\x10\x00\"w\n\x0cRSASignature\x12&\n\x07version\x18\x01 \x02(\x0e\x32\x15.RSASignature.Version\x12\x15\n\rpublicKeyHash\x18\x02 \x02(\x0c\x12\x11\n\tsignature\x18\x03 \x02(\x0c\"\x15\n\x07Version\x12\n\n\x06_0_0_1\x10\x00')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -37,8 +37,8 @@ _RSAPUBLICKEY_VERSION = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=121,
-  serialized_end=142,
+  serialized_start=118,
+  serialized_end=139,
 )
 _sym_db.RegisterEnumDescriptor(_RSAPUBLICKEY_VERSION)
 
@@ -55,8 +55,8 @@ _RSASIGNATURE_VERSION = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=121,
-  serialized_end=142,
+  serialized_start=118,
+  serialized_end=139,
 )
 _sym_db.RegisterEnumDescriptor(_RSASIGNATURE_VERSION)
 
@@ -76,14 +76,14 @@ _RSAPUBLICKEY = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='public_key_hash', full_name='RSAPublicKey.public_key_hash', index=1,
+      name='publicKeyHash', full_name='RSAPublicKey.publicKeyHash', index=1,
       number=2, type=12, cpp_type=9, label=2,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='public_key', full_name='RSAPublicKey.public_key', index=2,
+      name='publicKey', full_name='RSAPublicKey.publicKey', index=2,
       number=3, type=12, cpp_type=9, label=2,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
@@ -102,7 +102,7 @@ _RSAPUBLICKEY = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=20,
-  serialized_end=142,
+  serialized_end=139,
 )
 
 
@@ -121,7 +121,7 @@ _RSASIGNATURE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='public_key_hash', full_name='RSASignature.public_key_hash', index=1,
+      name='publicKeyHash', full_name='RSASignature.publicKeyHash', index=1,
       number=2, type=12, cpp_type=9, label=2,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
@@ -146,8 +146,8 @@ _RSASIGNATURE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=144,
-  serialized_end=265,
+  serialized_start=141,
+  serialized_end=260,
 )
 
 _RSAPUBLICKEY.fields_by_name['version'].enum_type = _RSAPUBLICKEY_VERSION

@@ -18,7 +18,7 @@ _sym_db = _symbol_database.Default()
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='source.proto',
   package='',
-  serialized_pb=_b('\n\x0csource.proto\"\xc5\x01\n\x06Source\x12 \n\x07version\x18\x01 \x02(\x0e\x32\x0f.Source.Version\x12(\n\x0bsource_type\x18\x02 \x02(\x0e\x32\x13.Source.SourceTypes\x12\x0e\n\x06source\x18\x03 \x02(\x0c\x12\x14\n\x0c\x63ontent_type\x18\x04 \x02(\t\"\x15\n\x07Version\x12\n\n\x06_0_0_1\x10\x00\"2\n\x0bSourceTypes\x12\x10\n\x0clbry_sd_hash\x10\x00\x12\x08\n\x04\x62tih\x10\x01\x12\x07\n\x03url\x10\x02')
+  serialized_pb=_b('\n\x0csource.proto\"\xc3\x01\n\x06Source\x12 \n\x07version\x18\x01 \x02(\x0e\x32\x0f.Source.Version\x12\'\n\nsourceType\x18\x02 \x02(\x0e\x32\x13.Source.SourceTypes\x12\x0e\n\x06source\x18\x03 \x02(\x0c\x12\x13\n\x0b\x63ontentType\x18\x04 \x02(\t\"\x15\n\x07Version\x12\n\n\x06_0_0_1\x10\x00\"2\n\x0bSourceTypes\x12\x10\n\x0clbry_sd_hash\x10\x00\x12\x08\n\x04\x62tih\x10\x01\x12\x07\n\x03url\x10\x02')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -37,8 +37,8 @@ _SOURCE_VERSION = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=141,
-  serialized_end=162,
+  serialized_start=139,
+  serialized_end=160,
 )
 _sym_db.RegisterEnumDescriptor(_SOURCE_VERSION)
 
@@ -63,8 +63,8 @@ _SOURCE_SOURCETYPES = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=164,
-  serialized_end=214,
+  serialized_start=162,
+  serialized_end=212,
 )
 _sym_db.RegisterEnumDescriptor(_SOURCE_SOURCETYPES)
 
@@ -84,7 +84,7 @@ _SOURCE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='source_type', full_name='Source.source_type', index=1,
+      name='sourceType', full_name='Source.sourceType', index=1,
       number=2, type=14, cpp_type=8, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -98,7 +98,7 @@ _SOURCE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='content_type', full_name='Source.content_type', index=3,
+      name='contentType', full_name='Source.contentType', index=3,
       number=4, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -118,11 +118,11 @@ _SOURCE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=17,
-  serialized_end=214,
+  serialized_end=212,
 )
 
 _SOURCE.fields_by_name['version'].enum_type = _SOURCE_VERSION
-_SOURCE.fields_by_name['source_type'].enum_type = _SOURCE_SOURCETYPES
+_SOURCE.fields_by_name['sourceType'].enum_type = _SOURCE_SOURCETYPES
 _SOURCE_VERSION.containing_type = _SOURCE
 _SOURCE_SOURCETYPES.containing_type = _SOURCE
 DESCRIPTOR.message_types_by_name['Source'] = _SOURCE

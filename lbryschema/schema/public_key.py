@@ -22,11 +22,11 @@ class RSAPublicKey(Schema):
     @classmethod
     def load(cls, message):
         _key = deepcopy(message)
-        public_key = _key.pop("public_key")
-        public_key_hash = _key.pop("public_key_hash")
+        publicKey = _key.pop("publicKey")
+        publicKeyHash = _key.pop("publicKeyHash")
         _message_pb = public_key_pb2.RSAPublicKey()
-        _message_pb.public_key = public_key
-        _message_pb.public_key_hash = public_key_hash
+        _message_pb.publicKey = publicKey
+        _message_pb.publicKeyHash = publicKeyHash
         return cls._load(_key, _message_pb)
 
     @classmethod
@@ -34,8 +34,8 @@ class RSAPublicKey(Schema):
         _key = _RSAKeyHelper(key)
         msg = {
             "version": "_0_0_1",
-            "public_key": _key.der,
-            "public_key_hash": _key.hash
+            "publicKey": _key.der,
+            "publicKeyHash": _key.hash
         }
         return cls.load(msg)
 
@@ -46,7 +46,7 @@ class RSASignature(Schema):
         _signature = deepcopy(message)
         _message_pb = public_key_pb2.RSASignature()
         _message_pb.signature = _signature.pop("signature")
-        _message_pb.public_key_hash = _signature.pop("public_key_hash")
+        _message_pb.publicKeyHash = _signature.pop("publicKeyHash")
         return cls._load(_signature, _message_pb)
 
     @classmethod
@@ -55,6 +55,6 @@ class RSASignature(Schema):
         msg = {
             "version": "_0_0_1",
             "signature": signature,
-            "public_key_hash": _key.hash
+            "publicKeyHash": _key.hash
         }
         return cls.load(msg)

@@ -3,8 +3,8 @@ message RSAPublicKey {
         _0_0_1 = 0;
     }
     required Version version = 1;
-    required bytes public_key_hash = 2;
-    required bytes public_key = 3;
+    required bytes publicKeyHash = 2;
+    required bytes publicKey = 3;
 }
 
 message RSASignature {
@@ -12,6 +12,6 @@ message RSASignature {
         _0_0_1 = 0;
     }
     required Version version = 1;
-    required bytes public_key_hash = 2;
+    required bytes publicKeyHash = 2;
     required bytes signature = 3;
 }

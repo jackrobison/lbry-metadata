@@ -28,8 +28,8 @@ def migrate_003_to_010(old_dict):
 
     source = {
         "source": old_dict['sources']['lbry_sd_hash'],
-        "content_type": old_dict['content_type'],
-        "source_type": "lbry_sd_hash",
+        "contentType": old_dict['content_type'],
+        "sourceType": "lbry_sd_hash",
         "version": "_0_0_1"
     }
 

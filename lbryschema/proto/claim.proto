@@ -11,5 +11,5 @@ message Claim {
         Stream stream = 2;
         Cert certificate = 3;
     }
-    optional Signature publisher_signature = 4;
+    optional Signature publisherSignature = 4;
 }

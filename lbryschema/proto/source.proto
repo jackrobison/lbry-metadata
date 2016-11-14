@@ -8,7 +8,7 @@ message Source {
         btih = 1;
         url = 2;
     }
-    required SourceTypes source_type = 2;
+    required SourceTypes sourceType = 2;
     required bytes source = 3;
-    required string content_type = 4;
+    required string contentType = 4;
 }

@@ -7,9 +7,8 @@ message Fee {
         BTC = 1;
         USD = 2;
     }
-
     required Version version = 1;
     required Currency currency = 2;
-    required string address = 3;
+    required bytes address = 3;
     required float amount = 4;
 }
