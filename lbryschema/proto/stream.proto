@@ -1,4 +1,3 @@
-import "signature.proto";
 import "metadata.proto";
 import "source.proto";
 

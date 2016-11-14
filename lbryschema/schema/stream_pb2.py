@@ -7,13 +7,12 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-
+from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
 
 
-import signature_pb2
 import metadata_pb2
 import source_pb2
 
@@ -21,9 +20,9 @@ import source_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='stream.proto',
   package='',
-  serialized_pb=_b('\n\x0cstream.proto\x1a\x0fsignature.proto\x1a\x0emetadata.proto\x1a\x0csource.proto\"w\n\x06Stream\x12 \n\x07version\x18\x01 \x02(\x0e\x32\x0f.Stream.Version\x12\x1b\n\x08metadata\x18\x02 \x02(\x0b\x32\t.Metadata\x12\x17\n\x06source\x18\x03 \x02(\x0b\x32\x07.Source\"\x15\n\x07Version\x12\n\n\x06_0_0_1\x10\x00')
+  serialized_pb=_b('\n\x0cstream.proto\x1a\x0emetadata.proto\x1a\x0csource.proto\"w\n\x06Stream\x12 \n\x07version\x18\x01 \x02(\x0e\x32\x0f.Stream.Version\x12\x1b\n\x08metadata\x18\x02 \x02(\x0b\x32\t.Metadata\x12\x17\n\x06source\x18\x03 \x02(\x0b\x32\x07.Source\"\x15\n\x07Version\x12\n\n\x06_0_0_1\x10\x00')
   ,
-  dependencies=[signature_pb2.DESCRIPTOR, metadata_pb2.DESCRIPTOR, source_pb2.DESCRIPTOR, ])
+  dependencies=[metadata_pb2.DESCRIPTOR,source_pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -41,8 +40,8 @@ _STREAM_VERSION = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=161,
-  serialized_end=182,
+  serialized_start=144,
+  serialized_end=165,
 )
 _sym_db.RegisterEnumDescriptor(_STREAM_VERSION)
 
@@ -87,8 +86,8 @@ _STREAM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=63,
-  serialized_end=182,
+  serialized_start=46,
+  serialized_end=165,
 )
 
 _STREAM.fields_by_name['version'].enum_type = _STREAM_VERSION

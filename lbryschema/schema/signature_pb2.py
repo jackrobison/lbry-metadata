@@ -7,7 +7,7 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-
+from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   serialized_pb=_b('\n\x0fsignature.proto\x1a\x10public_key.proto\"|\n\tSignature\x12#\n\x07version\x18\x01 \x02(\x0e\x32\x12.Signature.Version\x12\"\n\tsignature\x18\x02 \x01(\x0b\x32\r.RSASignatureH\x00\"\x15\n\x07Version\x12\n\n\x06_0_0_1\x10\x00\x42\x0f\n\rSignatureType')
   ,
-  dependencies=[public_key_pb2.DESCRIPTOR, ])
+  dependencies=[public_key_pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 

@@ -7,7 +7,7 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-
+from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +19,9 @@ import public_key_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='cert.proto',
   package='',
-  serialized_pb=_b('\n\ncert.proto\x1a\x10public_key.proto\"m\n\x04\x43\x65rt\x12\x1e\n\x07version\x18\x01 \x02(\x0e\x32\r.Cert.Version\x12#\n\npublic_key\x18\x02 \x01(\x0b\x32\r.RSAPublicKeyH\x00\"\x15\n\x07Version\x12\n\n\x06_0_0_1\x10\x00\x42\t\n\x07KeyType')
+  serialized_pb=_b('\n\ncert.proto\x1a\x10public_key.proto\"\x9b\x02\n\x04\x43\x65rt\x12\x1e\n\x07version\x18\x01 \x02(\x0e\x32\r.Cert.Version\x12#\n\npublic_key\x18\x02 \x01(\x0b\x32\r.RSAPublicKeyH\x00\x12\x0f\n\x07\x63ountry\x18\x03 \x01(\t\x12\r\n\x05state\x18\x04 \x01(\t\x12\x10\n\x08locality\x18\x05 \x01(\t\x12\x1b\n\x13organizational_name\x18\x06 \x01(\t\x12\x1b\n\x13organizational_unit\x18\x07 \x01(\t\x12\x13\n\x0b\x63ommon_name\x18\x08 \x01(\t\x12\x15\n\remail_address\x18\t \x01(\t\x12\x14\n\x0c\x63ompany_name\x18\n \x01(\t\"\x15\n\x07Version\x12\n\n\x06_0_0_1\x10\x00\x42\t\n\x07KeyType')
   ,
-  dependencies=[public_key_pb2.DESCRIPTOR, ])
+  dependencies=[public_key_pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -39,8 +39,8 @@ _CERT_VERSION = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=109,
-  serialized_end=130,
+  serialized_start=284,
+  serialized_end=305,
 )
 _sym_db.RegisterEnumDescriptor(_CERT_VERSION)
 
@@ -66,6 +66,62 @@ _CERT = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
+    _descriptor.FieldDescriptor(
+      name='country', full_name='Cert.country', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='state', full_name='Cert.state', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='locality', full_name='Cert.locality', index=4,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='organizational_name', full_name='Cert.organizational_name', index=5,
+      number=6, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='organizational_unit', full_name='Cert.organizational_unit', index=6,
+      number=7, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='common_name', full_name='Cert.common_name', index=7,
+      number=8, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='email_address', full_name='Cert.email_address', index=8,
+      number=9, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='company_name', full_name='Cert.company_name', index=9,
+      number=10, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
   ],
   extensions=[
   ],
@@ -81,8 +137,8 @@ _CERT = _descriptor.Descriptor(
       name='KeyType', full_name='Cert.KeyType',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=32,
-  serialized_end=141,
+  serialized_start=33,
+  serialized_end=316,
 )
 
 _CERT.fields_by_name['version'].enum_type = _CERT_VERSION

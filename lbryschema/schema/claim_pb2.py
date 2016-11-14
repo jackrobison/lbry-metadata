@@ -7,7 +7,7 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-
+from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -23,7 +23,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   serialized_pb=_b('\n\x0b\x63laim.proto\x1a\x0cstream.proto\x1a\ncert.proto\x1a\x0fsignature.proto\"\xae\x01\n\x05\x43laim\x12\x1f\n\x07version\x18\x01 \x02(\x0e\x32\x0e.Claim.Version\x12\x19\n\x06stream\x18\x02 \x01(\x0b\x32\x07.StreamH\x00\x12\x1c\n\x0b\x63\x65rtificate\x18\x03 \x01(\x0b\x32\x05.CertH\x00\x12\'\n\x13publisher_signature\x18\x04 \x01(\x0b\x32\n.Signature\"\x15\n\x07Version\x12\n\n\x06_0_0_1\x10\x00\x42\x0b\n\tClaimType')
   ,
-  dependencies=[stream_pb2.DESCRIPTOR, cert_pb2.DESCRIPTOR, signature_pb2.DESCRIPTOR, ])
+  dependencies=[stream_pb2.DESCRIPTOR,cert_pb2.DESCRIPTOR,signature_pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 

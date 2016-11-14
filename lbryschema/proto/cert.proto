@@ -8,5 +8,12 @@ message Cert {
     oneof KeyType {
         RSAPublicKey public_key = 2;
     }
-
+    optional string country = 3;
+    optional string state = 4;
+    optional string locality = 5;
+    optional string organizational_name = 6;
+    optional string organizational_unit = 7;
+    optional string common_name = 8;
+    optional string email_address = 9;
+    optional string company_name = 10;
 }
