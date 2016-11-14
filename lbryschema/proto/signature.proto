@@ -1,0 +1,13 @@
+import "public_key.proto";
+
+
+message Signature {
+    enum Version {
+        _0_0_1 = 0;
+    }
+    required Version version = 1;
+    oneof SignatureType {
+        RSASignature signature = 2;
+    }
+}
+

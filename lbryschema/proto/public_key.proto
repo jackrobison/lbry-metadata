@@ -1,0 +1,17 @@
+message RSAPublicKey {
+    enum Version {
+        _0_0_1 = 0;
+    }
+    required Version version = 1;
+    required bytes public_key_hash = 2;
+    required bytes public_key = 3;
+}
+
+message RSASignature {
+    enum Version {
+        _0_0_1 = 0;
+    }
+    required Version version = 1;
+    required bytes public_key_hash = 2;
+    required bytes signature = 3;
+}

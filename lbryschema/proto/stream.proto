@@ -1,0 +1,13 @@
+import "signature.proto";
+import "metadata.proto";
+import "source.proto";
+
+
+message Stream {
+    enum Version {
+        _0_0_1 = 0;
+    }
+    required Version version = 1;
+    required Metadata metadata = 2;
+    required Source source = 3;
+}

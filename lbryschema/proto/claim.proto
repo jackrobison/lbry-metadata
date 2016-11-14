@@ -1,0 +1,15 @@
+import "stream.proto";
+import "cert.proto";
+import "signature.proto";
+
+message Claim {
+    enum Version {
+        _0_0_1 = 0;
+    }
+    required Version version = 1;
+    oneof ClaimType {
+        Stream stream = 2;
+        Cert certificate = 3;
+    }
+    optional Signature publisher_signature = 4;
+}

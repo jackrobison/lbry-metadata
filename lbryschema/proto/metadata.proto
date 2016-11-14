@@ -1,0 +1,27 @@
+import "fee.proto";
+
+message Metadata {
+    enum Version {
+        _0_0_1 = 0;
+        _0_0_2 = 1;
+        _0_0_3 = 2;
+        _0_1_0 = 3;
+    }
+    enum Language {
+        option allow_alias = true;
+        EN = 0;
+        en = 0;
+    }
+    required Version version = 1;
+    required Language language = 2;
+    required string title = 3;
+    required string description = 4;
+    required string author = 5;
+    required string license = 6;
+    required bool nsfw = 7;
+
+    optional Fee fee = 8;
+    optional string thumbnail = 9;
+    optional string preview = 10;
+    optional string license_url = 11;
+}

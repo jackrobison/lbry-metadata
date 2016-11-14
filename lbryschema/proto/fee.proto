@@ -1,0 +1,15 @@
+message Fee {
+    enum Version {
+        _0_0_1 = 0;
+    }
+    enum Currency {
+        LBC = 0;
+        BTC = 1;
+        USD = 2;
+    }
+
+    required Version version = 1;
+    required Currency currency = 2;
+    required string address = 3;
+    required float amount = 4;
+}

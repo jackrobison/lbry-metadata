@@ -1,0 +1,14 @@
+message Source {
+    enum Version {
+        _0_0_1 = 0;
+    }
+    required Version version = 1;
+    enum SourceTypes {
+        lbry_sd_hash = 0;
+        btih = 1;
+        url = 2;
+    }
+    required SourceTypes source_type = 2;
+    required bytes source = 3;
+    required string content_type = 4;
+}
