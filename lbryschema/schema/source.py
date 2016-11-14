@@ -15,20 +15,22 @@ class InvalidSourceHashLength(Exception):
 
 
 def validate_lbry_stream_source(source):
-    source_val = source.decode('base64')
-    if not len(source_val) == LBRY_SD_HASH_LENGTH:
+    try:
         source_val = source.decode('hex')
-        if not len(source_val) == LBRY_SD_HASH_LENGTH:
-            raise InvalidSourceHashLength
+    except Exception as err:
+        source_val = source.decode('base64')
+    if not len(source_val) == LBRY_SD_HASH_LENGTH:
+        raise InvalidSourceHashLength(len(source_val))
     return 0, source_val
 
 
 def validate_btih_stream_source(source):
-    source_val = source.decode('base64')
-    if not len(source_val) == BTIH_LENGTH:
+    try:
         source_val = source.decode('hex')
-        if not len(source_val) == BTIH_LENGTH:
-            raise InvalidSourceHashLength
+    except Exception as err:
+        source_val = source.decode('base64')
+    if not len(source_val) == BTIH_LENGTH:
+        raise InvalidSourceHashLength(len(source_val))
     return 1, source_val
 
 

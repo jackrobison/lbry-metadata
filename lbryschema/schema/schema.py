@@ -12,7 +12,3 @@ class Schema(Message):
     def _load(cls, data, message):
         data = json.dumps(data)
         return json_pb.Parse(data, message)
-
-    @property
-    def serialized(self):
-        return self.SerializeToString()
