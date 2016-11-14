@@ -1,5 +1,4 @@
 from copy import deepcopy
-import base64
 from lbryschema.schema import metadata_pb2
 from lbryschema.schema.fee import Fee
 from lbryschema.schema.schema import Schema
