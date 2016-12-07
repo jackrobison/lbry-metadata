@@ -1,15 +1,7 @@
 from Crypto.Hash import SHA256
 from Crypto.PublicKey import RSA
 from lbryschema.schema.claim import Claim
-
-
-def _unpack_sig(sig_bytes):
-    cnt = 0
-    total = 0
-    while sig_bytes:
-        total += sig_bytes.pop() * (256 ** cnt)
-        cnt += 1
-    return (total, )
+from lbryschema.utils import unpack_sig
 
 
 def validate_signed_stream_claim(claim, cert):
@@ -35,4 +27,4 @@ def validate_signed_stream_claim(claim, cert):
     }
     _temp_claim = Claim.load(_temp_claim_dict)
     msg = _temp_claim.SerializeToString()
-    return key.verify(msg, _unpack_sig(publisher_signature[::-1]))
+    return key.verify(msg, unpack_sig(publisher_signature[::-1]))

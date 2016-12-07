@@ -2,6 +2,7 @@ from lbryschema.schema.signature import RSASignature, Signature
 from lbryschema.schema.cert import Cert
 from lbryschema.schema.claim import Claim
 from lbryschema.schema.public_key import RSAPublicKey
+from lbryschema.utils import pack_sig
 
 
 def _make_sig(rsa_key, signature):
@@ -13,17 +14,11 @@ def _make_sig(rsa_key, signature):
     return Signature.load(_sig)
 
 
-def _pack_sig(sig_long):
-    while sig_long:
-        yield chr(sig_long & 0xFF)
-        sig_long >>= 8
-
-
 def _sign_stream(stream, rsa_key):
     serialized = stream.SerializeToString()
     # What should K be?
-    sig = rsa_key.sign(serialized, K=1)[0]
-    packed_sig = "".join(_pack_sig(sig))
+    sig = rsa_key.sign(serialized, None)[0]
+    packed_sig = "".join(pack_sig(sig))
     sig_msg = _make_sig(rsa_key, packed_sig)
     return sig_msg
 

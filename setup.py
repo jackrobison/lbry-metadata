@@ -11,5 +11,5 @@ setup(name="lbryschema",
       version="0.0.1",
       author="jackrobison@lbry.io",
       install_requires=requires,
-      packages=find_packages(base_dir)
+      packages=find_packages()
       )

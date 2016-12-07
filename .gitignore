@@ -6,3 +6,7 @@
 *.iml
 
 *.egg-info
+
+*.egg
+
+build
