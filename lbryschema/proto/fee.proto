@@ -1,11 +1,13 @@
 message Fee {
     enum Version {
-        _0_0_1 = 0;
+        UNKNOWN_VERSION = 0;
+        _0_0_1 = 1;
     }
     enum Currency {
-        LBC = 0;
-        BTC = 1;
-        USD = 2;
+        UNKNOWN_CURRENCY = 0;
+        LBC = 1;
+        BTC = 2;
+        USD = 3;
     }
     required Version version = 1;
     required Currency currency = 2;

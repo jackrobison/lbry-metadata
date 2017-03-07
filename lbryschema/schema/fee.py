@@ -15,14 +15,15 @@ class Fee(Schema):
         _fee = deepcopy(message)
         currency = _fee.pop('currency')
         if currency == "LBC":
-            currency_code = 0
-        elif currency == "BTC":
             currency_code = 1
-        elif currency == "USD":
+        elif currency == "BTC":
             currency_code = 2
+        elif currency == "USD":
+            currency_code = 3
         else:
             raise Exception("Unknown currency")
         _message_pb = fee_pb2.Fee()
+        _message_pb.version = 1
         _message_pb.currency = currency_code
         if address_base == 58:
             _message_pb.address = base_decode(_fee.pop('address'), 25, 58)

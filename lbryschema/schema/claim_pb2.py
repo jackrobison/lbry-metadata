@@ -21,7 +21,7 @@ import signature_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='claim.proto',
   package='',
-  serialized_pb=_b('\n\x0b\x63laim.proto\x1a\x0cstream.proto\x1a\ncert.proto\x1a\x0fsignature.proto\"\xad\x01\n\x05\x43laim\x12\x1f\n\x07version\x18\x01 \x02(\x0e\x32\x0e.Claim.Version\x12\x19\n\x06stream\x18\x02 \x01(\x0b\x32\x07.StreamH\x00\x12\x1c\n\x0b\x63\x65rtificate\x18\x03 \x01(\x0b\x32\x05.CertH\x00\x12&\n\x12publisherSignature\x18\x04 \x01(\x0b\x32\n.Signature\"\x15\n\x07Version\x12\n\n\x06_0_0_1\x10\x00\x42\x0b\n\tClaimType')
+  serialized_pb=_b('\n\x0b\x63laim.proto\x1a\x0cstream.proto\x1a\ncert.proto\x1a\x0fsignature.proto\"\xa2\x02\n\x05\x43laim\x12\x1f\n\x07version\x18\x01 \x02(\x0e\x32\x0e.Claim.Version\x12#\n\tclaimType\x18\x02 \x02(\x0e\x32\x10.Claim.ClaimType\x12\x17\n\x06stream\x18\x03 \x01(\x0b\x32\x07.Stream\x12\x1a\n\x0b\x63\x65rtificate\x18\x04 \x01(\x0b\x32\x05.Cert\x12&\n\x12publisherSignature\x18\x05 \x01(\x0b\x32\n.Signature\"*\n\x07Version\x12\x13\n\x0fUNKNOWN_VERSION\x10\x00\x12\n\n\x06_0_0_1\x10\x01\"J\n\tClaimType\x12\x16\n\x12UNKNOWN_CLAIM_TYPE\x10\x00\x12\x0f\n\x0bstreamClaim\x10\x01\x12\x14\n\x10\x63\x65rtificateClaim\x10\x02')
   ,
   dependencies=[stream_pb2.DESCRIPTOR,cert_pb2.DESCRIPTOR,signature_pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -35,16 +35,46 @@ _CLAIM_VERSION = _descriptor.EnumDescriptor(
   file=DESCRIPTOR,
   values=[
     _descriptor.EnumValueDescriptor(
-      name='_0_0_1', index=0, number=0,
+      name='UNKNOWN_VERSION', index=0, number=0,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='_0_0_1', index=1, number=1,
       options=None,
       type=None),
   ],
   containing_type=None,
   options=None,
-  serialized_start=198,
-  serialized_end=219,
+  serialized_start=231,
+  serialized_end=273,
 )
 _sym_db.RegisterEnumDescriptor(_CLAIM_VERSION)
+
+_CLAIM_CLAIMTYPE = _descriptor.EnumDescriptor(
+  name='ClaimType',
+  full_name='Claim.ClaimType',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='UNKNOWN_CLAIM_TYPE', index=0, number=0,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='streamClaim', index=1, number=1,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='certificateClaim', index=2, number=2,
+      options=None,
+      type=None),
+  ],
+  containing_type=None,
+  options=None,
+  serialized_start=275,
+  serialized_end=349,
+)
+_sym_db.RegisterEnumDescriptor(_CLAIM_CLAIMTYPE)
 
 
 _CLAIM = _descriptor.Descriptor(
@@ -62,22 +92,29 @@ _CLAIM = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='stream', full_name='Claim.stream', index=1,
-      number=2, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
+      name='claimType', full_name='Claim.claimType', index=1,
+      number=2, type=14, cpp_type=8, label=2,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='certificate', full_name='Claim.certificate', index=2,
+      name='stream', full_name='Claim.stream', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='publisherSignature', full_name='Claim.publisherSignature', index=3,
+      name='certificate', full_name='Claim.certificate', index=3,
       number=4, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='publisherSignature', full_name='Claim.publisherSignature', index=4,
+      number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -88,30 +125,24 @@ _CLAIM = _descriptor.Descriptor(
   nested_types=[],
   enum_types=[
     _CLAIM_VERSION,
+    _CLAIM_CLAIMTYPE,
   ],
   options=None,
   is_extendable=False,
   extension_ranges=[],
   oneofs=[
-    _descriptor.OneofDescriptor(
-      name='ClaimType', full_name='Claim.ClaimType',
-      index=0, containing_type=None, fields=[]),
   ],
   serialized_start=59,
-  serialized_end=232,
+  serialized_end=349,
 )
 
 _CLAIM.fields_by_name['version'].enum_type = _CLAIM_VERSION
+_CLAIM.fields_by_name['claimType'].enum_type = _CLAIM_CLAIMTYPE
 _CLAIM.fields_by_name['stream'].message_type = stream_pb2._STREAM
 _CLAIM.fields_by_name['certificate'].message_type = cert_pb2._CERT
 _CLAIM.fields_by_name['publisherSignature'].message_type = signature_pb2._SIGNATURE
 _CLAIM_VERSION.containing_type = _CLAIM
-_CLAIM.oneofs_by_name['ClaimType'].fields.append(
-  _CLAIM.fields_by_name['stream'])
-_CLAIM.fields_by_name['stream'].containing_oneof = _CLAIM.oneofs_by_name['ClaimType']
-_CLAIM.oneofs_by_name['ClaimType'].fields.append(
-  _CLAIM.fields_by_name['certificate'])
-_CLAIM.fields_by_name['certificate'].containing_oneof = _CLAIM.oneofs_by_name['ClaimType']
+_CLAIM_CLAIMTYPE.containing_type = _CLAIM
 DESCRIPTOR.message_types_by_name['Claim'] = _CLAIM
 
 Claim = _reflection.GeneratedProtocolMessageType('Claim', (_message.Message,), dict(

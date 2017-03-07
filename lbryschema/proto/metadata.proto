@@ -2,15 +2,17 @@ import "fee.proto";
 
 message Metadata {
     enum Version {
-        _0_0_1 = 0;
-        _0_0_2 = 1;
-        _0_0_3 = 2;
-        _0_1_0 = 3;
+        UNKNOWN_VERSION = 0;
+        _0_0_1 = 1;
+        _0_0_2 = 2;
+        _0_0_3 = 3;
+        _0_1_0 = 4;
     }
     enum Language {
+        UNKNOWN_LANGUAGE = 0;
         option allow_alias = true;
-        EN = 0;
-        en = 0;
+        EN = 1;
+        en = 1;
     }
     required Version version = 1;
     required Language language = 2;

@@ -9,6 +9,7 @@ class Metadata(Schema):
     def load(cls, message, address_base=64):
         _metadata = deepcopy(message)
         _message_pb = metadata_pb2.Metadata()
+        _message_pb.version = 4
         if 'fee' in _metadata:
             fee_pb = Fee.load(_metadata.pop('fee'), address_base)
             _message_pb.fee.CopyFrom(fee_pb)

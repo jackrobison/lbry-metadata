@@ -10,5 +10,6 @@ class Schema(Message):
 
     @classmethod
     def _load(cls, data, message):
-        data = json.dumps(data)
+        if isinstance(data, dict):
+            data = json.dumps(data)
         return json_pb.Parse(data, message)

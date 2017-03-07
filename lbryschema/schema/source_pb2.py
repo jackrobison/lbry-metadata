@@ -18,7 +18,7 @@ _sym_db = _symbol_database.Default()
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='source.proto',
   package='',
-  serialized_pb=_b('\n\x0csource.proto\"\xc3\x01\n\x06Source\x12 \n\x07version\x18\x01 \x02(\x0e\x32\x0f.Source.Version\x12\'\n\nsourceType\x18\x02 \x02(\x0e\x32\x13.Source.SourceTypes\x12\x0e\n\x06source\x18\x03 \x02(\x0c\x12\x13\n\x0b\x63ontentType\x18\x04 \x02(\t\"\x15\n\x07Version\x12\n\n\x06_0_0_1\x10\x00\"2\n\x0bSourceTypes\x12\x10\n\x0clbry_sd_hash\x10\x00\x12\x08\n\x04\x62tih\x10\x01\x12\x07\n\x03url\x10\x02')
+  serialized_pb=_b('\n\x0csource.proto\"\xf1\x01\n\x06Source\x12 \n\x07version\x18\x01 \x02(\x0e\x32\x0f.Source.Version\x12\'\n\nsourceType\x18\x02 \x02(\x0e\x32\x13.Source.SourceTypes\x12\x0e\n\x06source\x18\x03 \x02(\x0c\x12\x13\n\x0b\x63ontentType\x18\x04 \x02(\t\"*\n\x07Version\x12\x13\n\x0fUNKNOWN_VERSION\x10\x00\x12\n\n\x06_0_0_1\x10\x01\"K\n\x0bSourceTypes\x12\x17\n\x13UNKNOWN_SOURCE_TYPE\x10\x00\x12\x10\n\x0clbry_sd_hash\x10\x01\x12\x08\n\x04\x62tih\x10\x02\x12\x07\n\x03url\x10\x03')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -31,14 +31,18 @@ _SOURCE_VERSION = _descriptor.EnumDescriptor(
   file=DESCRIPTOR,
   values=[
     _descriptor.EnumValueDescriptor(
-      name='_0_0_1', index=0, number=0,
+      name='UNKNOWN_VERSION', index=0, number=0,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='_0_0_1', index=1, number=1,
       options=None,
       type=None),
   ],
   containing_type=None,
   options=None,
   serialized_start=139,
-  serialized_end=160,
+  serialized_end=181,
 )
 _sym_db.RegisterEnumDescriptor(_SOURCE_VERSION)
 
@@ -49,22 +53,26 @@ _SOURCE_SOURCETYPES = _descriptor.EnumDescriptor(
   file=DESCRIPTOR,
   values=[
     _descriptor.EnumValueDescriptor(
-      name='lbry_sd_hash', index=0, number=0,
+      name='UNKNOWN_SOURCE_TYPE', index=0, number=0,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='btih', index=1, number=1,
+      name='lbry_sd_hash', index=1, number=1,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='url', index=2, number=2,
+      name='btih', index=2, number=2,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='url', index=3, number=3,
       options=None,
       type=None),
   ],
   containing_type=None,
   options=None,
-  serialized_start=162,
-  serialized_end=212,
+  serialized_start=183,
+  serialized_end=258,
 )
 _sym_db.RegisterEnumDescriptor(_SOURCE_SOURCETYPES)
 
@@ -118,7 +126,7 @@ _SOURCE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=17,
-  serialized_end=212,
+  serialized_end=258,
 )
 
 _SOURCE.fields_by_name['version'].enum_type = _SOURCE_VERSION

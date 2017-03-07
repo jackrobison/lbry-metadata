@@ -18,73 +18,85 @@ _sym_db = _symbol_database.Default()
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='public_key.proto',
   package='',
-  serialized_pb=_b('\n\x10public_key.proto\"w\n\x0cRSAPublicKey\x12&\n\x07version\x18\x01 \x02(\x0e\x32\x15.RSAPublicKey.Version\x12\x15\n\rpublicKeyHash\x18\x02 \x02(\x0c\x12\x11\n\tpublicKey\x18\x03 \x02(\x0c\"\x15\n\x07Version\x12\n\n\x06_0_0_1\x10\x00\"w\n\x0cRSASignature\x12&\n\x07version\x18\x01 \x02(\x0e\x32\x15.RSASignature.Version\x12\x15\n\rpublicKeyHash\x18\x02 \x02(\x0c\x12\x11\n\tsignature\x18\x03 \x02(\x0c\"\x15\n\x07Version\x12\n\n\x06_0_0_1\x10\x00')
+  serialized_pb=_b('\n\x10public_key.proto\"\xd0\x01\n\tPublicKey\x12#\n\x07version\x18\x01 \x02(\x0e\x32\x12.PublicKey.Version\x12#\n\x07keyType\x18\x03 \x02(\x0e\x32\x12.PublicKey.KeyType\x12\x11\n\tpublicKey\x18\x04 \x02(\x0c\"*\n\x07Version\x12\x13\n\x0fUNKNOWN_VERSION\x10\x00\x12\n\n\x06_0_0_1\x10\x01\":\n\x07KeyType\x12\x1b\n\x17UNKNOWN_PUBLIC_KEY_TYPE\x10\x00\x12\x07\n\x03RSA\x10\x01\x12\t\n\x05\x45\x43\x44SA\x10\x02')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
-_RSAPUBLICKEY_VERSION = _descriptor.EnumDescriptor(
+_PUBLICKEY_VERSION = _descriptor.EnumDescriptor(
   name='Version',
-  full_name='RSAPublicKey.Version',
+  full_name='PublicKey.Version',
   filename=None,
   file=DESCRIPTOR,
   values=[
     _descriptor.EnumValueDescriptor(
-      name='_0_0_1', index=0, number=0,
+      name='UNKNOWN_VERSION', index=0, number=0,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='_0_0_1', index=1, number=1,
       options=None,
       type=None),
   ],
   containing_type=None,
   options=None,
-  serialized_start=118,
-  serialized_end=139,
+  serialized_start=127,
+  serialized_end=169,
 )
-_sym_db.RegisterEnumDescriptor(_RSAPUBLICKEY_VERSION)
+_sym_db.RegisterEnumDescriptor(_PUBLICKEY_VERSION)
 
-_RSASIGNATURE_VERSION = _descriptor.EnumDescriptor(
-  name='Version',
-  full_name='RSASignature.Version',
+_PUBLICKEY_KEYTYPE = _descriptor.EnumDescriptor(
+  name='KeyType',
+  full_name='PublicKey.KeyType',
   filename=None,
   file=DESCRIPTOR,
   values=[
     _descriptor.EnumValueDescriptor(
-      name='_0_0_1', index=0, number=0,
+      name='UNKNOWN_PUBLIC_KEY_TYPE', index=0, number=0,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='RSA', index=1, number=1,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='ECDSA', index=2, number=2,
       options=None,
       type=None),
   ],
   containing_type=None,
   options=None,
-  serialized_start=118,
-  serialized_end=139,
+  serialized_start=171,
+  serialized_end=229,
 )
-_sym_db.RegisterEnumDescriptor(_RSASIGNATURE_VERSION)
+_sym_db.RegisterEnumDescriptor(_PUBLICKEY_KEYTYPE)
 
 
-_RSAPUBLICKEY = _descriptor.Descriptor(
-  name='RSAPublicKey',
-  full_name='RSAPublicKey',
+_PUBLICKEY = _descriptor.Descriptor(
+  name='PublicKey',
+  full_name='PublicKey',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='version', full_name='RSAPublicKey.version', index=0,
+      name='version', full_name='PublicKey.version', index=0,
       number=1, type=14, cpp_type=8, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='publicKeyHash', full_name='RSAPublicKey.publicKeyHash', index=1,
-      number=2, type=12, cpp_type=9, label=2,
-      has_default_value=False, default_value=_b(""),
+      name='keyType', full_name='PublicKey.keyType', index=1,
+      number=3, type=14, cpp_type=8, label=2,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='publicKey', full_name='RSAPublicKey.publicKey', index=2,
-      number=3, type=12, cpp_type=9, label=2,
+      name='publicKey', full_name='PublicKey.publicKey', index=2,
+      number=4, type=12, cpp_type=9, label=2,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -94,82 +106,30 @@ _RSAPUBLICKEY = _descriptor.Descriptor(
   ],
   nested_types=[],
   enum_types=[
-    _RSAPUBLICKEY_VERSION,
+    _PUBLICKEY_VERSION,
+    _PUBLICKEY_KEYTYPE,
   ],
   options=None,
   is_extendable=False,
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=20,
-  serialized_end=139,
+  serialized_start=21,
+  serialized_end=229,
 )
 
+_PUBLICKEY.fields_by_name['version'].enum_type = _PUBLICKEY_VERSION
+_PUBLICKEY.fields_by_name['keyType'].enum_type = _PUBLICKEY_KEYTYPE
+_PUBLICKEY_VERSION.containing_type = _PUBLICKEY
+_PUBLICKEY_KEYTYPE.containing_type = _PUBLICKEY
+DESCRIPTOR.message_types_by_name['PublicKey'] = _PUBLICKEY
 
-_RSASIGNATURE = _descriptor.Descriptor(
-  name='RSASignature',
-  full_name='RSASignature',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='version', full_name='RSASignature.version', index=0,
-      number=1, type=14, cpp_type=8, label=2,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='publicKeyHash', full_name='RSASignature.publicKeyHash', index=1,
-      number=2, type=12, cpp_type=9, label=2,
-      has_default_value=False, default_value=_b(""),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='signature', full_name='RSASignature.signature', index=2,
-      number=3, type=12, cpp_type=9, label=2,
-      has_default_value=False, default_value=_b(""),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-    _RSASIGNATURE_VERSION,
-  ],
-  options=None,
-  is_extendable=False,
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=141,
-  serialized_end=260,
-)
-
-_RSAPUBLICKEY.fields_by_name['version'].enum_type = _RSAPUBLICKEY_VERSION
-_RSAPUBLICKEY_VERSION.containing_type = _RSAPUBLICKEY
-_RSASIGNATURE.fields_by_name['version'].enum_type = _RSASIGNATURE_VERSION
-_RSASIGNATURE_VERSION.containing_type = _RSASIGNATURE
-DESCRIPTOR.message_types_by_name['RSAPublicKey'] = _RSAPUBLICKEY
-DESCRIPTOR.message_types_by_name['RSASignature'] = _RSASIGNATURE
-
-RSAPublicKey = _reflection.GeneratedProtocolMessageType('RSAPublicKey', (_message.Message,), dict(
-  DESCRIPTOR = _RSAPUBLICKEY,
+PublicKey = _reflection.GeneratedProtocolMessageType('PublicKey', (_message.Message,), dict(
+  DESCRIPTOR = _PUBLICKEY,
   __module__ = 'public_key_pb2'
-  # @@protoc_insertion_point(class_scope:RSAPublicKey)
+  # @@protoc_insertion_point(class_scope:PublicKey)
   ))
-_sym_db.RegisterMessage(RSAPublicKey)
-
-RSASignature = _reflection.GeneratedProtocolMessageType('RSASignature', (_message.Message,), dict(
-  DESCRIPTOR = _RSASIGNATURE,
-  __module__ = 'public_key_pb2'
-  # @@protoc_insertion_point(class_scope:RSASignature)
-  ))
-_sym_db.RegisterMessage(RSASignature)
+_sym_db.RegisterMessage(PublicKey)
 
 
 # @@protoc_insertion_point(module_scope)

@@ -4,12 +4,18 @@ import "signature.proto";
 
 message Claim {
     enum Version {
-        _0_0_1 = 0;
+        UNKNOWN_VERSION = 0;
+        _0_0_1 = 1;
     }
     required Version version = 1;
-    oneof ClaimType {
-        Stream stream = 2;
-        Cert certificate = 3;
+
+    enum ClaimType {
+        UNKNOWN_CLAIM_TYPE = 0;
+        streamClaim = 1;
+        certificateClaim = 2;
     }
-    optional Signature publisherSignature = 4;
+    required ClaimType claimType = 2;
+    optional Stream stream = 3;
+    optional Cert certificate = 4;
+    optional Signature publisherSignature = 5;
 }

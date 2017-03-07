@@ -3,11 +3,15 @@ import "public_key.proto";
 
 message Signature {
     enum Version {
-        _0_0_1 = 0;
+        UNKNOWN_VERSION = 0;
+        _0_0_1 = 1;
     }
     required Version version = 1;
-    oneof SignatureType {
-        RSASignature signature = 2;
+    enum SignatureType {
+        UNKNOWN_SIGNATURE_TYPE = 0;
+        RSA = 1;
+        ECDSA = 2;
     }
+    required SignatureType signatureType = 2;
+    required bytes signature = 3;
 }
-

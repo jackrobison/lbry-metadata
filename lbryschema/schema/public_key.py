@@ -1,6 +1,5 @@
 from copy import deepcopy
 
-from Crypto.Hash import SHA256
 from lbryschema.schema import public_key_pb2
 from lbryschema.schema.schema import Schema
 
@@ -13,48 +12,30 @@ class _RSAKeyHelper(object):
     def der(self):
         return self._key.publickey().exportKey('DER')
 
-    @property
-    def hash(self):
-        return SHA256.new(self.der).digest()
 
+class PublicKey(Schema):
+    KEY_TYPE_RSA = "RSA"
 
-class RSAPublicKey(Schema):
     @classmethod
     def load(cls, message):
         _key = deepcopy(message)
-        publicKey = _key.pop("publicKey")
-        publicKeyHash = _key.pop("publicKeyHash")
-        _message_pb = public_key_pb2.RSAPublicKey()
-        _message_pb.publicKey = publicKey
-        _message_pb.publicKeyHash = publicKeyHash
+        _message_pb = public_key_pb2.PublicKey()
+        _message_pb.version = 1
+        if isinstance(_key, dict):
+            _message_pb.publicKey = _key.pop("publicKey")
+        else:
+            _message_pb.publicKey = _key.publicKey
         return cls._load(_key, _message_pb)
 
     @classmethod
-    def load_from_key_obj(cls, key):
-        _key = _RSAKeyHelper(key)
+    def load_from_key_obj(cls, key, key_type=KEY_TYPE_RSA):
+        if key_type == PublicKey.KEY_TYPE_RSA:
+            _key = _RSAKeyHelper(key)
+        else:
+            raise Exception("Unknown key type: %s" % key_type)
         msg = {
             "version": "_0_0_1",
+            "keyType": PublicKey.KEY_TYPE_RSA,
             "publicKey": _key.der,
-            "publicKeyHash": _key.hash
-        }
-        return cls.load(msg)
-
-
-class RSASignature(Schema):
-    @classmethod
-    def load(cls, message):
-        _signature = deepcopy(message)
-        _message_pb = public_key_pb2.RSASignature()
-        _message_pb.signature = _signature.pop("signature")
-        _message_pb.publicKeyHash = _signature.pop("publicKeyHash")
-        return cls._load(_signature, _message_pb)
-
-    @classmethod
-    def load_from_key_obj(cls, key, signature):
-        _key = _RSAKeyHelper(key)
-        msg = {
-            "version": "_0_0_1",
-            "signature": signature,
-            "publicKeyHash": _key.hash
         }
         return cls.load(msg)

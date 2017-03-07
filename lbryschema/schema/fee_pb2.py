@@ -18,7 +18,7 @@ _sym_db = _symbol_database.Default()
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='fee.proto',
   package='',
-  serialized_pb=_b('\n\tfee.proto\"\xa4\x01\n\x03\x46\x65\x65\x12\x1d\n\x07version\x18\x01 \x02(\x0e\x32\x0c.Fee.Version\x12\x1f\n\x08\x63urrency\x18\x02 \x02(\x0e\x32\r.Fee.Currency\x12\x0f\n\x07\x61\x64\x64ress\x18\x03 \x02(\x0c\x12\x0e\n\x06\x61mount\x18\x04 \x02(\x02\"\x15\n\x07Version\x12\n\n\x06_0_0_1\x10\x00\"%\n\x08\x43urrency\x12\x07\n\x03LBC\x10\x00\x12\x07\n\x03\x42TC\x10\x01\x12\x07\n\x03USD\x10\x02')
+  serialized_pb=_b('\n\tfee.proto\"\xcf\x01\n\x03\x46\x65\x65\x12\x1d\n\x07version\x18\x01 \x02(\x0e\x32\x0c.Fee.Version\x12\x1f\n\x08\x63urrency\x18\x02 \x02(\x0e\x32\r.Fee.Currency\x12\x0f\n\x07\x61\x64\x64ress\x18\x03 \x02(\x0c\x12\x0e\n\x06\x61mount\x18\x04 \x02(\x02\"*\n\x07Version\x12\x13\n\x0fUNKNOWN_VERSION\x10\x00\x12\n\n\x06_0_0_1\x10\x01\";\n\x08\x43urrency\x12\x14\n\x10UNKNOWN_CURRENCY\x10\x00\x12\x07\n\x03LBC\x10\x01\x12\x07\n\x03\x42TC\x10\x02\x12\x07\n\x03USD\x10\x03')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -31,14 +31,18 @@ _FEE_VERSION = _descriptor.EnumDescriptor(
   file=DESCRIPTOR,
   values=[
     _descriptor.EnumValueDescriptor(
-      name='_0_0_1', index=0, number=0,
+      name='UNKNOWN_VERSION', index=0, number=0,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='_0_0_1', index=1, number=1,
       options=None,
       type=None),
   ],
   containing_type=None,
   options=None,
   serialized_start=118,
-  serialized_end=139,
+  serialized_end=160,
 )
 _sym_db.RegisterEnumDescriptor(_FEE_VERSION)
 
@@ -49,22 +53,26 @@ _FEE_CURRENCY = _descriptor.EnumDescriptor(
   file=DESCRIPTOR,
   values=[
     _descriptor.EnumValueDescriptor(
-      name='LBC', index=0, number=0,
+      name='UNKNOWN_CURRENCY', index=0, number=0,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='BTC', index=1, number=1,
+      name='LBC', index=1, number=1,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='USD', index=2, number=2,
+      name='BTC', index=2, number=2,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='USD', index=3, number=3,
       options=None,
       type=None),
   ],
   containing_type=None,
   options=None,
-  serialized_start=141,
-  serialized_end=178,
+  serialized_start=162,
+  serialized_end=221,
 )
 _sym_db.RegisterEnumDescriptor(_FEE_CURRENCY)
 
@@ -118,7 +126,7 @@ _FEE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=14,
-  serialized_end=178,
+  serialized_end=221,
 )
 
 _FEE.fields_by_name['version'].enum_type = _FEE_VERSION

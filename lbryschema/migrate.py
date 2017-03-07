@@ -1,4 +1,3 @@
-import json
 from google.protobuf import json_format
 from lbrynet.metadata import Metadata
 from lbryschema.schema.claim import Claim
@@ -7,12 +6,12 @@ from lbryschema.schema.claim import Claim
 
 
 def migrate_003_to_010(value):
-    old_dict = json.loads(value)
-    migrated_to_003 = Metadata.Metadata(old_dict)
+    migrated_to_003 = Metadata.Metadata(value)
     metadata = {
         "version": "_0_1_0"
     }
-    for k in ["author", "description", "language", "license", "nsfw", "thumbnail", "title", "preview"]:
+    for k in ["author", "description", "language", "license", "nsfw", "thumbnail", "title",
+              "preview"]:
         if k in migrated_to_003:
             metadata.update({k: migrated_to_003[k]})
 
@@ -21,7 +20,7 @@ def migrate_003_to_010(value):
         currency = fee.keys()[0]
         amount = fee[currency]['amount']
         address = fee[currency]['address']
-        metadata.update(dict(fee={"currency": currency,"version": "_0_0_1",
+        metadata.update(dict(fee={"currency": currency, "version": "_0_0_1",
                                     "amount": amount, "address": address}))
     source = {
         "source": migrated_to_003['sources']['lbry_sd_hash'],

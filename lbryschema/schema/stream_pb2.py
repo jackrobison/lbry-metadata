@@ -20,7 +20,7 @@ import source_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='stream.proto',
   package='',
-  serialized_pb=_b('\n\x0cstream.proto\x1a\x0emetadata.proto\x1a\x0csource.proto\"w\n\x06Stream\x12 \n\x07version\x18\x01 \x02(\x0e\x32\x0f.Stream.Version\x12\x1b\n\x08metadata\x18\x02 \x02(\x0b\x32\t.Metadata\x12\x17\n\x06source\x18\x03 \x02(\x0b\x32\x07.Source\"\x15\n\x07Version\x12\n\n\x06_0_0_1\x10\x00')
+  serialized_pb=_b('\n\x0cstream.proto\x1a\x0emetadata.proto\x1a\x0csource.proto\"\x8c\x01\n\x06Stream\x12 \n\x07version\x18\x01 \x02(\x0e\x32\x0f.Stream.Version\x12\x1b\n\x08metadata\x18\x02 \x02(\x0b\x32\t.Metadata\x12\x17\n\x06source\x18\x03 \x02(\x0b\x32\x07.Source\"*\n\x07Version\x12\x13\n\x0fUNKNOWN_VERSION\x10\x00\x12\n\n\x06_0_0_1\x10\x01')
   ,
   dependencies=[metadata_pb2.DESCRIPTOR,source_pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -34,14 +34,18 @@ _STREAM_VERSION = _descriptor.EnumDescriptor(
   file=DESCRIPTOR,
   values=[
     _descriptor.EnumValueDescriptor(
-      name='_0_0_1', index=0, number=0,
+      name='UNKNOWN_VERSION', index=0, number=0,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='_0_0_1', index=1, number=1,
       options=None,
       type=None),
   ],
   containing_type=None,
   options=None,
-  serialized_start=144,
-  serialized_end=165,
+  serialized_start=145,
+  serialized_end=187,
 )
 _sym_db.RegisterEnumDescriptor(_STREAM_VERSION)
 
@@ -86,8 +90,8 @@ _STREAM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=46,
-  serialized_end=165,
+  serialized_start=47,
+  serialized_end=187,
 )
 
 _STREAM.fields_by_name['version'].enum_type = _STREAM_VERSION
