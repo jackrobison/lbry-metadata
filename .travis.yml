@@ -6,7 +6,8 @@ python: 2.7
 addons:
   apt:
     packages:
-    - protobuf
+    - protobuf-compiler
+    - python-protobuf
     - build-essential
 
 before_install:
