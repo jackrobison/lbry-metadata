@@ -7,8 +7,6 @@ message Source {
     enum SourceTypes {
         UNKNOWN_SOURCE_TYPE = 0;
         lbry_sd_hash = 1;
-        btih = 2;
-        url = 3;
     }
     required SourceTypes sourceType = 2;
     required bytes source = 3;

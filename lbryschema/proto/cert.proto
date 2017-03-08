@@ -13,5 +13,5 @@ message Cert {
         ECDSA = 2;
     }
     required KeyType keyType = 2;
-    optional PublicKey publicKey = 3;
+    required PublicKey publicKey = 3;
 }

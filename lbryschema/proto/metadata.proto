@@ -10,8 +10,6 @@ message Metadata {
     }
     enum Language {
         UNKNOWN_LANGUAGE = 0;
-        option allow_alias = true;
-        EN = 1;
         en = 1;
     }
     required Version version = 1;
