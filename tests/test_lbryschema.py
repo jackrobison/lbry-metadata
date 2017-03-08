@@ -121,7 +121,11 @@ example_010_signed = {
 }
 
 
-class TestEncoderAndDecoder(unittest.TestCase):
+class UnitTest(unittest.TestCase):
+    maxDiff = 4000
+
+
+class TestEncoderAndDecoder(UnitTest):
     def test_encode_decode(self):
         test_pb = Claim.load(example_010)
         decoded_dict = json.loads(json_format.MessageToJson(test_pb))
@@ -132,7 +136,7 @@ class TestEncoderAndDecoder(unittest.TestCase):
         self.assertDictEqual(pb_back_to_dict, example_010)
 
 
-class TestMigration(unittest.TestCase):
+class TestMigration(UnitTest):
     def test_migrate_to_010(self):
         migrated_0_1_0_proto = migrate_003_to_010(example_003)
         migrated_0_1_0_json = json_format.MessageToJson(migrated_0_1_0_proto)
@@ -140,7 +144,7 @@ class TestMigration(unittest.TestCase):
         self.assertDictEqual(migrated_dict, example_010)
 
 
-class TestSignatures(unittest.TestCase):
+class TestSignatures(UnitTest):
     def test_make_rsa_cert(self):
         cert = make_cert(RSA.importKey(test_rsa_key))
         cert_dict = json.loads(json_format.MessageToJson(cert))
@@ -179,7 +183,7 @@ class TestSignatures(unittest.TestCase):
                                                        cert, fake_cert_claim_id), False)
 
 
-class TestMetadata(unittest.TestCase):
+class TestMetadata(UnitTest):
     def test_fail_to_validate_with_fake_sd_hash(self):
         claim = deepcopy(example_010)
         sd_hash = claim['stream']['source']['source'][:-1]
