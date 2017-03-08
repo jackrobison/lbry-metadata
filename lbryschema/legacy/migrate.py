@@ -1,12 +1,45 @@
-from google.protobuf import json_format
-from lbrynet.metadata import Metadata
-from lbryschema.schema.claim import Claim
+"""
+migrate claim json schema (0.0.1-3) to protobuf (0.1.0)
+"""
 
-# migrate lbrynet json schema (0.0.3) to protobuf (0.1.0)
+import metadata_schemas
+
+from google.protobuf import json_format
+from lbryschema.schema.claim import Claim
+from StructuredDict import StructuredDict
+
+
+def migrate_001_to_002(metadata):
+    metadata['ver'] = '0.0.2'
+    metadata['nsfw'] = False
+
+
+def migrate_002_to_003(metadata):
+    metadata['ver'] = '0.0.3'
+    if 'content-type' in metadata:
+        metadata['content_type'] = metadata['content-type']
+        del metadata['content-type']
+
+
+class LegacyMetadata(StructuredDict):
+    current_version = '0.0.3'
+
+    _versions = [
+        ('0.0.1', metadata_schemas.VER_001, None),
+        ('0.0.2', metadata_schemas.VER_002, migrate_001_to_002),
+        ('0.0.3', metadata_schemas.VER_003, migrate_002_to_003)
+    ]
+
+    def __init__(self, metadata, migrate=True, target_version=None):
+        if not isinstance(metadata, dict):
+            raise TypeError("{} is not a dictionary".format(metadata))
+        starting_version = metadata.get('ver', '0.0.1')
+
+        StructuredDict.__init__(self, metadata, starting_version, migrate, target_version)
 
 
 def migrate_003_to_010(value):
-    migrated_to_003 = Metadata.Metadata(value)
+    migrated_to_003 = LegacyMetadata(value)
     metadata = {
         "version": "_0_1_0"
     }

@@ -6,7 +6,7 @@ from google.protobuf import json_format
 from lbryschema.schema.claim import Claim
 from lbryschema.schema.claim_pb2 import Claim as ClaimPB
 from lbryschema.validate import validate_signed_stream_claim, make_cert, sign_stream_claim
-from lbryschema.migrate import migrate_003_to_010
+from lbryschema.legacy.migrate import migrate_003_to_010
 
 
 test_rsa_key = \
