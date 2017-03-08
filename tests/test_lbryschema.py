@@ -1,9 +1,7 @@
 from twisted.trial import unittest
 import json
-import ecdsa
 from copy import deepcopy
 from Crypto.PublicKey import RSA
-from Crypto.Hash import SHA256
 from google.protobuf import json_format
 from lbryschema.schema.claim import Claim
 from lbryschema.schema.claim_pb2 import Claim as ClaimPB
@@ -190,19 +188,3 @@ class TestMetadata(UnitTest):
         claim_with_short_sd_hash = json.dumps(claim)
         self.assertRaises(json_format.ParseError,
                           json_format.Parse, claim_with_short_sd_hash, ClaimPB())
-
-
-# key = ecdsa.SigningKey.generate(ecdsa.NIST256p, hashfunc='sha256')
-# cert = make_cert(key)
-# print "Made cert: ", json_format.MessageToJson(cert)
-#
-# migrated_0_1_0_proto = migrate_003_to_010(example_003)
-# signed = sign_stream_claim(migrated_0_1_0_proto, fake_stream_claim_id,
-#                            key, fake_cert_claim_id)
-# print " *" * 10
-# print json_format.MessageToJson(signed)
-# print " *" * 10
-# validate_signed_stream_claim(signed, fake_stream_claim_id,
-#                              cert, fake_cert_claim_id)
-# print "json 0.0.3 stream claim: %i bytes" % len(json.dumps(example_003))
-# print "pb 0.1.0 stream claim: %i bytes" % len(signed.SerializeToString())
