@@ -2,7 +2,7 @@ from copy import deepcopy
 
 from lbryschema.schema.schema import Schema
 from lbryschema.schema import fee_pb2
-from lbryum.account import base_decode
+from lbryschema.utils import base_decode
 
 
 class UnknownSourceType(Exception):
