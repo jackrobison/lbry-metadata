@@ -1,17 +1,14 @@
-import "public_key.proto";
-
 message Cert {
     enum Version {
         UNKNOWN_VERSION = 0;
         _0_0_1 = 1;
     }
     required Version version = 1;
-
     enum KeyType {
-        UNKNOWN_KEY_TYPE = 0;
+        UNKNOWN_PUBLIC_KEY_TYPE = 0;
         RSA = 1;
         ECDSA = 2;
     }
     required KeyType keyType = 2;
-    required PublicKey publicKey = 3;
+    required bytes publicKey = 3;
 }

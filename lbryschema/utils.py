@@ -58,8 +58,10 @@ def base_decode(v, length, base):
     result = chr(long_value) + result
     nPad = 0
     for c in v:
-        if c == chars[0]: nPad += 1
-        else: break
+        if c == chars[0]:
+            nPad += 1
+        else:
+            break
     result = chr(0)*nPad + result
     if length is not None and len(result) != length:
         return None

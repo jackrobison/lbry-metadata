@@ -1,7 +1,9 @@
 from twisted.trial import unittest
 import json
+import ecdsa
 from copy import deepcopy
 from Crypto.PublicKey import RSA
+from Crypto.Hash import SHA256
 from google.protobuf import json_format
 from lbryschema.schema.claim import Claim
 from lbryschema.schema.claim_pb2 import Claim as ClaimPB
@@ -41,12 +43,8 @@ AsNxmHFyxPqs+TQoNmfxfx00kQhdgBRDs8DzsWgA1TOZ5ZKCTYiT
 fake_stream_claim_id = "aa04a949348f9f094d503e5816f0cfb57ee68a22f6d08d149217d071243e0378"
 fake_cert_claim_id = "26ccfc3c4b21d1a6d07e6ff674e5038d3c290df974f3a2a4cb721996f7c882ba"
 
-example_010_cert = {
-  "publicKey": {
-    "publicKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApPqDTeeVO2ZeI/jxcgbFcndhzvEqmKW7Et+cQLdhJNhQR9hAY/39m6qsuFEJnwyonPRgDWj05dgv3soS7uTeR6BQoVZlHVX1NLdLMHaDBVUwDp1GrbSnOmlqpjp3kOFVgHTaJk3g4p+eLDpZ3wzSqyOx/O375MI+v0+D8NLcnhWMWmeAph6wszYjuEvXoPr+D47pN+JFVAcvj3Rpm3qDpZ214Tn7QuGBhjIzbfTa3C/QJNqWvHLkJTvcWZhY5uyt1aDS7ID6jpDsAAYLmszf4KTzF2CtlnEo1S4HLONtetKjr6CL1jYvxlKlYsY9mvTCYEa+7YgdnGH9Gl5o9CBbxwIDAQAB",
-    "keyType": "RSA",
-    "version": "_0_0_1"
-  },
+example_010_rsa_cert = {
+  "publicKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApPqDTeeVO2ZeI/jxcgbFcndhzvEqmKW7Et+cQLdhJNhQR9hAY/39m6qsuFEJnwyonPRgDWj05dgv3soS7uTeR6BQoVZlHVX1NLdLMHaDBVUwDp1GrbSnOmlqpjp3kOFVgHTaJk3g4p+eLDpZ3wzSqyOx/O375MI+v0+D8NLcnhWMWmeAph6wszYjuEvXoPr+D47pN+JFVAcvj3Rpm3qDpZ214Tn7QuGBhjIzbfTa3C/QJNqWvHLkJTvcWZhY5uyt1aDS7ID6jpDsAAYLmszf4KTzF2CtlnEo1S4HLONtetKjr6CL1jYvxlKlYsY9mvTCYEa+7YgdnGH9Gl5o9CBbxwIDAQAB",
   "keyType": "RSA",
   "version": "_0_0_1"
 }
@@ -144,11 +142,12 @@ class TestMigration(UnitTest):
         self.assertDictEqual(migrated_dict, example_010)
 
 
-class TestSignatures(UnitTest):
+class TestRSASignatures(UnitTest):
     def test_make_rsa_cert(self):
-        cert = make_cert(RSA.importKey(test_rsa_key))
+        key = RSA.importKey(test_rsa_key)
+        cert = make_cert(key)
         cert_dict = json.loads(json_format.MessageToJson(cert))
-        self.assertDictEqual(cert_dict, example_010_cert)
+        self.assertDictEqual(cert_dict, example_010_rsa_cert)
 
     def test_validate_rsa_signature(self):
         key = RSA.importKey(test_rsa_key)
@@ -191,3 +190,19 @@ class TestMetadata(UnitTest):
         claim_with_short_sd_hash = json.dumps(claim)
         self.assertRaises(json_format.ParseError,
                           json_format.Parse, claim_with_short_sd_hash, ClaimPB())
+
+
+# key = ecdsa.SigningKey.generate(ecdsa.NIST256p, hashfunc='sha256')
+# cert = make_cert(key)
+# print "Made cert: ", json_format.MessageToJson(cert)
+#
+# migrated_0_1_0_proto = migrate_003_to_010(example_003)
+# signed = sign_stream_claim(migrated_0_1_0_proto, fake_stream_claim_id,
+#                            key, fake_cert_claim_id)
+# print " *" * 10
+# print json_format.MessageToJson(signed)
+# print " *" * 10
+# validate_signed_stream_claim(signed, fake_stream_claim_id,
+#                              cert, fake_cert_claim_id)
+# print "json 0.0.3 stream claim: %i bytes" % len(json.dumps(example_003))
+# print "pb 0.1.0 stream claim: %i bytes" % len(signed.SerializeToString())

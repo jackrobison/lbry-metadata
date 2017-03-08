@@ -8,7 +8,6 @@ message Claim {
         _0_0_1 = 1;
     }
     required Version version = 1;
-
     enum ClaimType {
         UNKNOWN_CLAIM_TYPE = 0;
         streamClaim = 1;

@@ -1,6 +1,3 @@
-import "public_key.proto";
-
-
 message Signature {
     enum Version {
         UNKNOWN_VERSION = 0;

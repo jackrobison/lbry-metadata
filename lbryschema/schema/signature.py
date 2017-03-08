@@ -6,7 +6,7 @@ from lbryschema.schema.schema import Schema
 
 class Signature(Schema):
     SIGNATURE_TYPE_RSA = 1
-    SIGNATURE_TYPE_ECDSA = 1
+    SIGNATURE_TYPE_ECDSA = 2
 
     @classmethod
     def load(cls, message):
@@ -15,6 +15,8 @@ class Signature(Schema):
         sig_type = _signature.pop("signatureType")
         if sig_type == "RSA":
             sig_type = Signature.SIGNATURE_TYPE_RSA
+        elif sig_type == "ECDSA":
+            sig_type = Signature.SIGNATURE_TYPE_ECDSA
         else:
             raise Exception("No key type given for signature")
         _message_pb.version = 1
