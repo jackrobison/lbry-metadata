@@ -2,7 +2,7 @@ from copy import deepcopy
 
 from lbryschema.schema import cert_pb2 as cert_pb
 from lbryschema.schema.schema import Schema
-from lbryschema.utils import VERSION_MAP
+from lbryschema.utils import VERSION_MAP, V_0_0_1
 
 
 class _ECDSAKeyHelper(object):
@@ -39,7 +39,7 @@ class Cert(Schema):
         else:
             raise Exception("Unknown key type: %s" % str(type(key)))
         msg = {
-            "version": "_0_0_1",
+            "version": V_0_0_1,
             "keyType": key_type,
             "publicKey": _key.der,
         }

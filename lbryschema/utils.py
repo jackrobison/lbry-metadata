@@ -1,5 +1,3 @@
-import os
-
 V_0_0_1 = "_0_0_1"
 V_0_0_2 = "_0_0_2"
 V_0_0_3 = "_0_0_3"
@@ -12,21 +10,6 @@ VERSION_MAP = {
     V_0_0_3: 3,
     V_0_1_0: 4,
 }
-
-
-def pack_sig(sig_long):
-    while sig_long:
-        yield chr(sig_long & 0xFF)
-        sig_long >>= 8
-
-
-def unpack_sig(sig_bytes):
-    cnt = 0
-    total = 0
-    while sig_bytes:
-        total += sig_bytes.pop() * (256 ** cnt)
-        cnt += 1
-    return (total, )
 
 
 __b58chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'

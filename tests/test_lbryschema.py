@@ -5,7 +5,8 @@ from copy import deepcopy
 from google.protobuf import json_format
 from lbryschema.schema.claim import Claim
 from lbryschema.schema.claim_pb2 import Claim as ClaimPB
-from lbryschema.validate import validate_signed_stream_claim, make_cert, sign_stream_claim
+from lbryschema.validator import NIST256pValidator
+from lbryschema.signer import NIST256pSigner
 from lbryschema.legacy.migrate import migrate_003_to_010
 
 test_ec_priv_key = \
@@ -127,46 +128,47 @@ class TestMigration(UnitTest):
 
 class TestECDSASignatures(UnitTest):
     def test_make_ecdsa_cert(self):
-        pub_key = ecdsa.VerifyingKey.from_pem(test_ec_pub_key)
-        cert = make_cert(pub_key)
-        cert_dict = json.loads(json_format.MessageToJson(cert))
+        signer = NIST256pSigner.load_pem(test_ec_priv_key)
+        cert_dict = json.loads(json_format.MessageToJson(signer.certificate))
         self.assertDictEqual(cert_dict, example_010_ecdsa_cert)
 
     def test_validate_ecdsa_signature(self):
-        priv_key = ecdsa.SigningKey.from_pem(test_ec_priv_key, "sha256")
-        pub_key = ecdsa.VerifyingKey.from_pem(test_ec_pub_key)
-        cert = make_cert(pub_key)
+        signer = NIST256pSigner.load_pem(test_ec_priv_key)
         migrated_0_1_0_proto = migrate_003_to_010(example_003)
-        signed = sign_stream_claim(migrated_0_1_0_proto, fake_stream_claim_id,
-                                   priv_key, fake_cert_claim_id)
-        self.assertEquals(validate_signed_stream_claim(signed, fake_stream_claim_id,
-                                                       cert, fake_cert_claim_id), True)
+        signed = signer.sign_stream_claim(migrated_0_1_0_proto,
+                                          fake_stream_claim_id,
+                                          fake_cert_claim_id)
+        validator = NIST256pValidator.load_from_certificate(signer.certificate, fake_cert_claim_id)
+        self.assertEquals(validator.validate_claim_signature(signed, fake_stream_claim_id), True)
 
     def test_fail_to_validate_fake_ecdsa_signature(self):
-        real_priv_key = ecdsa.SigningKey.from_pem(test_ec_priv_key, "sha256")
-        fake_pub_key = ecdsa.SigningKey.generate(curve=ecdsa.NIST256p,
-                                                 hashfunc="sha256").get_verifying_key()
-        fake_cert = make_cert(fake_pub_key)
+        signer = NIST256pSigner.load_pem(test_ec_priv_key)
         migrated_0_1_0_proto = migrate_003_to_010(example_003)
-        signed = sign_stream_claim(migrated_0_1_0_proto, fake_stream_claim_id,
-                                   real_priv_key, fake_cert_claim_id)
-        self.assertRaises(ecdsa.keys.BadSignatureError, validate_signed_stream_claim, signed,
-                          fake_stream_claim_id, fake_cert, fake_cert_claim_id)
+        signed = signer.sign_stream_claim(migrated_0_1_0_proto,
+                                          fake_stream_claim_id,
+                                          fake_cert_claim_id)
+        fake_signer = NIST256pSigner.generate()
+        bad_validator = NIST256pValidator.load_from_certificate(fake_signer.certificate,
+                                                            fake_cert_claim_id)
+        self.assertRaises(ecdsa.keys.BadSignatureError, bad_validator.validate_claim_signature,
+                          signed, fake_stream_claim_id)
 
     def test_fail_to_validate_ecdsa_sig_for_altered_claim(self):
-        priv_key = ecdsa.SigningKey.from_pem(test_ec_priv_key, "sha256")
-        pub_key = ecdsa.VerifyingKey.from_pem(test_ec_pub_key)
-        cert = make_cert(pub_key)
+        signer = NIST256pSigner.load_pem(test_ec_priv_key)
         migrated_0_1_0_proto = migrate_003_to_010(example_003)
-        signed = sign_stream_claim(migrated_0_1_0_proto, fake_stream_claim_id,
-                                   priv_key, fake_cert_claim_id)
+        signed = signer.sign_stream_claim(migrated_0_1_0_proto,
+                                          fake_stream_claim_id,
+                                          fake_cert_claim_id)
+
         signed_dict = json.loads(json_format.MessageToJson(signed))
         sd_hash = signed_dict['stream']['source']['source']
         signed_dict['stream']['source']['source'] = sd_hash[::-1]
         altered_json = json.dumps(signed_dict)
         altered_pb = json_format.Parse(altered_json, ClaimPB())
-        self.assertRaises(ecdsa.keys.BadSignatureError, validate_signed_stream_claim, altered_pb,
-                          fake_stream_claim_id, cert, fake_cert_claim_id)
+
+        validator = NIST256pValidator.load_from_certificate(signer.certificate, fake_cert_claim_id)
+        self.assertRaises(ecdsa.keys.BadSignatureError, validator.validate_claim_signature,
+                          altered_pb, fake_stream_claim_id)
 
 
 class TestMetadata(UnitTest):
