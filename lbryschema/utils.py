@@ -1,5 +1,17 @@
 import os
-from Crypto.PublicKey import RSA
+
+V_0_0_1 = "_0_0_1"
+V_0_0_2 = "_0_0_2"
+V_0_0_3 = "_0_0_3"
+V_0_1_0 = "_0_1_0"
+
+
+VERSION_MAP = {
+    V_0_0_1: 1,
+    V_0_0_2: 2,
+    V_0_0_3: 3,
+    V_0_1_0: 4,
+}
 
 
 def pack_sig(sig_long):
@@ -15,23 +27,6 @@ def unpack_sig(sig_bytes):
         total += sig_bytes.pop() * (256 ** cnt)
         cnt += 1
     return (total, )
-
-
-def generate_key(data_dir, name, password):
-    key_path = os.path.join(data_dir, "%s.pem" % name)
-    key = RSA.generate(2048)
-    with open(key_path, "w") as key_file:
-        key_file.writelines(key.exportKey(passphrase=password))
-    return key
-
-
-def load_key(data_dir, name, password):
-    key_path = os.path.join(data_dir, "%s.pem" % name)
-    if not os.path.isfile(key_path):
-        return generate_key(data_dir, name, password)
-    with open(key_path, "r") as key_file:
-        key = RSA.importKey(key_file.read(), passphrase=password)
-    return key
 
 
 __b58chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'

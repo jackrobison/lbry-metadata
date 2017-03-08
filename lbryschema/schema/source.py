@@ -37,8 +37,6 @@ def validate_btih_stream_source(source):
 def validate_source_and_get_prefix(source, source_type):
     if source_type == "lbry_sd_hash":
         return validate_lbry_stream_source(source)
-    elif source_type == "btih":
-        return validate_btih_stream_source(source)
     else:
         raise UnknownSourceType(source_type)
 
@@ -47,7 +45,8 @@ class Source(Schema):
     @classmethod
     def load(cls, message):
         _source = deepcopy(message)
-        type_prefix, source_val = validate_source_and_get_prefix(_source.pop('source'), _source.pop('sourceType'))
+        type_prefix, source_val = validate_source_and_get_prefix(_source.pop('source'),
+                                                                 _source.pop('sourceType'))
         _message_pb = source_pb2.Source()
         _message_pb.sourceType = type_prefix
         _message_pb.source = source_val

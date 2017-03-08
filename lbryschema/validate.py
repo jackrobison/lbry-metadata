@@ -1,8 +1,5 @@
-import Crypto.PublicKey.RSA
-
-from Crypto.Signature import PKCS1_PSS
-from Crypto.Hash import SHA256
 import ecdsa
+import hashlib
 from lbryschema.schema.signature import Signature
 from lbryschema.schema.cert import Cert
 from lbryschema.schema.claim import Claim
@@ -20,18 +17,11 @@ def _make_sig(signature, sig_type):
 def _sign_stream(stream, claim_id, public_key, cert_claim_id):
     validate_claim_id(claim_id)
     validate_claim_id(cert_claim_id)
-
     serialized = stream.SerializeToString()
     to_sign = "%s%s%s" % (claim_id, serialized, cert_claim_id)
-
-    if isinstance(public_key,  Crypto.PublicKey.RSA.RsaKey):
-        signer = PKCS1_PSS.new(public_key)
-        h = SHA256.new(to_sign)
-        sig = signer.sign(h)
-        sig_type = "RSA"
-    elif isinstance(public_key, ecdsa.SigningKey):
-        to_sign_hash = SHA256.new(to_sign).digest()
-        sig = public_key.sign_digest_deterministic(to_sign_hash, hashfunc=SHA256.new)
+    digest = hashlib.sha256(to_sign).digest()
+    if isinstance(public_key, ecdsa.SigningKey):
+        sig = public_key.sign_digest_deterministic(digest, hashfunc=hashlib.sha256)
         sig_type = "ECDSA"
     else:
         raise Exception("Unknown key type")
@@ -72,10 +62,8 @@ def validate_signed_stream_claim(claim, claim_id, cert, cert_claim_id):
     cert_public_key = cert.publicKey
     key_type = cert.keyType
     if key_type == 1:
-        key = Crypto.PublicKey.RSA.importKey(cert_public_key)
-    elif key_type == 2:
-        print cert_public_key
         key = ecdsa.VerifyingKey.from_der(cert_public_key)
+
     publisher_signature = claim.publisherSignature.signature
     _temp_claim_dict = {
         "version": "_0_0_1",
@@ -85,13 +73,8 @@ def validate_signed_stream_claim(claim, claim_id, cert, cert_claim_id):
     serialized = _temp_claim.SerializeToString()
     to_sign = "%s%s%s" % (claim_id, serialized, cert_claim_id)
 
-    if isinstance(key,  Crypto.PublicKey.RSA.RsaKey):
-        h = SHA256.new(to_sign)
-        verifier = PKCS1_PSS.new(key)
-        verified = verifier.verify(h, publisher_signature)
-    elif isinstance(key, ecdsa.SigningKey):
-        to_sign_hash = SHA256.new(to_sign).digest()
-        verified = key.verify(to_sign_hash, hashfunc=SHA256.new)
+    if isinstance(key, ecdsa.VerifyingKey):
+        verified = key.verify(publisher_signature, to_sign, hashfunc=hashlib.sha256)
     else:
         raise Exception("Unknown key type")
     return verified

@@ -1,6 +1,7 @@
 from copy import deepcopy
 
 import claim_pb2 as claim_pb
+from lbryschema.utils import VERSION_MAP
 from lbryschema.schema.signature import Signature
 from lbryschema.schema.cert import Cert
 from lbryschema.schema.schema import Schema
@@ -8,14 +9,14 @@ from lbryschema.schema.stream import Stream
 
 
 class Claim(Schema):
-    CLAIM_TYPE_CERT = 2
     CLAIM_TYPE_STREAM = 1
+    CLAIM_TYPE_CERT = 2
 
     @classmethod
     def load(cls, message, address_base=64):
         _claim = deepcopy(message)
         _message_pb = claim_pb.Claim()
-        _message_pb.version = 1
+        _message_pb.version = VERSION_MAP[_claim.pop("version")]
 
         if "cert" in _claim:
             _cert = _claim.pop("cert")

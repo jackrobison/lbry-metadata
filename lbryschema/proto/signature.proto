@@ -6,8 +6,7 @@ message Signature {
     required Version version = 1;
     enum SignatureType {
         UNKNOWN_SIGNATURE_TYPE = 0;
-        RSA = 1;
-        ECDSA = 2;
+        ECDSA = 1;
     }
     required SignatureType signatureType = 2;
     required bytes signature = 3;
