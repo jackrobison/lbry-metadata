@@ -42,7 +42,7 @@ class Claim(Schema):
 
         if "publisherSignature" in _claim:
             _publisherSignature = _claim.pop("publisherSignature")
-            if isinstance(_stream, dict):
+            if isinstance(_publisherSignature, dict):
                 publisherSignature = Signature.load(_publisherSignature)
             else:
                 publisherSignature = _publisherSignature

@@ -3,8 +3,9 @@ from google.protobuf import json_format
 from collections import OrderedDict
 from lbryschema.schema.claim import Claim
 from lbryschema.schema.claim_pb2 import Claim as ClaimPB
-from lbryschema.validator import NIST256pValidator
-from lbryschema.signer import NIST256pSigner
+from lbryschema.validator import get_validator
+from lbryschema.signer import get_signer
+from lbryschema.schema import NIST256p, CURVE_NAMES
 from lbryschema.encoding import decode_fields, decode_b64_fields, encode_fields
 
 
@@ -71,17 +72,18 @@ class ClaimDict(OrderedDict):
         return cls.load_protobuf(cls(decode_fields(claim_dict)).protobuf)
 
     @classmethod
-    def generate_certificate(cls, private_key):
-        signer = NIST256pSigner.load_pem(private_key)
+    def generate_certificate(cls, private_key, curve=NIST256p):
+        signer = get_signer(curve).load_pem(private_key)
         return cls.load_protobuf(signer.certificate)
 
-    def sign(self, private_key, claim_id, cert_claim_id):
-        signer = NIST256pSigner.load_pem(private_key)
+    def sign(self, private_key, claim_id, cert_claim_id, curve=NIST256p):
+        signer = get_signer(curve).load_pem(private_key)
         signed = signer.sign_stream_claim(self, claim_id, cert_claim_id)
         return ClaimDict.load_protobuf(signed)
 
     def validate_signature(self, claim_id, certificate, certificate_claim_id):
         if isinstance(certificate, ClaimDict):
             certificate = certificate.protobuf
-        validator = NIST256pValidator.load_from_certificate(certificate, certificate_claim_id)
+        curve = CURVE_NAMES[certificate.certificate.keyType]
+        validator = get_validator(curve).load_from_certificate(certificate, certificate_claim_id)
         return validator.validate_claim_signature(self, claim_id)

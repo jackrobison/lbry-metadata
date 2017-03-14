@@ -1,13 +1,11 @@
+import "certificate.proto";
+
 message Signature {
     enum Version {
         UNKNOWN_VERSION = 0;
         _0_0_1 = 1;
     }
     required Version version = 1;
-    enum SignatureType {
-        UNKNOWN_SIGNATURE_TYPE = 0;
-        ECDSA = 1;
-    }
-    required SignatureType signatureType = 2;
+    required KeyType signatureType = 2;
     required bytes signature = 3;
 }

@@ -33,15 +33,28 @@ CLAIM_TYPES = {
     CERTIFICATE_TYPE: "certificate"
 }
 
-ECDSA = "ECDSA"
-
-KEY_TYPES = {
-    ECDSA: 1
-}
-
 LBRY_SD_HASH = "lbry_sd_hash"
 LBRY_SD_HASH_LENGTH = 48
 
 SOURCE_TYPES = {
     LBRY_SD_HASH: 1
 }
+
+NIST256p = "NIST256p"
+NIST384p = "NIST384p"
+SECP256k1 = "SECP256k1"
+
+ECDSA_CURVES = {
+    NIST256p: 1,
+    NIST384p: 2,
+    SECP256k1: 3
+}
+
+CURVE_NAMES = {
+    1: NIST256p,
+    2: NIST384p,
+    3: SECP256k1
+}
+
+SHA256 = "sha256"
+SHA384 = "sha384"

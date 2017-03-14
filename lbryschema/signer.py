@@ -5,9 +5,15 @@ from lbryschema.schema.certificate import Certificate
 from lbryschema.schema.claim import Claim
 from lbryschema.validator import validate_claim_id
 from lbryschema.schema import V_0_0_1, CLAIM_TYPE, CLAIM_TYPES, CERTIFICATE_TYPE, VERSION
+from lbryschema.schema import NIST256p, NIST384p, SECP256k1, SHA256, SHA384
 
 
-class NIST256pSigner(object):
+class NIST_ECDSASigner(object):
+    CURVE = None
+    CURVE_NAME = None
+    HASHFUNC = None
+    HASHFUNC_NAME = None
+
     def __init__(self, private_key):
         self._private_key = private_key
 
@@ -24,36 +30,36 @@ class NIST256pSigner(object):
         certificate_claim = {
             VERSION: V_0_0_1,
             CLAIM_TYPE: CERTIFICATE_TYPE,
-            CLAIM_TYPES[CERTIFICATE_TYPE]: Certificate.load_from_key_obj(self.public_key)
+            CLAIM_TYPES[CERTIFICATE_TYPE]: Certificate.load_from_key_obj(self.public_key,
+                                                                         self.CURVE_NAME)
         }
         return Claim.load(certificate_claim)
 
     @classmethod
     def load_pem(cls, pem_string):
-        return cls(ecdsa.SigningKey.from_pem(pem_string, hashfunc="sha256"))
+        return cls(ecdsa.SigningKey.from_pem(pem_string, hashfunc=cls.HASHFUNC_NAME))
 
     @classmethod
     def generate(cls):
-        return cls(ecdsa.SigningKey.generate(curve=ecdsa.NIST256p, hashfunc="sha256"))
+        return cls(ecdsa.SigningKey.generate(curve=cls.CURVE, hashfunc=cls.HASHFUNC_NAME))
 
     def sign_stream_claim(self, claim, claim_id, cert_claim_id):
+
         validate_claim_id(claim_id)
         validate_claim_id(cert_claim_id)
         to_sign = "%s%s%s" % (claim_id.decode('hex'),
                               claim.serialized,
                               cert_claim_id.decode('hex'))
-        digest = hashlib.sha256(to_sign).digest()
+        digest = self.HASHFUNC(to_sign).digest()
 
-        if isinstance(self.private_key, ecdsa.SigningKey):
-            sig = self.private_key.sign_digest_deterministic(digest, hashfunc=hashlib.sha256)
-            sig_type = "ECDSA"
-        else:
-            raise Exception("Unknown key type")
+        if not isinstance(self.private_key, ecdsa.SigningKey):
+            raise Exception("Not given a signing key")
 
         sig_dict = {
             "version": V_0_0_1,
-            "signatureType": sig_type,
-            "signature": sig
+            "signatureType": self.CURVE_NAME,
+            "signature": self.private_key.sign_digest_deterministic(digest, hashfunc=self.HASHFUNC)
+
         }
 
         msg = {
@@ -63,3 +69,35 @@ class NIST256pSigner(object):
         }
 
         return Claim.load(msg)
+
+
+class NIST256pSigner(NIST_ECDSASigner):
+    CURVE = ecdsa.NIST256p
+    CURVE_NAME = NIST256p
+    HASHFUNC = hashlib.sha256
+    HASHFUNC_NAME = SHA256
+
+
+class NIST384pSigner(NIST_ECDSASigner):
+    CURVE = ecdsa.NIST384p
+    CURVE_NAME = NIST384p
+    HASHFUNC = hashlib.sha384
+    HASHFUNC_NAME = SHA384
+
+
+class SECP256k1Signer(NIST_ECDSASigner):
+    CURVE = ecdsa.SECP256k1
+    CURVE_NAME = SECP256k1
+    HASHFUNC = hashlib.sha256
+    HASHFUNC_NAME = SHA256
+
+
+def get_signer(curve):
+    if curve == NIST256p:
+        return NIST256pSigner
+    elif curve == NIST384p:
+        return NIST384pSigner
+    elif curve == SECP256k1:
+        return SECP256k1Signer
+    else:
+        raise Exception("Unknown curve: %s" % str(curve))
