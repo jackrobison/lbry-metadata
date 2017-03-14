@@ -2,10 +2,8 @@
 migrate claim json schema (0.0.1-3) to protobuf (0.1.0)
 """
 
-import metadata_schemas
-
-from google.protobuf import json_format
-from lbryschema.schema.claim import Claim
+from lbryschema.legacy import metadata_schemas
+from lbryschema.claim import ClaimDict
 from StructuredDict import StructuredDict
 
 
@@ -64,17 +62,15 @@ def migrate_003_to_010(value):
 
     migrated = {
         "version": "_0_0_1",
+        "claimType": "streamType",
         "stream": {
             "version": "_0_0_1",
             "metadata": metadata,
             "source": source
         }
     }
-    return Claim.load(migrated, address_base=58)
+    return ClaimDict.load_dict(migrated)
 
 
 def migrate(value):
-    try:
-        return json_format.Parse(value, Claim)
-    except AttributeError:
-        return migrate_003_to_010(value)
+    return migrate_003_to_010(value)

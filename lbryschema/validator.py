@@ -1,6 +1,6 @@
 import ecdsa
 import hashlib
-from lbryschema.schema.claim import Claim
+from copy import deepcopy
 
 
 def validate_claim_id(claim_id):
@@ -11,17 +11,17 @@ def validate_claim_id(claim_id):
 
 
 class Validator(object):
-    KEY_TYPE = None
-    VerifyingType = ecdsa.VerifyingKey
+    KeyType = None
+    VerifyingType = None
 
     def __init__(self, public_key, certificate_claim_id):
+        if not isinstance(public_key, self.VerifyingType):
+            raise Exception("Key is not type needed for verification")
         self._public_key = public_key
         self._certificate_claim_id = certificate_claim_id
 
     @property
     def public_key(self):
-        if not isinstance(self._public_key, self.VerifyingType):
-            raise Exception("Key is not type needed for verification")
         return self._public_key
 
     @property
@@ -33,9 +33,10 @@ class Validator(object):
         raise NotImplementedError()
 
     @classmethod
-    def load_from_certificate(cls, certificate, certificate_claim_id):
-        assert certificate.keyType == cls.KEY_TYPE, Exception("Certificate does not contain a "
-                                                              "%s public key" % cls.__name__)
+    def load_from_certificate(cls, certificate_claim, certificate_claim_id):
+        certificate = certificate_claim.certificate
+        assert certificate.keyType == cls.KeyType, Exception("Certificate does not contain a \
+                                                              %s public key" % cls.__name__)
         return cls(cls.key_from_der(certificate.publicKey), certificate_claim_id)
 
     def validate_signature(self, message, signature):
@@ -46,23 +47,25 @@ class Validator(object):
         validate_claim_id(claim_id)
 
         # extract and serialize the stream from the claim, then check the signature
-        publisher_signature = claim.publisherSignature.signature
-        _temp_claim_dict = {
-            "version": "_0_0_1",
-            "stream": claim.stream
-        }
-        _temp_claim = Claim.load(_temp_claim_dict)
-        serialized = _temp_claim.SerializeToString()
-        to_sign = "%s%s%s" % (claim_id, serialized, self.certificate_claim_id)
-        return self.validate_signature(to_sign, publisher_signature)
+
+        publisher_signature = claim['publisherSignature']['signature']
+
+        to_sign = "%s%s%s" % (claim_id.decode('hex'),
+                              claim.serialized_no_signature,
+                              self.certificate_claim_id.decode('hex'))
+
+        digest = hashlib.sha256(to_sign).digest()
+
+        return self.validate_signature(digest, publisher_signature)
 
 
 class NIST256pValidator(Validator):
-    KEY_TYPE = 1
+    KeyType = 1
+    VerifyingType = ecdsa.VerifyingKey
 
     @staticmethod
     def key_from_der(der):
         return ecdsa.VerifyingKey.from_der(der)
 
-    def validate_signature(self, message, signature):
-        return self.public_key.verify(signature, message, hashfunc=hashlib.sha256)
+    def validate_signature(self, digest, signature):
+        return self.public_key.verify_digest(signature, digest)

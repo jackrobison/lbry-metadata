@@ -1,4 +1,4 @@
-message Cert {
+message Certificate {
     enum Version {
         UNKNOWN_VERSION = 0;
         _0_0_1 = 1;
@@ -9,5 +9,5 @@ message Cert {
         ECDSA = 1;
     }
     required KeyType keyType = 2;
-    required bytes publicKey = 3;
+    required bytes publicKey = 4;
 }

@@ -1,35 +1,17 @@
 from copy import deepcopy
 
 from lbryschema.schema.schema import Schema
-from lbryschema.schema import fee_pb2
-from lbryschema.utils import base_decode, VERSION_MAP
-
-
-class UnknownSourceType(Exception):
-    pass
+from lbryschema.schema import fee_pb2 as fee_pb
+from lbryschema.schema import VERSION_MAP, CURRENCY_MAP
 
 
 class Fee(Schema):
     @classmethod
-    def load(cls, message, address_base=64):
+    def load(cls, message):
         _fee = deepcopy(message)
-
-        currency = _fee.pop('currency')
-        if currency == "LBC":
-            currency_code = 1
-        elif currency == "BTC":
-            currency_code = 2
-        elif currency == "USD":
-            currency_code = 3
-        else:
-            raise Exception("Unknown currency")
-        _message_pb = fee_pb2.Fee()
+        currency = CURRENCY_MAP[_fee.pop('currency')]
+        _message_pb = fee_pb.Fee()
         _message_pb.version = VERSION_MAP[_fee.pop("version")]
-        _message_pb.currency = currency_code
-        if address_base == 58:
-            _message_pb.address = base_decode(_fee.pop('address'), 25, 58)
-        elif address_base == 64:
-            _message_pb.address = _fee.pop('address').decode("base64")
-        else:
-            raise Exception("Unsupported address base %i" % address_base)
+        _message_pb.currency = currency
+        _message_pb.address = _fee.pop('address')
         return cls._load(_fee, _message_pb)

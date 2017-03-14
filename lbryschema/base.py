@@ -1,17 +1,3 @@
-V_0_0_1 = "_0_0_1"
-V_0_0_2 = "_0_0_2"
-V_0_0_3 = "_0_0_3"
-V_0_1_0 = "_0_1_0"
-
-
-VERSION_MAP = {
-    V_0_0_1: 1,
-    V_0_0_2: 2,
-    V_0_0_3: 3,
-    V_0_1_0: 4,
-}
-
-
 __b58chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 assert len(__b58chars) == 58
 
@@ -44,3 +30,29 @@ def base_decode(v, length, base):
     if length is not None and len(result) != length:
         return None
     return result
+
+
+def base_encode(v, base):
+    """ encode v, which is a string of bytes, to base58."""
+    if base == 58:
+        chars = __b58chars
+    elif base == 43:
+        chars = __b43chars
+    long_value = 0L
+    for (i, c) in enumerate(v[::-1]):
+        long_value += (256**i) * ord(c)
+    result = ''
+    while long_value >= base:
+        div, mod = divmod(long_value, base)
+        result = chars[mod] + result
+        long_value = div
+    result = chars[long_value] + result
+    # Bitcoin does a little leading-zero-compression:
+    # leading 0-bytes in the input become leading-1s
+    nPad = 0
+    for c in v:
+        if c == '\0':
+            nPad += 1
+        else:
+            break
+    return (chars[0]*nPad) + result

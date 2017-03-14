@@ -1,8 +1,7 @@
 from copy import deepcopy
 
-from lbryschema.schema import signature_pb2
+from lbryschema.schema import signature_pb2 as signature_pb, VERSION_MAP
 from lbryschema.schema.schema import Schema
-from lbryschema.utils import VERSION_MAP
 
 
 class Signature(Schema):
@@ -11,7 +10,7 @@ class Signature(Schema):
     @classmethod
     def load(cls, message):
         _signature = deepcopy(message)
-        _message_pb = signature_pb2.Signature()
+        _message_pb = signature_pb.Signature()
         sig_type = _signature.pop("signatureType")
         if sig_type == "ECDSA":
             sig_type = Signature.SIGNATURE_TYPE_ECDSA

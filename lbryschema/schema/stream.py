@@ -1,18 +1,17 @@
 from copy import deepcopy
 
 from lbryschema.schema.source import Source
-from lbryschema.schema import stream_pb2 as stream_pb
+from lbryschema.schema import VERSION_MAP, stream_pb2 as stream_pb
 from lbryschema.schema.metadata import Metadata
 from lbryschema.schema.schema import Schema
-from lbryschema.utils import VERSION_MAP
 
 
 class Stream(Schema):
     @classmethod
-    def load(cls, message, address_base=64):
+    def load(cls, message):
         _claim = deepcopy(message)
         source = Source.load(_claim.pop('source'))
-        metadata = Metadata.load(_claim.pop('metadata'), address_base)
+        metadata = Metadata.load(_claim.pop('metadata'))
         _message_pb = stream_pb.Stream()
         _message_pb.version = VERSION_MAP[_claim.pop("version")]
         _message_pb.source.CopyFrom(source)

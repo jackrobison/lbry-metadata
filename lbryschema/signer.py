@@ -1,10 +1,10 @@
 import ecdsa
 import hashlib
-from lbryschema.schema.signature import Signature
-from lbryschema.schema.cert import Cert
+from lbryschema.encoding import decode_b64_fields
+from lbryschema.schema.certificate import Certificate
 from lbryschema.schema.claim import Claim
 from lbryschema.validator import validate_claim_id
-from lbryschema.utils import V_0_0_1
+from lbryschema.schema import V_0_0_1, CLAIM_TYPE, CLAIM_TYPES, CERTIFICATE_TYPE, VERSION
 
 
 class NIST256pSigner(object):
@@ -21,7 +21,12 @@ class NIST256pSigner(object):
 
     @property
     def certificate(self):
-        return Cert.load_from_key_obj(self.public_key)
+        certificate_claim = {
+            VERSION: V_0_0_1,
+            CLAIM_TYPE: CERTIFICATE_TYPE,
+            CLAIM_TYPES[CERTIFICATE_TYPE]: Certificate.load_from_key_obj(self.public_key)
+        }
+        return Claim.load(certificate_claim)
 
     @classmethod
     def load_pem(cls, pem_string):
@@ -32,14 +37,13 @@ class NIST256pSigner(object):
         return cls(ecdsa.SigningKey.generate(curve=ecdsa.NIST256p, hashfunc="sha256"))
 
     def sign_stream_claim(self, claim, claim_id, cert_claim_id):
-        if isinstance(claim, dict):
-            claim = Claim.load(claim)
-
         validate_claim_id(claim_id)
         validate_claim_id(cert_claim_id)
-        serialized = claim.SerializeToString()
-        to_sign = "%s%s%s" % (claim_id, serialized, cert_claim_id)
+        to_sign = "%s%s%s" % (claim_id.decode('hex'),
+                              claim.serialized,
+                              cert_claim_id.decode('hex'))
         digest = hashlib.sha256(to_sign).digest()
+
         if isinstance(self.private_key, ecdsa.SigningKey):
             sig = self.private_key.sign_digest_deterministic(digest, hashfunc=hashlib.sha256)
             sig_type = "ECDSA"
@@ -51,11 +55,11 @@ class NIST256pSigner(object):
             "signatureType": sig_type,
             "signature": sig
         }
-        sig_pb = Signature.load(sig_dict)
 
         msg = {
             "version": V_0_0_1,
-            "stream": claim.stream,
-            "publisherSignature": sig_pb
+            "stream": decode_b64_fields(claim.protobuf_dict)['stream'],
+            "publisherSignature": sig_dict
         }
+
         return Claim.load(msg)
