@@ -3,7 +3,7 @@ import ecdsa
 from copy import deepcopy
 from twisted.trial import unittest
 
-from test_data import example_003, example_010, claim_id_1, claim_id_2
+from test_data import example_003, example_010, example_010_serialized, claim_id_1, claim_id_2
 from test_data import nist256p_private_key, claim_010_signed_nist256p, nist256p_cert
 from test_data import nist384p_private_key, claim_010_signed_nist384p, nist384p_cert
 from test_data import secp256k1_private_key, claim_010_signed_secp256k1, secp256k1_cert
@@ -25,6 +25,11 @@ class TestEncoderAndDecoder(UnitTest):
         self.assertDictEqual(ClaimDict.load_protobuf(test_pb).claim_dict, example_010)
         self.assertEquals(test_pb.ByteSize(), ClaimDict.load_protobuf(test_pb).protobuf_len)
         self.assertEquals(test_claim.json_len, ClaimDict.load_protobuf(test_pb).json_len)
+
+    def test_deserialize(self):
+        deserialized_claim = ClaimDict.deserialize(example_010_serialized.decode('hex'))
+        self.assertDictEqual(ClaimDict.load_dict(example_010).claim_dict,
+                             deserialized_claim.claim_dict)
 
 
 class TestMigration(UnitTest):

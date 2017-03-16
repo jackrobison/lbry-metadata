@@ -1,8 +1,9 @@
 import json
 from google.protobuf import json_format
+from google.protobuf.message import Message
 from collections import OrderedDict
 from lbryschema.schema.claim import Claim
-from lbryschema.schema.claim_pb2 import Claim as ClaimPB
+from lbryschema.schema import claim_pb2
 from lbryschema.validator import get_validator
 from lbryschema.signer import get_signer
 from lbryschema.schema import NIST256p, CURVE_NAMES
@@ -11,7 +12,7 @@ from lbryschema.encoding import decode_fields, decode_b64_fields, encode_fields
 
 class ClaimDict(OrderedDict):
     def __init__(self, claim_dict):
-        if isinstance(claim_dict, ClaimPB):
+        if isinstance(claim_dict, claim_pb2.Claim):
             raise Exception("To initialize %s with a Claim protobuf use %s.load_protobuf" %
                             (self.__class__.__name__, self.__class__.__name__))
         OrderedDict.__init__(self, claim_dict)
@@ -61,15 +62,32 @@ class ClaimDict(OrderedDict):
 
     @classmethod
     def load_protobuf_dict(cls, protobuf_dict):
+        """
+        Load a ClaimDict from a dictionary with base64 encoded bytes
+        (as returned by the protobuf json formatter)
+        """
+
         return cls(decode_b64_fields(protobuf_dict))
 
     @classmethod
     def load_protobuf(cls, protobuf_claim):
+        """Load ClaimDict from a protobuf Claim message"""
+
         return cls.load_protobuf_dict(json.loads(json_format.MessageToJson(protobuf_claim, True)))
 
     @classmethod
     def load_dict(cls, claim_dict):
+        """Load ClaimDict from a dictionary with hex and base58 encoded bytes"""
+
         return cls.load_protobuf(cls(decode_fields(claim_dict)).protobuf)
+
+    @classmethod
+    def deserialize(cls, serialized):
+        """Load a ClaimDict from a serialized protobuf string"""
+
+        temp_claim = claim_pb2.Claim()
+        temp_claim.ParseFromString(serialized)
+        return cls.load_protobuf(temp_claim)
 
     @classmethod
     def generate_certificate(cls, private_key, curve=NIST256p):

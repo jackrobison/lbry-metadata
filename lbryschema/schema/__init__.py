@@ -11,6 +11,13 @@ VERSION_MAP = {
     V_0_1_0: 4,
 }
 
+VERSION_NAMES = {
+    1: V_0_0_1,
+    2: V_0_0_2,
+    3: V_0_0_3,
+    4: V_0_1_0
+}
+
 LBC = "LBC"
 BTC = "BTC"
 USD = "USD"
