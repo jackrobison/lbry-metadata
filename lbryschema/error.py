@@ -5,3 +5,7 @@ class UnknownSourceType(Exception):
 
 class InvalidSourceHashLength(Exception):
     pass
+
+
+class DecodeError(Exception):
+    pass
