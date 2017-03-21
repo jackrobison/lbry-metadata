@@ -58,8 +58,8 @@ class NIST_ECDSASigner(object):
         sig_dict = {
             "version": V_0_0_1,
             "signatureType": self.CURVE_NAME,
-            "signature": self.private_key.sign_digest_deterministic(digest, hashfunc=self.HASHFUNC)
-
+            "signature": self.private_key.sign_digest_deterministic(digest, hashfunc=self.HASHFUNC),
+            "certificateId": cert_claim_id.decode('hex')
         }
 
         msg = {

@@ -8,4 +8,5 @@ message Signature {
     required Version version = 1;
     required KeyType signatureType = 2;
     required bytes signature = 3;
+    required bytes certificateId = 4;
 }

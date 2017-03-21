@@ -43,6 +43,13 @@ class ClaimDict(OrderedDict):
         return ClaimDict.load_protobuf(claim).serialized
 
     @property
+    def has_signature(self):
+        claim = self.protobuf
+        if claim.HasField("publisherSignature"):
+            return True
+        return False
+
+    @property
     def protobuf_len(self):
         """Length of serialized string"""
 

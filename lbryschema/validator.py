@@ -5,7 +5,7 @@ from lbryschema.schema import NIST256p, NIST384p, SECP256k1
 
 def validate_claim_id(claim_id):
     hex_chars = "0123456789abcdefABCDEF"
-    assert len(claim_id) == 64, "Incorrect claimid length: %i" % len(claim_id)
+    assert len(claim_id) == 40, "Incorrect claimid length: %i" % len(claim_id)
     for c in claim_id:
         assert c in hex_chars, "Claim id is not hex encoded"
 

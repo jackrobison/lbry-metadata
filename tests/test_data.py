@@ -1,27 +1,27 @@
 
-claim_id_1 = "8e3472bbf59381a8e45df8d26467a2ff08a52ac0d82678383b83f6dd9765a2ab"
+claim_id_1 = "76919a3572a6dcd30a63bcfb750691ea7b52dec2"
 
-claim_id_2 = "9703427964feb8ce8c35cfe1fbf06b4dd114f2be6f7bbfacbf0f9fb92b78fb79"
+claim_id_2 = "63f2da17b0d90042c559cc73b6b17f853945c43e"
 
 nist256p_private_key = """-----BEGIN EC PRIVATE KEY-----
-MHcCAQEEIBM3iJ+xJLx3RLngcublNSX8lmEJUoIXf3lrZ3ZnClCAoAoGCCqGSM49
-AwEHoUQDQgAEj8okJt9D2FvAyKfB6eHi0NWwdYTzoMzUKTFlnPyWub6NR818YyGY
-aorKC8VJDX8/yobC8rf5qXEzagdsEwd7KQ==
+MHcCAQEEIEPiqIzLqiSc/Tiij30pq0EZ+U0sCEcL0Qf7nY7n1+S2oAoGCCqGSM49
+AwEHoUQDQgAEHgR2vmSoZ0jPUurrHeZu7XjMLKs2yQfH3yEgbaWiNMlinFZVEX3k
+NPam526UIYPB8N8FwU7nJ43wfYZM44moyA==
 -----END EC PRIVATE KEY-----
 """
 
 nist384p_private_key = """-----BEGIN EC PRIVATE KEY-----
-MIGkAgEBBDBfujG43IPsUiJH6XWIZKMORqc79yvVIsGKzrhRMObpLGGcPfD1B+Fe
-GgVsAGEXvpigBwYFK4EEACKhZANiAAS2ZpILzoFA2v/FNTXixRO6FbqkZvJBygSq
-xZO/lViWExg9b+o+u+JS1nI8gyAdtHBXPZROkRY5NFavQf27EDrfJrvrKaFHpLA4
-Lfe9TRkWLm5EwvQYULzN4fHrs2J9/TU=
+MIGkAgEBBDBalPFbjUrughXdUBP9tTzJKxUGNVmQYn4CbrI+TwOyuF7D6giHIqTk
+e3RG8ajR0xegBwYFK4EEACKhZANiAAQOLHyqwgNaSu/34tCuP7HLfMhZ42nBpR7Q
+qOfIYesuh3ZMdsUmLHTqe4JseHyIlo100beoHyI93ioSFy7+DEJxr0EZSUqlh0me
+CALdLe/5dwD7PJfv9gDF1PF8GFwHwdA=
 -----END EC PRIVATE KEY-----
 """
 
 secp256k1_private_key = """-----BEGIN EC PRIVATE KEY-----
-MHQCAQEEIN0q3R2gAZ0NUwwcXO8Nuq4sWyEpOtKq64BJgU8sXqaCoAcGBSuBBAAK
-oUQDQgAEFr7zAdzrSYHxNSsMwsamgwpX312kEymOcF+jTVZ3CPIMJWmkAJj5pQOZ
-sTxYKkS4IbXTuIq64BoFiJK4JB21yw==
+MHQCAQEEIHX+YRM+CZnwvVcgYTw/gyV5qlW/jdJru3vjpID91NcvoAcGBSuBBAAK
+oUQDQgAE98sERXnSkw0fEuk5HMbUrV/TcB1ZFHt6oLiCSyqNyba4yJ3RYcAyMENw
+RCmzXNV6Gg65hbDiEMTC+blQJfQMBA==
 -----END EC PRIVATE KEY-----
 """
 
@@ -29,7 +29,7 @@ nist256p_cert = {
   "version": "_0_0_1", 
   "claimType": "certificateType", 
   "certificate": {
-    "publicKey": "3059301306072a8648ce3d020106082a8648ce3d030107034200048fca2426df43d85bc0c8a7c1e9e1e2d0d5b07584f3a0ccd42931659cfc96b9be8d47cd7c6321986a8aca0bc5490d7f3fca86c2f2b7f9a971336a076c13077b29", 
+    "publicKey": "3059301306072a8648ce3d020106082a8648ce3d030107034200041e0476be64a86748cf52eaeb1de66eed78cc2cab36c907c7df21206da5a234c9629c5655117de434f6a6e76e942183c1f0df05c14ee7278df07d864ce389a8c8", 
     "keyType": "NIST256p", 
     "version": "_0_0_1"
   }
@@ -39,7 +39,7 @@ nist384p_cert = {
   "version": "_0_0_1", 
   "claimType": "certificateType", 
   "certificate": {
-    "publicKey": "3076301006072a8648ce3d020106052b8104002203620004b666920bce8140daffc53535e2c513ba15baa466f241ca04aac593bf95589613183d6fea3ebbe252d6723c83201db470573d944e9116393456af41fdbb103adf26bbeb29a147a4b0382df7bd4d19162e6e44c2f41850bccde1f1ebb3627dfd35", 
+    "publicKey": "3076301006072a8648ce3d020106052b81040022036200040e2c7caac2035a4aeff7e2d0ae3fb1cb7cc859e369c1a51ed0a8e7c861eb2e87764c76c5262c74ea7b826c787c88968d74d1b7a81f223dde2a12172efe0c4271af4119494aa587499e0802dd2deff97700fb3c97eff600c5d4f17c185c07c1d0", 
     "keyType": "NIST384p", 
     "version": "_0_0_1"
   }
@@ -49,32 +49,25 @@ secp256k1_cert = {
   "version": "_0_0_1", 
   "claimType": "certificateType", 
   "certificate": {
-    "publicKey": "3056301006072a8648ce3d020106052b8104000a0342000416bef301dceb4981f1352b0cc2c6a6830a57df5da413298e705fa34d567708f20c2569a40098f9a50399b13c582a44b821b5d3b88abae01a058892b8241db5cb", 
+    "publicKey": "3056301006072a8648ce3d020106052b8104000a03420004f7cb044579d2930d1f12e9391cc6d4ad5fd3701d59147b7aa0b8824b2a8dc9b6b8c89dd161c0323043704429b35cd57a1a0eb985b0e210c4c2f9b95025f40c04", 
     "keyType": "SECP256k1", 
     "version": "_0_0_1"
   }
 }
 
 example_003 = {
-  "description": "...", 
-  "sources": {
-    "lbry_sd_hash": "2d1a78159a6da90f704daa96a44fa68e71340da9ab8d17943148819273e23da37e23b6ffe0794448225c199e97a83bf4"
-  }, 
-  "nsfw": False, 
-  "content_type": "fake/type", 
-  "fee": {
-    "LBC": {
-      "amount": 100, 
-      "address": "bTjdL9oMjJBU7NuTjZ7C7XDzCqtDYqE7Ly"
-    }
-  }, 
-  "ver": "0.0.3", 
-  "license": "Creative Commons Attribution 3.0 United States", 
   "language": "en", 
-  "author": "Fake author", 
-  "title": "Fake title", 
-  "license_url": "https://creativecommons.org/licenses/by/3.0/us/legalcode", 
-  "thumbnail": "lbry.io"
+  "license": "LBRY Inc", 
+  "nsfw": False, 
+  "description": "What is LBRY? An introduction with Alex Tabarrok", 
+  "content_type": "video/mp4", 
+  "author": "Samuel Bryan", 
+  "ver": "0.0.3", 
+  "title": "What is LBRY?", 
+  "sources": {
+    "lbry_sd_hash": "d5169241150022f996fa7cd6a9a1c421937276a3275eb912790bd07ba7aec1fac5fd45431d226b8fb402691e79aeb24b"
+  }, 
+  "thumbnail": "https://s3.amazonaws.com/files.lbry.io/logo.png"
 }
 
 example_010 = {
@@ -82,68 +75,57 @@ example_010 = {
   "claimType": "streamType", 
   "stream": {
     "source": {
-      "source": "2d1a78159a6da90f704daa96a44fa68e71340da9ab8d17943148819273e23da37e23b6ffe0794448225c199e97a83bf4", 
+      "source": "d5169241150022f996fa7cd6a9a1c421937276a3275eb912790bd07ba7aec1fac5fd45431d226b8fb402691e79aeb24b", 
       "version": "_0_0_1", 
-      "contentType": "fake/type", 
+      "contentType": "video/mp4", 
       "sourceType": "lbry_sd_hash"
     }, 
     "version": "_0_0_1", 
     "metadata": {
-      "license": "Creative Commons Attribution 3.0 United States", 
-      "fee": {
-        "currency": "LBC", 
-        "amount": 100.0, 
-        "version": "_0_0_1", 
-        "address": "bTjdL9oMjJBU7NuTjZ7C7XDzCqtDYqE7Ly"
-      }, 
-      "description": "...", 
+      "license": "LBRY Inc", 
+      "description": "What is LBRY? An introduction with Alex Tabarrok", 
       "language": "en", 
-      "title": "Fake title", 
-      "author": "Fake author", 
+      "title": "What is LBRY?", 
+      "author": "Samuel Bryan", 
       "version": "_0_1_0", 
       "nsfw": False, 
       "licenseUrl": "", 
       "preview": "", 
-      "thumbnail": "lbry.io"
+      "thumbnail": "https://s3.amazonaws.com/files.lbry.io/logo.png"
     }
   }
 }
 
-example_010_serialized = "080110011acf010801128701080410011a0a46616b65207469746c6522032e2e2e2a0b46616b6520617574686f72322e437265617469766520436f6d6d6f6e73204174747269627574696f6e20332e3020556e697465642053746174657338004224080110011a1955a49b1d01c33149f79927de354c849d7bc8f17c19be64ed46250000c8424a076c6272792e696f52005a001a41080110011a302d1a78159a6da90f704daa96a44fa68e71340da9ab8d17943148819273e23da37e23b6ffe0794448225c199e97a83bf4220966616b652f74797065"
+example_010_serialized = "080110011adc010801129401080410011a0d57686174206973204c4252593f223057686174206973204c4252593f20416e20696e74726f64756374696f6e207769746820416c6578205461626172726f6b2a0c53616d75656c20427279616e32084c42525920496e6338004a2f68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f66696c65732e6c6272792e696f2f6c6f676f2e706e6752005a001a41080110011a30d5169241150022f996fa7cd6a9a1c421937276a3275eb912790bd07ba7aec1fac5fd45431d226b8fb402691e79aeb24b2209766964656f2f6d7034"
 
 claim_010_signed_nist256p = {
   "version": "_0_0_1", 
   "publisherSignature": {
+    "certificateId": "63f2da17b0d90042c559cc73b6b17f853945c43e", 
     "signatureType": "NIST256p", 
     "version": "_0_0_1", 
-    "signature": "c98defb5cc8cb3c47ebb2ffd684ba38d4317575eb628e0c43a4e680f36bce35309a04366e3bfc5ec86d10b201b1350ee3b61b4bb0a18e58f7783c8ddb184bffc"
+    "signature": "8d555b7db8a9cfbad082b094267304a2cedda61ce3857aeb44f17a9cbc8ee146bab541d2b799992c47a29d34adf588ee0a6becfa10da42d64685a511d7bed45c"
   }, 
   "claimType": "streamType", 
   "stream": {
     "source": {
-      "source": "2d1a78159a6da90f704daa96a44fa68e71340da9ab8d17943148819273e23da37e23b6ffe0794448225c199e97a83bf4", 
+      "source": "d5169241150022f996fa7cd6a9a1c421937276a3275eb912790bd07ba7aec1fac5fd45431d226b8fb402691e79aeb24b", 
       "version": "_0_0_1", 
-      "contentType": "fake/type", 
+      "contentType": "video/mp4", 
       "sourceType": "lbry_sd_hash"
     }, 
     "version": "_0_0_1", 
     "metadata": {
-      "license": "Creative Commons Attribution 3.0 United States", 
-      "fee": {
-        "currency": "LBC", 
-        "amount": 100.0, 
-        "version": "_0_0_1", 
-        "address": "bTjdL9oMjJBU7NuTjZ7C7XDzCqtDYqE7Ly"
-      }, 
-      "description": "...", 
+      "license": "LBRY Inc", 
+      "description": "What is LBRY? An introduction with Alex Tabarrok", 
       "language": "en", 
-      "title": "Fake title", 
-      "author": "Fake author", 
+      "title": "What is LBRY?", 
+      "author": "Samuel Bryan", 
       "version": "_0_1_0", 
       "nsfw": False, 
       "licenseUrl": "", 
       "preview": "", 
-      "thumbnail": "lbry.io"
+      "thumbnail": "https://s3.amazonaws.com/files.lbry.io/logo.png"
     }
   }
 }
@@ -151,36 +133,31 @@ claim_010_signed_nist256p = {
 claim_010_signed_nist384p = {
   "version": "_0_0_1", 
   "publisherSignature": {
+    "certificateId": "63f2da17b0d90042c559cc73b6b17f853945c43e", 
     "signatureType": "NIST384p", 
     "version": "_0_0_1", 
-    "signature": "dd116311c1bbf84fdb647cff21bda0dd6d8739d5b05d85d778ffddae8603da53d470582bff5165ce4f46306b1e33559fd334091202fdddd8bca0fbf55051fbe8ebea8b10160d596fdf0bb81f17c16a2ea0a008833fa1061f1526bf32938105b7"
+    "signature": "6f0fe07f46615d925d018d2e551e0ecb341873c37ffdd5f13909f29b82d36fe02bc9c6e2deea57b1dfa5e6657c31cb46b76028405616149e0c76d0c804e57153b668cd9660bbfed31743fa597f11161a28bba15fa3b0e849b1ffa9ac345eb74b"
   }, 
   "claimType": "streamType", 
   "stream": {
     "source": {
-      "source": "2d1a78159a6da90f704daa96a44fa68e71340da9ab8d17943148819273e23da37e23b6ffe0794448225c199e97a83bf4", 
+      "source": "d5169241150022f996fa7cd6a9a1c421937276a3275eb912790bd07ba7aec1fac5fd45431d226b8fb402691e79aeb24b", 
       "version": "_0_0_1", 
-      "contentType": "fake/type", 
+      "contentType": "video/mp4", 
       "sourceType": "lbry_sd_hash"
     }, 
     "version": "_0_0_1", 
     "metadata": {
-      "license": "Creative Commons Attribution 3.0 United States", 
-      "fee": {
-        "currency": "LBC", 
-        "amount": 100.0, 
-        "version": "_0_0_1", 
-        "address": "bTjdL9oMjJBU7NuTjZ7C7XDzCqtDYqE7Ly"
-      }, 
-      "description": "...", 
+      "license": "LBRY Inc", 
+      "description": "What is LBRY? An introduction with Alex Tabarrok", 
       "language": "en", 
-      "title": "Fake title", 
-      "author": "Fake author", 
+      "title": "What is LBRY?", 
+      "author": "Samuel Bryan", 
       "version": "_0_1_0", 
       "nsfw": False, 
       "licenseUrl": "", 
       "preview": "", 
-      "thumbnail": "lbry.io"
+      "thumbnail": "https://s3.amazonaws.com/files.lbry.io/logo.png"
     }
   }
 }
@@ -188,36 +165,31 @@ claim_010_signed_nist384p = {
 claim_010_signed_secp256k1 = {
   "version": "_0_0_1", 
   "publisherSignature": {
+    "certificateId": "63f2da17b0d90042c559cc73b6b17f853945c43e", 
     "signatureType": "SECP256k1", 
     "version": "_0_0_1", 
-    "signature": "b71cb3e3e93aeb51a08947b05bdbe5a1633a2449707f45f2b1de2d8a6da479a93c364a09cd3f4a0425a34764271a15b3fd9a49144c2b3b3db6b86fdb0370bc9b"
+    "signature": "20b3d8bd3effac3a5121071111d914c48e07bd5ca956b57320f3ffe51dce54b4af522a7bdb295daf3260970d914feb1bb3aa28933949902aa7215427c0a3bac5"
   }, 
   "claimType": "streamType", 
   "stream": {
     "source": {
-      "source": "2d1a78159a6da90f704daa96a44fa68e71340da9ab8d17943148819273e23da37e23b6ffe0794448225c199e97a83bf4", 
+      "source": "d5169241150022f996fa7cd6a9a1c421937276a3275eb912790bd07ba7aec1fac5fd45431d226b8fb402691e79aeb24b", 
       "version": "_0_0_1", 
-      "contentType": "fake/type", 
+      "contentType": "video/mp4", 
       "sourceType": "lbry_sd_hash"
     }, 
     "version": "_0_0_1", 
     "metadata": {
-      "license": "Creative Commons Attribution 3.0 United States", 
-      "fee": {
-        "currency": "LBC", 
-        "amount": 100.0, 
-        "version": "_0_0_1", 
-        "address": "bTjdL9oMjJBU7NuTjZ7C7XDzCqtDYqE7Ly"
-      }, 
-      "description": "...", 
+      "license": "LBRY Inc", 
+      "description": "What is LBRY? An introduction with Alex Tabarrok", 
       "language": "en", 
-      "title": "Fake title", 
-      "author": "Fake author", 
+      "title": "What is LBRY?", 
+      "author": "Samuel Bryan", 
       "version": "_0_1_0", 
       "nsfw": False, 
       "licenseUrl": "", 
       "preview": "", 
-      "thumbnail": "lbry.io"
+      "thumbnail": "https://s3.amazonaws.com/files.lbry.io/logo.png"
     }
   }
 }
