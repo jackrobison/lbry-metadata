@@ -56,6 +56,12 @@ class ClaimDict(OrderedDict):
         return self.protobuf.publisherSignature.certificateId.encode('hex')
 
     @property
+    def signature(self):
+        if not self.has_signature:
+            return None
+        return self.protobuf.publisherSignature.signature.encode('hex')
+
+    @property
     def protobuf_len(self):
         """Length of serialized string"""
 
@@ -112,9 +118,9 @@ class ClaimDict(OrderedDict):
         signed = signer.sign_stream_claim(self, claim_id, cert_claim_id)
         return ClaimDict.load_protobuf(signed)
 
-    def validate_signature(self, claim_id, certificate, certificate_claim_id):
+    def validate_signature(self, claim_id, certificate):
         if isinstance(certificate, ClaimDict):
             certificate = certificate.protobuf
         curve = CURVE_NAMES[certificate.certificate.keyType]
-        validator = get_validator(curve).load_from_certificate(certificate, certificate_claim_id)
+        validator = get_validator(curve).load_from_certificate(certificate, self.certificate_id)
         return validator.validate_claim_signature(self, claim_id)

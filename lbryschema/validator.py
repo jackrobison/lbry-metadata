@@ -45,13 +45,15 @@ class Validator(object):
 
         # extract and serialize the stream from the claim, then check the signature
 
-        publisher_signature = claim['publisherSignature']['signature']
+        signature = claim.signature.decode('hex')
+        if signature is None:
+            raise Exception("No signature to validate")
 
         to_sign = "%s%s%s" % (claim_id.decode('hex'),
                               claim.serialized_no_signature,
                               self.certificate_claim_id.decode('hex'))
 
-        return self.validate_signature(self.HASHFUNC(to_sign).digest(), publisher_signature)
+        return self.validate_signature(self.HASHFUNC(to_sign).digest(), signature)
 
 
 class NIST256pValidator(Validator):

@@ -48,8 +48,9 @@ class NIST_ECDSASigner(object):
         validate_claim_id(claim_id)
         validate_claim_id(cert_claim_id)
         to_sign = "%s%s%s" % (claim_id.decode('hex'),
-                              claim.serialized,
+                              claim.serialized_no_signature,
                               cert_claim_id.decode('hex'))
+
         digest = self.HASHFUNC(to_sign).digest()
 
         if not isinstance(self.private_key, ecdsa.SigningKey):
