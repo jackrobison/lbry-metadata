@@ -50,6 +50,12 @@ class ClaimDict(OrderedDict):
         return False
 
     @property
+    def certificate_id(self):
+        if not self.has_signature:
+            return None
+        return self.protobuf.publisherSignature.certificateId.encode('hex')
+
+    @property
     def protobuf_len(self):
         """Length of serialized string"""
 
