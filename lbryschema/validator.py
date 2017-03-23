@@ -11,7 +11,7 @@ def validate_claim_id(claim_id):
 
 
 class Validator(object):
-    HASHFUNC = None
+    HASHFUNC = hashlib.sha256
 
     def __init__(self, public_key, certificate_claim_id):
         if not isinstance(public_key, ecdsa.VerifyingKey):

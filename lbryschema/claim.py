@@ -1,7 +1,7 @@
 import json
 from google.protobuf import json_format
-from google.protobuf.message import Message
 from collections import OrderedDict
+
 from lbryschema.schema.claim import Claim
 from lbryschema.schema import claim_pb2
 from lbryschema.validator import get_validator

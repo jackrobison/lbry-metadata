@@ -19,10 +19,10 @@ def encode_fields(claim_dictionary):
         public_key = claim_value["publicKey"]
         claim_value["publicKey"] = public_key.encode('hex')
     if SIGNATURE in claim_dictionary:
-        claim_dictionary[SIGNATURE]['signature'] = claim_dictionary[SIGNATURE]['signature'].encode('hex')
-        claim_dictionary[SIGNATURE]['certificateId'] = \
-            claim_dictionary[SIGNATURE]['certificateId'].encode('hex')
-
+        encoded_sig = claim_dictionary[SIGNATURE]['signature'].encode('hex')
+        encoded_cert_id = claim_dictionary[SIGNATURE]['certificateId'].encode('hex')
+        claim_dictionary[SIGNATURE]['signature'] = encoded_sig
+        claim_dictionary[SIGNATURE]['certificateId'] = encoded_cert_id
     claim_dictionary[claim_type] = claim_value
     return claim_dictionary
 
@@ -41,9 +41,10 @@ def decode_fields(claim_dictionary):
         public_key = claim_value["publicKey"].decode('hex')
         claim_value["publicKey"] = public_key
     if SIGNATURE in claim_dictionary:
-        claim_dictionary[SIGNATURE]['signature'] = claim_dictionary[SIGNATURE]['signature'].decode('hex')
-        claim_dictionary[SIGNATURE]['certificateId'] = \
-            claim_dictionary[SIGNATURE]['certificateId'].decode('hex')
+        decoded_sig = claim_dictionary[SIGNATURE]['signature'].decode('hex')
+        decoded_cert_id = claim_dictionary[SIGNATURE]['certificateId'].decode('hex')
+        claim_dictionary[SIGNATURE]['signature'] = decoded_sig
+        claim_dictionary[SIGNATURE]['certificateId'] = decoded_cert_id
     claim_dictionary[claim_type] = claim_value
     return claim_dictionary
 
@@ -62,9 +63,9 @@ def decode_b64_fields(claim_dictionary):
         public_key = base64.b64decode(claim_value["publicKey"])
         claim_value["publicKey"] = public_key
     if SIGNATURE in claim_dictionary:
-        claim_dictionary[SIGNATURE]['signature'] = base64.b64decode(claim_dictionary[SIGNATURE]['signature'])
-        claim_dictionary[SIGNATURE]['certificateId'] = \
-            base64.b64decode(claim_dictionary[SIGNATURE]['certificateId'])
-
+        encoded_sig = base64.b64decode(claim_dictionary[SIGNATURE]['signature'])
+        encoded_cert_id = base64.b64decode(claim_dictionary[SIGNATURE]['certificateId'])
+        claim_dictionary[SIGNATURE]['signature'] = encoded_sig
+        claim_dictionary[SIGNATURE]['certificateId'] = encoded_cert_id
     claim_dictionary[claim_type] = claim_value
     return claim_dictionary

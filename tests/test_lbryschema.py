@@ -49,8 +49,7 @@ class TestNIST256pSignatures(UnitTest):
                                                        claim_id_1, claim_id_2, curve=NIST256p)
         self.assertDictEqual(signed.claim_dict, claim_010_signed_nist256p)
         signed_copy = ClaimDict.load_protobuf(signed.protobuf)
-        self.assertEquals(signed_copy.validate_signature(claim_id_1, cert,
-                                                         claim_id_2), True)
+        self.assertEquals(signed_copy.validate_signature(claim_id_1, cert), True)
 
     def test_remove_signature_equals_unsigned(self):
         unsigned = ClaimDict.load_dict(example_010)
@@ -64,7 +63,7 @@ class TestNIST256pSignatures(UnitTest):
         fake_key = get_signer(NIST256p).generate().private_key.to_pem()
         fake_cert = ClaimDict.generate_certificate(fake_key, curve=NIST256p)
         self.assertRaises(ecdsa.keys.BadSignatureError, signed_copy.validate_signature,
-                          claim_id_1, fake_cert, claim_id_2)
+                          claim_id_1, fake_cert)
 
     def test_fail_to_validate_ecdsa_sig_for_altered_claim(self):
         cert = ClaimDict.generate_certificate(nist256p_private_key, curve=NIST256p)
@@ -74,7 +73,7 @@ class TestNIST256pSignatures(UnitTest):
         altered['stream']['source']['source'] = sd_hash[::-1]
         altered_copy = ClaimDict.load_dict(altered.claim_dict)
         self.assertRaises(ecdsa.keys.BadSignatureError, altered_copy.validate_signature,
-                          claim_id_1, cert, claim_id_2)
+                          claim_id_1, cert)
 
 
 class TestNIST384pSignatures(UnitTest):
@@ -88,8 +87,7 @@ class TestNIST384pSignatures(UnitTest):
                                                        claim_id_1, claim_id_2, curve=NIST384p)
         self.assertDictEqual(signed.claim_dict, claim_010_signed_nist384p)
         signed_copy = ClaimDict.load_protobuf(signed.protobuf)
-        self.assertEquals(signed_copy.validate_signature(claim_id_1, cert,
-                                                         claim_id_2), True)
+        self.assertEquals(signed_copy.validate_signature(claim_id_1, cert), True)
 
     def test_remove_signature_equals_unsigned(self):
         unsigned = ClaimDict.load_dict(example_010)
@@ -103,7 +101,7 @@ class TestNIST384pSignatures(UnitTest):
         fake_key = get_signer(NIST384p).generate().private_key.to_pem()
         fake_cert = ClaimDict.generate_certificate(fake_key, curve=NIST384p)
         self.assertRaises(ecdsa.keys.BadSignatureError, signed_copy.validate_signature,
-                          claim_id_1, fake_cert, claim_id_2)
+                          claim_id_1, fake_cert)
 
     def test_fail_to_validate_ecdsa_sig_for_altered_claim(self):
         cert = ClaimDict.generate_certificate(nist384p_private_key, curve=NIST384p)
@@ -113,7 +111,7 @@ class TestNIST384pSignatures(UnitTest):
         altered['stream']['source']['source'] = sd_hash[::-1]
         altered_copy = ClaimDict.load_dict(altered.claim_dict)
         self.assertRaises(ecdsa.keys.BadSignatureError, altered_copy.validate_signature,
-                          claim_id_1, cert, claim_id_2)
+                          claim_id_1, cert)
 
 
 class TestSECP256k1Signatures(UnitTest):
@@ -127,8 +125,7 @@ class TestSECP256k1Signatures(UnitTest):
                                                        claim_id_1, claim_id_2, curve=SECP256k1)
         self.assertDictEqual(signed.claim_dict, claim_010_signed_secp256k1)
         signed_copy = ClaimDict.load_protobuf(signed.protobuf)
-        self.assertEquals(signed_copy.validate_signature(claim_id_1, cert,
-                                                         claim_id_2), True)
+        self.assertEquals(signed_copy.validate_signature(claim_id_1, cert), True)
 
     def test_remove_signature_equals_unsigned(self):
         unsigned = ClaimDict.load_dict(example_010)
@@ -142,7 +139,7 @@ class TestSECP256k1Signatures(UnitTest):
         fake_key = get_signer(SECP256k1).generate().private_key.to_pem()
         fake_cert = ClaimDict.generate_certificate(fake_key, curve=SECP256k1)
         self.assertRaises(ecdsa.keys.BadSignatureError, signed_copy.validate_signature,
-                          claim_id_1, fake_cert, claim_id_2)
+                          claim_id_1, fake_cert)
 
     def test_fail_to_validate_ecdsa_sig_for_altered_claim(self):
         cert = ClaimDict.generate_certificate(secp256k1_private_key, curve=SECP256k1)
@@ -152,7 +149,7 @@ class TestSECP256k1Signatures(UnitTest):
         altered['stream']['source']['source'] = sd_hash[::-1]
         altered_copy = ClaimDict.load_dict(altered.claim_dict)
         self.assertRaises(ecdsa.keys.BadSignatureError, altered_copy.validate_signature,
-                          claim_id_1, cert, claim_id_2)
+                          claim_id_1, cert)
 
 
 class TestMetadata(UnitTest):

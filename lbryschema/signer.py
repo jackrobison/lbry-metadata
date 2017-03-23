@@ -11,8 +11,8 @@ from lbryschema.schema import NIST256p, NIST384p, SECP256k1, SHA256, SHA384
 class NIST_ECDSASigner(object):
     CURVE = None
     CURVE_NAME = None
-    HASHFUNC = None
-    HASHFUNC_NAME = None
+    HASHFUNC = hashlib.sha256
+    HASHFUNC_NAME = SHA256
 
     def __init__(self, private_key):
         self._private_key = private_key
@@ -75,8 +75,6 @@ class NIST_ECDSASigner(object):
 class NIST256pSigner(NIST_ECDSASigner):
     CURVE = ecdsa.NIST256p
     CURVE_NAME = NIST256p
-    HASHFUNC = hashlib.sha256
-    HASHFUNC_NAME = SHA256
 
 
 class NIST384pSigner(NIST_ECDSASigner):
@@ -89,8 +87,6 @@ class NIST384pSigner(NIST_ECDSASigner):
 class SECP256k1Signer(NIST_ECDSASigner):
     CURVE = ecdsa.SECP256k1
     CURVE_NAME = SECP256k1
-    HASHFUNC = hashlib.sha256
-    HASHFUNC_NAME = SHA256
 
 
 def get_signer(curve):
