@@ -1,5 +1,5 @@
 import json
-from google.protobuf import json_format
+from google.protobuf import json_format  # pylint: disable=no-name-in-module
 from collections import OrderedDict
 
 from lbryschema.schema.claim import Claim

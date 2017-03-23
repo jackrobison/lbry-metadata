@@ -1,6 +1,6 @@
 import json
-import google.protobuf.json_format as json_pb
-from google.protobuf.message import Message
+import google.protobuf.json_format as json_pb  # pylint: disable=no-name-in-module
+from google.protobuf.message import Message  # pylint: disable=no-name-in-module,import-error
 
 
 class Schema(Message):
