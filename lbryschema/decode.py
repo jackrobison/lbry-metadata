@@ -5,7 +5,7 @@ from lbryschema.legacy.migrate import migrate as schema_migrator
 from lbryschema.claim import ClaimDict
 
 from google.protobuf import json_format  # pylint: disable=no-name-in-module
-from google.protobuf.internal.decoder import _DecodeError  # pylint: disable=no-name-in-module
+from google.protobuf.internal.decoder import _DecodeError  # pylint: disable=no-name-in-module,import-error
 
 
 def migrate_json_claim_value(claim_value):
