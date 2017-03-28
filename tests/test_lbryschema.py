@@ -20,6 +20,7 @@ class UnitTest(unittest.TestCase):
 class TestEncoderAndDecoder(UnitTest):
     def test_encode_decode(self):
         test_claim = ClaimDict.load_dict(example_010)
+        self.assertEquals(test_claim.is_certificate, False)
         self.assertDictEqual(test_claim.claim_dict, example_010)
         test_pb = test_claim.protobuf
         self.assertDictEqual(ClaimDict.load_protobuf(test_pb).claim_dict, example_010)
@@ -31,16 +32,22 @@ class TestEncoderAndDecoder(UnitTest):
         self.assertDictEqual(ClaimDict.load_dict(example_010).claim_dict,
                              deserialized_claim.claim_dict)
 
+    def test_stream_is_not_certificate(self):
+        deserialized_claim = ClaimDict.deserialize(example_010_serialized.decode('hex'))
+        self.assertEquals(deserialized_claim.is_certificate, False)
+
 
 class TestMigration(UnitTest):
     def test_migrate_to_010(self):
         migrated_0_1_0 = migrate(example_003)
         self.assertDictEqual(migrated_0_1_0.claim_dict, example_010)
+        self.assertEquals(migrated_0_1_0.is_certificate, False)
 
 
 class TestNIST256pSignatures(UnitTest):
     def test_make_ecdsa_cert(self):
         cert = ClaimDict.generate_certificate(nist256p_private_key, curve=NIST256p)
+        self.assertEquals(cert.is_certificate, True)
         self.assertDictEqual(cert.claim_dict, nist256p_cert)
 
     def test_validate_ecdsa_signature(self):
@@ -79,6 +86,7 @@ class TestNIST256pSignatures(UnitTest):
 class TestNIST384pSignatures(UnitTest):
     def test_make_ecdsa_cert(self):
         cert = ClaimDict.generate_certificate(nist384p_private_key, curve=NIST384p)
+        self.assertEquals(cert.is_certificate, True)
         self.assertDictEqual(cert.claim_dict, nist384p_cert)
 
     def test_validate_ecdsa_signature(self):
@@ -117,6 +125,7 @@ class TestNIST384pSignatures(UnitTest):
 class TestSECP256k1Signatures(UnitTest):
     def test_make_ecdsa_cert(self):
         cert = ClaimDict.generate_certificate(secp256k1_private_key, curve=SECP256k1)
+        self.assertEquals(cert.is_certificate, True)
         self.assertDictEqual(cert.claim_dict, secp256k1_cert)
 
     def test_validate_ecdsa_signature(self):

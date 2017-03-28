@@ -40,6 +40,11 @@ CLAIM_TYPES = {
     CERTIFICATE_TYPE: "certificate"
 }
 
+CLAIM_TYPE_NAMES = {
+    1: "stream",
+    2: "certificate"
+}
+
 LBRY_SD_HASH = "lbry_sd_hash"
 LBRY_SD_HASH_LENGTH = 48
 

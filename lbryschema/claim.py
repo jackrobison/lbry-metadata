@@ -6,7 +6,7 @@ from lbryschema.schema.claim import Claim
 from lbryschema.schema import claim_pb2
 from lbryschema.validator import get_validator
 from lbryschema.signer import get_signer
-from lbryschema.schema import NIST256p, CURVE_NAMES
+from lbryschema.schema import NIST256p, CURVE_NAMES, CLAIM_TYPE_NAMES
 from lbryschema.encoding import decode_fields, decode_b64_fields, encode_fields
 
 
@@ -48,6 +48,11 @@ class ClaimDict(OrderedDict):
         if claim.HasField("publisherSignature"):
             return True
         return False
+
+    @property
+    def is_certificate(self):
+        claim = self.protobuf
+        return CLAIM_TYPE_NAMES[claim.claimType] == "certificate"
 
     @property
     def certificate_id(self):
