@@ -1,6 +1,6 @@
 import json
 from google.protobuf import json_format  # pylint: disable=no-name-in-module
-from google.protobuf.message import DecodeError as DecodeError_pb  # pylint: disable=no-name-in-module
+from google.protobuf.message import DecodeError as DecodeError_pb  # pylint: disable=no-name-in-module,import-error
 
 from collections import OrderedDict
 
