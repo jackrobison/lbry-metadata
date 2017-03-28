@@ -1,5 +1,7 @@
 import json
 from google.protobuf import json_format  # pylint: disable=no-name-in-module
+from google.protobuf.message import DecodeError as DecodeError_pb  # pylint: disable=no-name-in-module
+
 from collections import OrderedDict
 
 from lbryschema.schema.claim import Claim
@@ -8,6 +10,7 @@ from lbryschema.validator import get_validator
 from lbryschema.signer import get_signer
 from lbryschema.schema import NIST256p, CURVE_NAMES, CLAIM_TYPE_NAMES
 from lbryschema.encoding import decode_fields, decode_b64_fields, encode_fields
+from lbryschema.error import DecodeError
 
 
 class ClaimDict(OrderedDict):
@@ -110,7 +113,10 @@ class ClaimDict(OrderedDict):
         """Load a ClaimDict from a serialized protobuf string"""
 
         temp_claim = claim_pb2.Claim()
-        temp_claim.ParseFromString(serialized)
+        try:
+            temp_claim.ParseFromString(serialized)
+        except DecodeError_pb:
+            raise DecodeError(DecodeError_pb)
         return cls.load_protobuf(temp_claim)
 
     @classmethod
