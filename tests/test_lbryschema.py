@@ -1,7 +1,7 @@
 import json
 import ecdsa
 from copy import deepcopy
-from twisted.trial import unittest
+import unittest
 
 from test_data import example_003, example_010, example_010_serialized, claim_id_1, claim_id_2
 from test_data import nist256p_private_key, claim_010_signed_nist256p, nist256p_cert
@@ -158,3 +158,6 @@ class TestMetadata(UnitTest):
         sd_hash = claim['stream']['source']['source'][:-2]
         claim['stream']['source']['source'] = sd_hash
         self.assertRaises(AssertionError, ClaimDict.load_dict, claim)
+
+if __name__ == '__main__':
+    unittest.main()
