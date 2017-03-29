@@ -38,6 +38,7 @@ parsed_uri_matches = [
     ("lbry://@test1#abcdef/fakepath", ("@test1", True, None, None, "abcdef", "fakepath", None)),
     ("lbry://@test1#ABCDEF/fakepath", ("@test1", True, None, None, "abcdef", "fakepath", None)),
     ("lbry://@test1$1/fakepath?arg1&arg2&arg3", ("@test1", True, None, 1, None, "fakepath", "arg1&arg2&arg3")),
+    ("test:0001", ("test", False, 1, None, None, None, None)),
 ]
 
 parsed_uri_raises = [
@@ -64,7 +65,10 @@ parsed_uri_raises = [
     ("lbry://test:1:1:1", URIParseError),
     ("whatever/lbry://test", URIParseError),
     ("lbry://lbry://test", URIParseError),
-    ("lbry://❀", URIParseError)
+    ("lbry://❀", URIParseError),
+    ("lbry://@/what", URIParseError),
+    ("lbry://abc:0x123", URIParseError),
+    ("lbry://abc:0x123/page", URIParseError)
 ]
 
 

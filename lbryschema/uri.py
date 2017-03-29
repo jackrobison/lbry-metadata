@@ -148,7 +148,7 @@ def parse_lbry_uri(uri_string):
         raise URIParseError("invalid characters in name")
     if sum(1 if x is not None else 0 for x in [n, rank, claim_id]) > 1:
         raise URIParseError("too many flags")
-    if not parsed:
+    if not parsed or parsed == CHANNEL_PREFIX:
         raise URIParseError("no name given")
     if contains_forbidden_characters(parsed):
         raise URIParseError("forbidden characters in name")
