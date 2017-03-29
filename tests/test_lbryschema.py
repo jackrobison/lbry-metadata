@@ -36,9 +36,7 @@ parsed_uri_matches = [
     ("lbry://@test1$1/fakepath", ("@test1", True, None, 1, None, "fakepath", None)),
     ("lbry://@test1$1/fakepath", ("@test1", True, None, 1, None, "fakepath", None)),
     ("lbry://@test1#abcdef/fakepath", ("@test1", True, None, None, "abcdef", "fakepath", None)),
-    ("lbry://@test1#ABCDEF/fakepath", ("@test1", True, None, None, "abcdef", "fakepath", None)),
     ("lbry://@test1$1/fakepath?arg1&arg2&arg3", ("@test1", True, None, 1, None, "fakepath", "arg1&arg2&arg3")),
-    ("test:0001", ("test", False, 1, None, None, None, None)),
 ]
 
 parsed_uri_raises = [
@@ -68,7 +66,9 @@ parsed_uri_raises = [
     ("lbry://❀", URIParseError),
     ("lbry://@/what", URIParseError),
     ("lbry://abc:0x123", URIParseError),
-    ("lbry://abc:0x123/page", URIParseError)
+    ("lbry://abc:0x123/page", URIParseError),
+    ("lbry://@test1#ABCDEF/fakepath", URIParseError),
+    ("test:0001", URIParseError),
 ]
 
 
@@ -79,6 +79,12 @@ class UnitTest(unittest.TestCase):
 class TestURIParser(UnitTest):
     def test_uri_parse(self):
         for test_str, results in parsed_uri_matches:
+            # print "\nTrying: ", test_str
+            # print "Expected: ", results
+            # try:
+            #     print "Actual: ", parse_lbry_uri(test_str)
+            # except URIParseError as e:
+            #     print "Error: ", e
             self.assertEquals(parse_lbry_uri(test_str), results)
 
     def test_uri_errors(self):
