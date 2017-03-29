@@ -11,10 +11,69 @@ from lbryschema.claim import ClaimDict
 from lbryschema.schema import NIST256p, NIST384p, SECP256k1
 from lbryschema.legacy.migrate import migrate
 from lbryschema.signer import get_signer
+from lbryschema.uri import parse_lbry_uri, URIParseError
+
+
+parsed_uri_matches = [
+    ("test", ("test", False, None, None, None, None, None)),
+    ("test#%s" % claim_id_1, ("test", False, None, None, claim_id_1, None, None)),
+    ("test:1", ("test", False, 1, None, None, None, None)),
+    ("test$1", ("test", False, None, 1, None, None, None)),
+    ("lbry://test", ("test", False, None, None, None, None, None)),
+    ("lbry://test#%s" % claim_id_1, ("test", False, None, None, claim_id_1, None, None)),
+    ("lbry://test:1", ("test", False, 1, None, None, None, None)),
+    ("lbry://test$1", ("test", False, None, 1, None, None, None)),
+    ("@test", ("@test", True, None, None, None, None, None)),
+    ("@test#%s" % claim_id_1, ("@test", True, None, None, claim_id_1, None, None)),
+    ("@test:1", ("@test", True, 1, None, None, None, None)),
+    ("@test$1", ("@test", True, None, 1, None, None, None)),
+    ("lbry://@test", ("@test", True, None, None, None, None, None)),
+    ("lbry://@test#%s" % claim_id_1, ("@test", True, None, None, claim_id_1, None, None)),
+    ("lbry://@test:1", ("@test", True, 1, None, None, None, None)),
+    ("lbry://@test$1", ("@test", True, None, 1, None, None, None)),
+    ("lbry://@test1$1/fakepath", ("@test1", True, None, 1, None, "fakepath", None)),
+    ("lbry://@test1$1/fakepath", ("@test1", True, None, 1, None, "fakepath", None)),
+    ("lbry://@test1#abcdef/fakepath", ("@test1", True, None, None, "abcdef", "fakepath", None)),
+    ("lbry://@test1#ABCDEF/fakepath", ("@test1", True, None, None, "abcdef", "fakepath", None)),
+    ("lbry://@test1$1/fakepath?arg1&arg2&arg3", ("@test1", True, None, 1, None, "fakepath", "arg1&arg2&arg3")),
+]
+
+parsed_uri_raises = [
+    ("lbry://", URIParseError),
+    ("lbry://test:3$1", URIParseError),
+    ("lbry://test$1:1", URIParseError),
+    ("lbry://test#x", URIParseError),
+    ("lbry://test#x/page", URIParseError),
+    ("lbry://test$", URIParseError),
+    ("lbry://test#", URIParseError),
+    ("lbry://test:", URIParseError),
+    ("lbry://test$x", URIParseError),
+    ("lbry://test:x", URIParseError),
+    ("lbry://@test@", URIParseError),
+    ("lbry://@test:", URIParseError),
+    ("lbry://test@", URIParseError),
+    ("lbry://tes@t", URIParseError),
+    ("lbry://test:1#%s" % claim_id_1, URIParseError),
+    ("lbry://test:0", URIParseError),
+    ("lbry://test$0", URIParseError),
+    ("lbry://@test1#abcdef/fakepath:1", URIParseError),
+    ("lbry://@test1:1/fakepath:1", URIParseError),
+    ("lbry://@test1:1ab/fakepath", URIParseError),
+]
 
 
 class UnitTest(unittest.TestCase):
     maxDiff = 4000
+
+
+class TestURIParser(UnitTest):
+    def test_uri_parse(self):
+        for test_str, results in parsed_uri_matches:
+            self.assertEquals(parse_lbry_uri(test_str), results)
+
+    def test_uri_errors(self):
+        for test_str, err in parsed_uri_raises:
+            self.assertRaises(err, parse_lbry_uri, test_str)
 
 
 class TestEncoderAndDecoder(UnitTest):
