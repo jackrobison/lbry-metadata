@@ -1,4 +1,6 @@
-import json
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import ecdsa
 from copy import deepcopy
 from twisted.trial import unittest
@@ -59,6 +61,10 @@ parsed_uri_raises = [
     ("lbry://@test1#abcdef/fakepath:1", URIParseError),
     ("lbry://@test1:1/fakepath:1", URIParseError),
     ("lbry://@test1:1ab/fakepath", URIParseError),
+    ("lbry://test:1:1:1", URIParseError),
+    ("whatever/lbry://test", URIParseError),
+    ("lbry://lbry://test", URIParseError),
+    ("lbry://❀", URIParseError)
 ]
 
 
