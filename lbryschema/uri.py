@@ -1,68 +1,40 @@
-import string
 import re
-
-N_CHAR = ":"
-CLAIM_ID_CHAR = "#"
-RANK_CHAR = "$"
-PROTOCOL_PREFIX = "lbry://"
-CHANNEL_PREFIX = "@"
-PATH_CHAR = "/"
-QUERY_CHAR = "?"
-CLAIM_ID_LEN = 40
-FORBIDDEN_CHARACTERS = [N_CHAR, RANK_CHAR, CLAIM_ID_CHAR, PATH_CHAR, QUERY_CHAR]
+from collections import namedtuple
+from lbryschema.error import URIParseError
 
 
-class URIParseError(Exception):
-    pass
+def render_uri(uri_named_tuple):
+    uri_str = "lbry://%s" % uri_named_tuple.name
+    if uri_named_tuple.claim_sequence is not None:
+        uri_str += ":%i" % uri_named_tuple.claim_sequence
+    elif uri_named_tuple.bid_position is not None:
+        uri_str += "$%i" % uri_named_tuple.bid_position
+    elif uri_named_tuple.claim_id is not None:
+        uri_str += "#%s" % uri_named_tuple.claim_id
+    if uri_named_tuple.path is not None:
+        uri_str += "/%s" % uri_named_tuple.path
+    if uri_named_tuple.query is not None:
+        uri_str += "?%s" % uri_named_tuple.query
+    return uri_str
 
 
-def contains_forbidden_characters(message):
-    for char in message:
-        if char in FORBIDDEN_CHARACTERS or char not in string.printable:
-            return True
-    return False
+LBRYURIType = namedtuple('URI', ['name', 'is_channel', 'claim_sequence', 'bid_position', 'claim_id',
+                             'path', 'query'])
 
 
-def extract_hash(partial_uri):
-    hex_chars = "0123456789abcdefABCDEF"
+class LBRYURI(LBRYURIType):
+    __slots__ = ()
 
-    def _get_position(msg):
-        for i, char in enumerate(msg):
-            if char not in hex_chars:
-                return i
+    def __repr__(self):
+        return render_uri(self)
 
-    end_of_hash_pos = _get_position(partial_uri)
-    if end_of_hash_pos is not None:
-        _hash, remaining = partial_uri[:end_of_hash_pos], partial_uri[end_of_hash_pos:]
-    else:
-        _hash, remaining = partial_uri, ""
-    partial_hash = _hash.lower()
-    if not partial_hash:
-        raise URIParseError("no hash provided")
-    if contains_forbidden_characters(partial_hash):
-        raise URIParseError("invalid hash")
-    if len(partial_hash) > CLAIM_ID_LEN:
-        raise URIParseError("hash is too long")
-    return partial_hash, remaining
+    def __str__(self):
+        return render_uri(self)
 
-
-def extract_int(partial_uri):
-    def _get_position(msg):
-        argstr = str(msg)
-        for i, c in enumerate(argstr):
-            if c in FORBIDDEN_CHARACTERS:
-                return i
-
-    end_of_int_pos = _get_position(partial_uri)
-    if end_of_int_pos is not None:
-        _i, remaining = partial_uri[:end_of_int_pos], partial_uri[end_of_int_pos:]
-    else:
-        _i, remaining = partial_uri, ""
-    try:
-        i = int(_i)
-    except ValueError:
-        raise URIParseError("invalid integer")
-    return i, remaining
+    def __eq__(self, other):
+        if isinstance(other, str):
+            return tuple(self) == tuple(parse_lbry_uri(other))
+        return tuple(self) == tuple(other)
 
 
 def get_schema_regex():
@@ -129,13 +101,13 @@ def parse_lbry_uri(uri_string):
 
     :param uri_string: format - lbry://name:n$rank#id/path?query
                        optional filters:
-                       n (int): preceded by ":", n indicates the nth claim to the name
-                       rank (int): preceded by "$", rank indicates the bid queue position of the
+                       claim_sequence (int): preceded by ":", indicates the nth claim to the name
+                       bid_position (int): preceded by "$", indicates the bid queue position of the
                                    claim for the name
-                       id (str): preceded by "#", indicates the claim id for the claim
+                       claim_id (str): preceded by "#", indicates the claim id for the claim
                        path (str): preceded by "/", indicates claim within a channel
                        query (str): preceded by "?", query to be passed to the requested claim
-    :return:
+    :return: URI
     """
 
     match = re.match(get_schema_regex(), uri_string)
@@ -143,13 +115,13 @@ def parse_lbry_uri(uri_string):
     if match is None:
         raise URIParseError('Invalid URI')
 
-    # return match.groupdict()
-    return tuple([
+    uri_tuple = (
         match.group("content_or_channel_name"),
         True if match.group("channel_name") else False,
         int(match.group("bid_position")) if match.group("bid_position") is not None else None,
         int(match.group("claim_sequence")) if match.group("claim_sequence") is not None else None,
         match.group("claim_id"),
         match.group("path"),
-        match.group("query"),
-    ])
+        match.group("query")
+    )
+    return LBRYURI(*uri_tuple)

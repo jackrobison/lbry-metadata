@@ -1,7 +1,7 @@
 #echo "Generating test data"
 #python ./generate_test_data.py
 echo "Running tests"
-python tests/test_lbryschema.py
+python tests/test_lbryschema.py --verbose
 echo "Running pylint"
 pylint -E \
        --disable=inherit-non-class \

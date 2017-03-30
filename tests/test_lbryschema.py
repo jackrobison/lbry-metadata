@@ -13,7 +13,7 @@ from lbryschema.claim import ClaimDict
 from lbryschema.schema import NIST256p, NIST384p, SECP256k1
 from lbryschema.legacy.migrate import migrate
 from lbryschema.signer import get_signer
-from lbryschema.uri import parse_lbry_uri, URIParseError
+from lbryschema.uri import parse_lbry_uri, URIParseError, LBRYURI
 
 
 parsed_uri_matches = [
@@ -79,13 +79,8 @@ class UnitTest(unittest.TestCase):
 class TestURIParser(UnitTest):
     def test_uri_parse(self):
         for test_str, results in parsed_uri_matches:
-            # print "\nTrying: ", test_str
-            # print "Expected: ", results
-            # try:
-            #     print "Actual: ", parse_lbry_uri(test_str)
-            # except URIParseError as e:
-            #     print "Error: ", e
-            self.assertEquals(parse_lbry_uri(test_str), results)
+            self.assertEquals(parse_lbry_uri(test_str) == test_str, True)
+            self.assertEquals(tuple(parse_lbry_uri(test_str)), results)
 
     def test_uri_errors(self):
         for test_str, err in parsed_uri_raises:
