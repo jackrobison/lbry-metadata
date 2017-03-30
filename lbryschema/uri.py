@@ -1,66 +1,98 @@
-import string
-
-N_CHAR = ":"
-CLAIM_ID_CHAR = "#"
-RANK_CHAR = "$"
-PROTOCOL_PREFIX = "lbry://"
-CHANNEL_PREFIX = "@"
-PATH_CHAR = "/"
-QUERY_CHAR = "?"
-CLAIM_ID_LEN = 40
-FORBIDDEN_CHARACTERS = [N_CHAR, RANK_CHAR, CLAIM_ID_CHAR, PATH_CHAR, QUERY_CHAR]
+import re
+from collections import namedtuple
+from lbryschema.error import URIParseError
 
 
-class URIParseError(Exception):
-    pass
+def render_uri(uri_named_tuple):
+    uri_str = "lbry://%s" % uri_named_tuple.name
+    if uri_named_tuple.claim_sequence is not None:
+        uri_str += ":%i" % uri_named_tuple.claim_sequence
+    elif uri_named_tuple.bid_position is not None:
+        uri_str += "$%i" % uri_named_tuple.bid_position
+    elif uri_named_tuple.claim_id is not None:
+        uri_str += "#%s" % uri_named_tuple.claim_id
+    if uri_named_tuple.path is not None:
+        uri_str += "/%s" % uri_named_tuple.path
+    if uri_named_tuple.query is not None:
+        uri_str += "?%s" % uri_named_tuple.query
+    return uri_str
 
 
-def contains_forbidden_characters(message):
-    for char in message:
-        if char in FORBIDDEN_CHARACTERS or char not in string.printable:
-            return True
-    return False
+LBRYURIType = namedtuple('URI', ['name', 'is_channel', 'claim_sequence', 'bid_position', 'claim_id',
+                             'path', 'query'])
 
 
-def extract_hash(partial_uri):
-    hex_chars = "0123456789abcdefABCDEF"
+class LBRYURI(LBRYURIType):
+    __slots__ = ()
 
-    def _get_position(msg):
-        for i, char in enumerate(msg):
-            if char not in hex_chars:
-                return i
+    def __repr__(self):
+        return render_uri(self)
 
-    end_of_hash_pos = _get_position(partial_uri)
-    if end_of_hash_pos is not None:
-        _hash, remaining = partial_uri[:end_of_hash_pos], partial_uri[end_of_hash_pos:]
-    else:
-        _hash, remaining = partial_uri, ""
-    partial_hash = _hash.lower()
-    if not partial_hash:
-        raise URIParseError("no hash provided")
-    if contains_forbidden_characters(partial_hash):
-        raise URIParseError("invalid hash")
-    if len(partial_hash) > CLAIM_ID_LEN:
-        raise URIParseError("hash is too long")
-    return partial_hash, remaining
+    def __str__(self):
+        return render_uri(self)
+
+    def __eq__(self, other):
+        if isinstance(other, str):
+            return tuple(self) == tuple(parse_lbry_uri(other))
+        return tuple(self) == tuple(other)
 
 
-def extract_int(partial_uri):
-    def _get_position(msg):
-        argstr = str(msg)
-        for i, c in enumerate(argstr):
-            if c in FORBIDDEN_CHARACTERS:
-                return i
-    end_of_int_pos = _get_position(partial_uri)
-    if end_of_int_pos is not None:
-        _i, remaining = partial_uri[:end_of_int_pos], partial_uri[end_of_int_pos:]
-    else:
-        _i, remaining = partial_uri, ""
-    try:
-        i = int(_i)
-    except ValueError:
-        raise URIParseError("invalid integer")
-    return i, remaining
+def get_schema_regex():
+    def _named(name, regex):
+        return "(?P<" + name + ">" + regex + ")"
+
+    def _group(regex):
+        return "(?:" + regex + ")"
+
+    n_char = re.escape(":")
+    claim_id_char = re.escape("#")
+    rank_char = re.escape("$")
+    channel_char = re.escape("@")
+    path_char = re.escape("/")
+    query_char = re.escape("?")
+
+    claim_id_len = 40
+
+    name = "[a-zA-Z0-9]+"  # expand later
+    positive_number = "[1-9][0-9]*"
+    number = '\-?' + positive_number
+
+    protocol = _named("protocol", re.escape("lbry://"))
+
+    content_name = _named("content_name", name)
+    channel_name = _named("channel_name", channel_char + name)
+    content_or_channel_name = _named("content_or_channel_name", content_name + "|" + channel_name)
+
+    claim_id_piece = _named("claim_id", "[0-9a-f]{1," + str(claim_id_len) + "}")
+    claim_id = _group(claim_id_char + claim_id_piece)
+
+    bid_position_piece = _named("bid_position", number)
+    bid_position = _group(n_char + bid_position_piece)
+
+    claim_sequence_piece = _named("claim_sequence", number)
+    claim_sequence = _group(rank_char + claim_sequence_piece)
+
+    modifier = _named("modifier", claim_id + "|" + bid_position + "|" + claim_sequence)
+
+    path_item = _group(name)
+    path_item_cont = _group(path_char + name)
+    path_piece = _named("path", path_item + path_item_cont + '*')
+    path = _group(path_char + path_piece)
+
+    query_piece = _named("query", "[a-zA-Z0-9=&]+")
+    query = _group(query_char + query_piece)
+
+    uri = _named("uri", (
+        '^' +
+        protocol + '?' +
+        content_or_channel_name +
+        modifier + '?' +
+        path + '?' +
+        query + '?' +
+        '$'
+    ))
+
+    return uri
 
 
 def parse_lbry_uri(uri_string):
@@ -69,91 +101,27 @@ def parse_lbry_uri(uri_string):
 
     :param uri_string: format - lbry://name:n$rank#id/path?query
                        optional filters:
-                       n (int): preceded by ":", n indicates the nth claim to the name
-                       rank (int): preceded by "$", rank indicates the bid queue position of the
+                       claim_sequence (int): preceded by ":", indicates the nth claim to the name
+                       bid_position (int): preceded by "$", indicates the bid queue position of the
                                    claim for the name
-                       id (str): preceded by "#", indicates the claim id for the claim
+                       claim_id (str): preceded by "#", indicates the claim id for the claim
                        path (str): preceded by "/", indicates claim within a channel
                        query (str): preceded by "?", query to be passed to the requested claim
-    :return:
+    :return: URI
     """
 
-    parsed = uri_string
-    if parsed.startswith(PROTOCOL_PREFIX):
-        parsed = parsed[7:]
+    match = re.match(get_schema_regex(), uri_string)
 
-    if "@" in parsed:
-        if not parsed.startswith("@"):
-            raise URIParseError("@ not at the beginning of the name")
-        if "@" in parsed[1:]:
-            raise URIParseError("invalid @")
-        is_channel = True
-    else:
-        is_channel = False
+    if match is None:
+        raise URIParseError('Invalid URI')
 
-    if N_CHAR in parsed:
-        args = parsed.split(N_CHAR)
-        if len(args) != 2:
-            raise URIParseError("n parse error")
-        parsed = args[0]
-        n, p = extract_int(args[1])
-        parsed += p
-        if n == 0:
-            raise URIParseError("n == 0")
-    else:
-        n = None
-
-    if RANK_CHAR in parsed:
-        args = parsed.split(RANK_CHAR)
-        if len(args) != 2:
-            raise URIParseError("rank parse error")
-        parsed = args[0]
-        rank, p = extract_int(args[1])
-        parsed += p
-        if rank == 0:
-            raise URIParseError("rank == 0")
-    else:
-        rank = None
-
-    if CLAIM_ID_CHAR in parsed:
-        args = parsed.split(CLAIM_ID_CHAR)
-        if len(args) != 2:
-            raise URIParseError("claim id parse error")
-        claim_id, p = extract_hash(args[1])
-        parsed = args[0] + p
-    else:
-        claim_id = None
-
-    if PATH_CHAR in parsed:
-        if not is_channel:
-            raise URIParseError("path given for non channel claim")
-        args = parsed.split(PATH_CHAR)
-        parsed = args[0]
-        path = str(PATH_CHAR).join(args[1:])
-    else:
-        path = None
-
-    if QUERY_CHAR in parsed and path is None:
-        args = parsed.split(QUERY_CHAR)
-        parsed = args[0]
-        query = str(QUERY_CHAR).join(args[1:])
-    elif path and QUERY_CHAR in path:
-        args = path.split(QUERY_CHAR)
-        path = args[0]
-        query = str(QUERY_CHAR).join(args[1:])
-    else:
-        query = None
-
-    if not all(c in string.printable for c in parsed):
-        raise URIParseError("invalid characters in name")
-    if sum(1 if x is not None else 0 for x in [n, rank, claim_id]) > 1:
-        raise URIParseError("too many flags")
-    if not parsed or parsed == CHANNEL_PREFIX:
-        raise URIParseError("no name given")
-    if contains_forbidden_characters(parsed):
-        raise URIParseError("forbidden characters in name")
-    if path and contains_forbidden_characters(path):
-        raise URIParseError("path contains forbidden characters")
-    if query and contains_forbidden_characters(query):
-        raise URIParseError("query contains forbidden characters")
-    return parsed, is_channel, n, rank, claim_id, path, query
+    uri_tuple = (
+        match.group("content_or_channel_name"),
+        True if match.group("channel_name") else False,
+        int(match.group("bid_position")) if match.group("bid_position") is not None else None,
+        int(match.group("claim_sequence")) if match.group("claim_sequence") is not None else None,
+        match.group("claim_id"),
+        match.group("path"),
+        match.group("query")
+    )
+    return LBRYURI(*uri_tuple)

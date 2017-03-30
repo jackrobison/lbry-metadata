@@ -1,3 +1,7 @@
+#!/bin/bash
+
+set -euxo pipefail
+
 echo "Building protobuf files"
 rm -rf ./lbryschema/schema/*_pb2.py
 find . -name "*.pyc" -delete

@@ -1,4 +1,3 @@
-
 class UnknownSourceType(Exception):
     pass
 
@@ -8,4 +7,8 @@ class InvalidSourceHashLength(Exception):
 
 
 class DecodeError(Exception):
+    pass
+
+
+class URIParseError(Exception):
     pass
