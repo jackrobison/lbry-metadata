@@ -82,6 +82,8 @@ def get_schema_regex():
     claim_id_len = 40
 
     name = "[a-zA-Z0-9]+"  # expand later
+    positive_number = "[1-9][0-9]*"
+    number = '\-?' + positive_number
 
     protocol = _named("protocol", re.escape("lbry://"))
 
@@ -92,13 +94,13 @@ def get_schema_regex():
     claim_id_piece = _named("claim_id", "[0-9a-f]{1," + str(claim_id_len) + "}")
     claim_id = _group(claim_id_char + claim_id_piece)
 
-    n_piece = _named("n", "\-?[1-9][0-9]*")
-    n = _group(n_char + n_piece)
+    bid_position_piece = _named("bid_position", number)
+    bid_position = _group(n_char + bid_position_piece)
 
-    rank_piece = _named("rank", "\-?[1-9][0-9]*")
-    rank = _group(rank_char + rank_piece)
+    claim_sequence_piece = _named("claim_sequence", number)
+    claim_sequence = _group(rank_char + claim_sequence_piece)
 
-    modifier = _named("modifier", claim_id + "|" + n + "|" + rank)
+    modifier = _named("modifier", claim_id + "|" + bid_position + "|" + claim_sequence)
 
     path_item = _group(name)
     path_item_cont = _group(path_char + name)
@@ -109,7 +111,13 @@ def get_schema_regex():
     query = _group(query_char + query_piece)
 
     uri = _named("uri", (
-        '^' + protocol + '?' + content_or_channel_name + modifier + '?' + path + '?' + query + '?' + '$'
+        '^' +
+        protocol + '?' +
+        content_or_channel_name +
+        modifier + '?' +
+        path + '?' +
+        query + '?' +
+        '$'
     ))
 
     return uri
@@ -139,8 +147,8 @@ def parse_lbry_uri(uri_string):
     return tuple([
         match.group("content_or_channel_name"),
         True if match.group("channel_name") else False,
-        int(match.group("n")) if match.group("n") is not None else None,
-        int(match.group("rank")) if match.group("rank") is not None else None,
+        int(match.group("bid_position")) if match.group("bid_position") is not None else None,
+        int(match.group("claim_sequence")) if match.group("claim_sequence") is not None else None,
         match.group("claim_id"),
         match.group("path"),
         match.group("query"),
