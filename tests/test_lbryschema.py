@@ -13,30 +13,24 @@ from lbryschema.claim import ClaimDict
 from lbryschema.schema import NIST256p, NIST384p, SECP256k1
 from lbryschema.legacy.migrate import migrate
 from lbryschema.signer import get_signer
-from lbryschema.uri import parse_lbry_uri, URIParseError, LBRYURI
-
+from lbryschema.uri import URI, URIParseError
 
 parsed_uri_matches = [
-    ("test", ("test", False, None, None, None, None, None)),
-    ("test#%s" % claim_id_1, ("test", False, None, None, claim_id_1, None, None)),
-    ("test:1", ("test", False, 1, None, None, None, None)),
-    ("test$1", ("test", False, None, 1, None, None, None)),
-    ("lbry://test", ("test", False, None, None, None, None, None)),
-    ("lbry://test#%s" % claim_id_1, ("test", False, None, None, claim_id_1, None, None)),
-    ("lbry://test:1", ("test", False, 1, None, None, None, None)),
-    ("lbry://test$1", ("test", False, None, 1, None, None, None)),
-    ("@test", ("@test", True, None, None, None, None, None)),
-    ("@test#%s" % claim_id_1, ("@test", True, None, None, claim_id_1, None, None)),
-    ("@test:1", ("@test", True, 1, None, None, None, None)),
-    ("@test$1", ("@test", True, None, 1, None, None, None)),
-    ("lbry://@test", ("@test", True, None, None, None, None, None)),
-    ("lbry://@test#%s" % claim_id_1, ("@test", True, None, None, claim_id_1, None, None)),
-    ("lbry://@test:1", ("@test", True, 1, None, None, None, None)),
-    ("lbry://@test$1", ("@test", True, None, 1, None, None, None)),
-    ("lbry://@test1$1/fakepath", ("@test1", True, None, 1, None, "fakepath", None)),
-    ("lbry://@test1$1/fakepath", ("@test1", True, None, 1, None, "fakepath", None)),
-    ("lbry://@test1#abcdef/fakepath", ("@test1", True, None, None, "abcdef", "fakepath", None)),
-    ("lbry://@test1$1/fakepath?arg1&arg2&arg3", ("@test1", True, None, 1, None, "fakepath", "arg1&arg2&arg3")),
+    ("test", URI("test"), False),
+    ("test#%s" % claim_id_1, URI("test", claim_id=claim_id_1), False),
+    ("test:1", URI("test", claim_sequence=1), False),
+    ("test$1", URI("test", bid_position=1), False),
+    ("lbry://test", URI("test"), False),
+    ("lbry://test#%s" % claim_id_1, URI("test", claim_id=claim_id_1), False),
+    ("lbry://test:1", URI("test", claim_sequence=1), False),
+    ("lbry://test$1", URI("test", bid_position=1), False),
+    ("@test", URI("@test"), True),
+    ("@test#%s" % claim_id_1, URI("@test", claim_id=claim_id_1), True),
+    ("@test:1", URI("@test", claim_sequence=1), True),
+    ("@test$1", URI("@test", bid_position=1), True),
+    ("lbry://@test1:1/fakepath", URI("@test1", claim_sequence=1, path="fakepath"), True),
+    ("lbry://@test1$1/fakepath", URI("@test1", bid_position=1, path="fakepath"), True),
+    ("lbry://@test1#abcdef/fakepath", URI("@test1", claim_id="abcdef", path="fakepath"), True),
 ]
 
 parsed_uri_raises = [
@@ -57,6 +51,7 @@ parsed_uri_raises = [
     ("lbry://test:1#%s" % claim_id_1, URIParseError),
     ("lbry://test:0", URIParseError),
     ("lbry://test$0", URIParseError),
+    ("lbry://test/path", URIParseError),
     ("lbry://@test1#abcdef/fakepath:1", URIParseError),
     ("lbry://@test1:1/fakepath:1", URIParseError),
     ("lbry://@test1:1ab/fakepath", URIParseError),
@@ -69,6 +64,10 @@ parsed_uri_raises = [
     ("lbry://abc:0x123/page", URIParseError),
     ("lbry://@test1#ABCDEF/fakepath", URIParseError),
     ("test:0001", URIParseError),
+    ("lbry://@test1$1/fakepath?arg1&arg2&arg3", URIParseError),
+    ("@z", URIParseError),
+    ("@yx", URIParseError),
+    ("@abc", URIParseError),
 ]
 
 
@@ -77,14 +76,41 @@ class UnitTest(unittest.TestCase):
 
 
 class TestURIParser(UnitTest):
+    def setUp(self):
+        self.longMessage = True
+
     def test_uri_parse(self):
-        for test_str, results in parsed_uri_matches:
-            self.assertEquals(parse_lbry_uri(test_str) == test_str, True)
-            self.assertEquals(tuple(parse_lbry_uri(test_str)), results)
+        for test_string, expected_uri_obj, is_channel in parsed_uri_matches:
+            # string -> URI
+            self.assertEquals(URI.from_uri_string(test_string), expected_uri_obj, test_string)
+            # URI -> dict -> URI
+            self.assertEquals(URI.from_dict(expected_uri_obj.to_dict()), expected_uri_obj,
+                              test_string)
+            # is_channel
+            self.assertEquals(URI.from_uri_string(test_string).is_channel(), is_channel,
+                              test_string)
+
+            # convert-to-string test only works if protocol is present in test_string
+            if test_string.startswith('lbry://'):
+                # string -> URI -> string
+                self.assertEquals(URI.from_uri_string(test_string).to_uri_string(), test_string,
+                                  test_string)
+                # string -> URI -> dict -> URI -> string
+                uri_dict = URI.from_uri_string(test_string).to_dict()
+                self.assertEquals(URI.from_dict(uri_dict).to_uri_string(), test_string, test_string)
+                # URI -> dict -> URI -> string
+                self.assertEquals(URI.from_dict(expected_uri_obj.to_dict()).to_uri_string(),
+                                  test_string, test_string)
 
     def test_uri_errors(self):
         for test_str, err in parsed_uri_raises:
-            self.assertRaises(err, parse_lbry_uri, test_str)
+            try:
+                URI.from_uri_string(test_str)
+            except URIParseError:
+                pass
+            else:
+                print "\nSuccessfully parsed invalid url: " + test_str
+            self.assertRaises(err, URI.from_uri_string, test_str)
 
 
 class TestEncoderAndDecoder(UnitTest):
@@ -237,6 +263,7 @@ class TestMetadata(UnitTest):
         sd_hash = claim['stream']['source']['source'][:-2]
         claim['stream']['source']['source'] = sd_hash
         self.assertRaises(AssertionError, ClaimDict.load_dict, claim)
+
 
 if __name__ == '__main__':
     unittest.main()
