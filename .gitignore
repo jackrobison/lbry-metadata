@@ -9,8 +9,6 @@
 
 *.egg
 
-*_pb2.py
-
 build
 
 _trial*
