@@ -12,3 +12,7 @@ class DecodeError(Exception):
 
 class URIParseError(Exception):
     pass
+
+
+class CertificateError(Exception):
+    pass
