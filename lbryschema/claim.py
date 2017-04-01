@@ -124,14 +124,14 @@ class ClaimDict(OrderedDict):
         signer = get_signer(curve).load_pem(private_key)
         return cls.load_protobuf(signer.certificate)
 
-    def sign(self, private_key, claim_id, cert_claim_id, curve=NIST256p):
+    def sign(self, private_key, claim_address, cert_claim_id, curve=NIST256p):
         signer = get_signer(curve).load_pem(private_key)
-        signed = signer.sign_stream_claim(self, claim_id, cert_claim_id)
+        signed = signer.sign_stream_claim(self, claim_address, cert_claim_id)
         return ClaimDict.load_protobuf(signed)
 
-    def validate_signature(self, claim_id, certificate):
+    def validate_signature(self, claim_address, certificate):
         if isinstance(certificate, ClaimDict):
             certificate = certificate.protobuf
         curve = CURVE_NAMES[certificate.certificate.keyType]
         validator = get_validator(curve).load_from_certificate(certificate, self.certificate_id)
-        return validator.validate_claim_signature(self, claim_id)
+        return validator.validate_claim_signature(self, claim_address)

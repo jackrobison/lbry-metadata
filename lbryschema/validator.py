@@ -1,5 +1,6 @@
 import ecdsa
 import hashlib
+from lbryschema.base import base_decode
 from lbryschema.schema import NIST256p, NIST384p, SECP256k1
 
 
@@ -39,17 +40,16 @@ class Validator(object):
     def validate_signature(self, digest, signature):
         return self.public_key.verify_digest(signature, digest)
 
-    def validate_claim_signature(self, claim, claim_id):
-        # check that the claim ids provided are the 64 characters long and hex encoded
-        validate_claim_id(claim_id)
+    def validate_claim_signature(self, claim, claim_address):
+        decoded_address = base_decode(claim_address, 20, 58)
 
         # extract and serialize the stream from the claim, then check the signature
-
         signature = claim.signature.decode('hex')
+
         if signature is None:
             raise Exception("No signature to validate")
 
-        to_sign = "%s%s%s" % (claim_id.decode('hex'),
+        to_sign = "%s%s%s" % (decoded_address,
                               claim.serialized_no_signature,
                               self.certificate_claim_id.decode('hex'))
 

@@ -1,5 +1,6 @@
 import ecdsa
 import hashlib
+from lbryschema.base import base_decode
 from lbryschema.encoding import decode_b64_fields
 from lbryschema.schema.certificate import Certificate
 from lbryschema.schema.claim import Claim
@@ -43,11 +44,9 @@ class NIST_ECDSASigner(object):
     def generate(cls):
         return cls(ecdsa.SigningKey.generate(curve=cls.CURVE, hashfunc=cls.HASHFUNC_NAME))
 
-    def sign_stream_claim(self, claim, claim_id, cert_claim_id):
-
-        validate_claim_id(claim_id)
+    def sign_stream_claim(self, claim, claim_address, cert_claim_id):
         validate_claim_id(cert_claim_id)
-        to_sign = "%s%s%s" % (claim_id.decode('hex'),
+        to_sign = "%s%s%s" % (base_decode(claim_address, 20, 58),
                               claim.serialized_no_signature,
                               cert_claim_id.decode('hex'))
 
@@ -55,7 +54,6 @@ class NIST_ECDSASigner(object):
 
         if not isinstance(self.private_key, ecdsa.SigningKey):
             raise Exception("Not given a signing key")
-
         sig_dict = {
             "version": V_0_0_1,
             "signatureType": self.CURVE_NAME,

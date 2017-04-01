@@ -21,9 +21,9 @@ unmigrated_003 = {
     'ver': '0.0.3'
 }
 
-stream_claim_id = "76919a3572a6dcd30a63bcfb750691ea7b52dec2"
 cert_claim_id = "63f2da17b0d90042c559cc73b6b17f853945c43e"
-
+stream_claim_address = "bDtL6qriyimxz71DSYjojTBsm6cpM1bqmj"
+stream_claim_address_2 = "bUG7VaMzLEqqyZQAyg9srxQzvf1wwnJ48w"
 
 claim_010_unsigned = migrate.migrate(unmigrated_003)
 
@@ -31,7 +31,7 @@ claim_010_unsigned = migrate.migrate(unmigrated_003)
 # NIST256p test data
 nist256p_private_key = get_signer(NIST256p).generate().private_key.to_pem()
 claim_010_signed_nist256p = claim_010_unsigned.sign(nist256p_private_key,
-                                                     stream_claim_id,
+                                                     stream_claim_address,
                                                      cert_claim_id,
                                                      curve=NIST256p)
 nist256p_cert = ClaimDict.generate_certificate(nist256p_private_key, curve=NIST256p)
@@ -39,7 +39,7 @@ nist256p_cert = ClaimDict.generate_certificate(nist256p_private_key, curve=NIST2
 # NIST384p test data
 nist384p_private_key = get_signer(NIST384p).generate().private_key.to_pem()
 claim_010_signed_nist384p = claim_010_unsigned.sign(nist384p_private_key,
-                                                     stream_claim_id,
+                                                     stream_claim_address,
                                                      cert_claim_id,
                                                      curve=NIST384p)
 nist384p_cert = ClaimDict.generate_certificate(nist384p_private_key, curve=NIST384p)
@@ -47,7 +47,7 @@ nist384p_cert = ClaimDict.generate_certificate(nist384p_private_key, curve=NIST3
 # SECP256k1 test data
 secp256k1_private_key = get_signer(SECP256k1).generate().private_key.to_pem()
 claim_010_signed_secp256k1 = claim_010_unsigned.sign(secp256k1_private_key,
-                                                     stream_claim_id,
+                                                     stream_claim_address,
                                                      cert_claim_id,
                                                      curve=SECP256k1)
 secp256k1_cert = ClaimDict.generate_certificate(secp256k1_private_key, curve=SECP256k1)
@@ -56,9 +56,12 @@ secp256k1_cert = ClaimDict.generate_certificate(secp256k1_private_key, curve=SEC
 formatted = lambda x: json.dumps(x.claim_dict, indent=2)
 
 template = """
+
 claim_id_1 = \"%s\"
 
-claim_id_2 = \"%s\"
+claim_address_2 = \"%s\"
+
+claim_address_1 = \"%s\"
 
 nist256p_private_key = \"\"\"%s\"\"\"
 
@@ -85,8 +88,9 @@ claim_010_signed_nist384p = %s
 claim_010_signed_secp256k1 = %s
 """
 
-test_data = template % (stream_claim_id,
-                        cert_claim_id,
+test_data = template % (cert_claim_id,
+                        stream_claim_address,
+                        stream_claim_address_2,
                         nist256p_private_key,
                         nist384p_private_key,
                         secp256k1_private_key,
