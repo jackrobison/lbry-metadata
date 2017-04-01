@@ -87,7 +87,7 @@ class TestURIParser(UnitTest):
             self.assertEquals(URI.from_dict(expected_uri_obj.to_dict()), expected_uri_obj,
                               test_string)
             # is_channel
-            self.assertEquals(URI.from_uri_string(test_string).is_channel(), is_channel,
+            self.assertEquals(URI.from_uri_string(test_string).is_channel, is_channel,
                               test_string)
 
             # convert-to-string test only works if protocol is present in test_string
