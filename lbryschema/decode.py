@@ -47,7 +47,7 @@ def smart_decode(claim_value):
     try:
         decoded_claim = ClaimDict.deserialize(claim_value)
         return decoded_claim
-    except DecodeError:
+    except (DecodeError, KeyError):
         try:
             decoded_json = json.loads(claim_value)
         except (ValueError, TypeError):
