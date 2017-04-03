@@ -37,6 +37,7 @@ class URI(object):
                 return False
         return self.__class__ == other.__class__
 
+    @property
     def is_channel(self):
         return self.name.startswith(CHANNEL_CHAR)
 
@@ -158,3 +159,7 @@ def get_schema_regex():
     ))
 
     return uri
+
+
+def parse_lbry_uri(lbry_uri):
+    return URI.from_uri_string(lbry_uri)
