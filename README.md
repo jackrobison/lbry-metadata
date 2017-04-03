@@ -12,3 +12,6 @@ To install in development mode, run `pip install -r requirements.txt; pip instal
 
 #### Tests
 To run the tests, run `./run_tests_and_pylint.sh` from the repo directory.
+
+#### Schema
+See [SCHEMA.md](https://github.com/lbryio/lbryschema/blob/master/SCHEMA.md).
