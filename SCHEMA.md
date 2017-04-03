@@ -20,7 +20,7 @@ Claims have the encompassing schema:
 
 
 
-### [Stream](https://github.com/lbryio/lbryschema/blob/master/lbryschema/proto/stream.proto)
+## [Stream](https://github.com/lbryio/lbryschema/blob/master/lbryschema/proto/stream.proto)
 Claims of streamType have a `stream`:
 
     message Stream {
@@ -33,7 +33,7 @@ Claims of streamType have a `stream`:
         required Source source = 3;
     }
 
-#### [Metadata](https://github.com/lbryio/lbryschema/blob/master/lbryschema/proto/metadata.proto)
+## [Metadata](https://github.com/lbryio/lbryschema/blob/master/lbryschema/proto/metadata.proto)
 Streams have `metadata` describing their content:
 
     message Metadata {
@@ -62,7 +62,7 @@ Streams have `metadata` describing their content:
         optional string licenseUrl = 11;
     }
 
-##### [Fee](https://github.com/lbryio/lbryschema/blob/master/lbryschema/proto/fee.proto)
+## [Fee](https://github.com/lbryio/lbryschema/blob/master/lbryschema/proto/fee.proto)
 Metadata may include a fee to access the decryption key:
 
     message Fee {
@@ -82,7 +82,7 @@ Metadata may include a fee to access the decryption key:
         required float amount = 4;
     }
 
-#### [Source](https://github.com/lbryio/lbryschema/blob/master/lbryschema/proto/source.proto)
+## [Source](https://github.com/lbryio/lbryschema/blob/master/lbryschema/proto/source.proto)
 Streams have a `source` to download:
 
     message Source {
@@ -102,7 +102,7 @@ Streams have a `source` to download:
 
 
 
-### [Certificates](https://github.com/lbryio/lbryschema/blob/master/lbryschema/proto/certificate.proto)
+## [Certificate](https://github.com/lbryio/lbryschema/blob/master/lbryschema/proto/certificate.proto)
 Claims of certificateType have a `certificate`:
 
     message Certificate {
@@ -115,7 +115,7 @@ Claims of certificateType have a `certificate`:
         required bytes publicKey = 4;
     }
 
-### [Signature](https://github.com/lbryio/lbryschema/blob/master/lbryschema/proto/signature.proto)
+## [Signature](https://github.com/lbryio/lbryschema/blob/master/lbryschema/proto/signature.proto)
 Claims may be signed using the private key to a Certificate public key:
 
     message Signature {
