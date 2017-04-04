@@ -28,6 +28,12 @@ CURRENCY_MAP = {
     USD: 3
 }
 
+CURRENCY_NAMES = {
+    1: LBC,
+    2: BTC,
+    3: USD
+}
+
 ADDRESS_LENGTH = 25
 VERSION = "version"
 STREAM_TYPE = "streamType"

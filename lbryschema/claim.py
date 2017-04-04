@@ -11,6 +11,7 @@ from lbryschema.signer import get_signer
 from lbryschema.schema import NIST256p, CURVE_NAMES, CLAIM_TYPE_NAMES
 from lbryschema.encoding import decode_fields, decode_b64_fields, encode_fields
 from lbryschema.error import DecodeError
+from lbryschema.fee import Fee
 
 
 class ClaimDict(OrderedDict):
@@ -68,6 +69,24 @@ class ClaimDict(OrderedDict):
         if not CLAIM_TYPE_NAMES[claim.claimType] == "stream":
             return None
         return claim.stream.source.source.encode('hex')
+
+    @property
+    def has_fee(self):
+        claim = self.protobuf
+        if not CLAIM_TYPE_NAMES[claim.claimType] == "stream":
+            return None
+        if claim.stream.metadata.HasField("fee"):
+            return True
+        return False
+
+    @property
+    def source_fee(self):
+        claim = self.protobuf
+        if not CLAIM_TYPE_NAMES[claim.claimType] == "stream":
+            return None
+        if claim.stream.metadata.HasField("fee"):
+            return Fee.load_protobuf(claim.stream.metadata.fee)
+        return None
 
     @property
     def certificate_id(self):
