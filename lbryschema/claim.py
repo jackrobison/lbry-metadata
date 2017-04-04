@@ -58,6 +58,18 @@ class ClaimDict(OrderedDict):
         return CLAIM_TYPE_NAMES[claim.claimType] == "certificate"
 
     @property
+    def is_stream(self):
+        claim = self.protobuf
+        return CLAIM_TYPE_NAMES[claim.claimType] == "stream"
+
+    @property
+    def source_hash(self):
+        claim = self.protobuf
+        if not CLAIM_TYPE_NAMES[claim.claimType] == "stream":
+            return None
+        return claim.stream.source.source.encode('hex')
+
+    @property
     def certificate_id(self):
         if not self.has_signature:
             return None
