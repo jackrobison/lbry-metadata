@@ -21,9 +21,6 @@ class ClaimDict(OrderedDict):
                             (self.__class__.__name__, self.__class__.__name__))
         OrderedDict.__init__(self, claim_dict)
 
-    def __repr__(self):
-        return json.dumps(self.claim_dict)
-
     @property
     def protobuf_dict(self):
         """Claim dictionary using base64 to represent bytes"""
