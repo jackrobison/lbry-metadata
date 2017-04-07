@@ -10,11 +10,14 @@ from test_data import claim_id_1, claim_address_1, claim_address_2
 from test_data import nist256p_private_key, claim_010_signed_nist256p, nist256p_cert
 from test_data import nist384p_private_key, claim_010_signed_nist384p, nist384p_cert
 from test_data import secp256k1_private_key, claim_010_signed_secp256k1, secp256k1_cert
+from test_data import hex_encoded_003, decoded_hex_encoded_003
 from lbryschema.claim import ClaimDict
 from lbryschema.schema import NIST256p, NIST384p, SECP256k1
 from lbryschema.legacy.migrate import migrate
 from lbryschema.signer import get_signer
 from lbryschema.uri import URI, URIParseError
+from lbryschema.decode import smart_decode
+from lbryschema.error import DecodeError
 
 parsed_uri_matches = [
     ("test", URI("test"), False),
@@ -264,6 +267,23 @@ class TestMetadata(UnitTest):
         sd_hash = claim['stream']['source']['source'][:-2]
         claim['stream']['source']['source'] = sd_hash
         self.assertRaises(AssertionError, ClaimDict.load_dict, claim)
+
+class TestSmartDecode(UnitTest):
+    def test_hex_decode(self):
+        self.assertEqual(decoded_hex_encoded_003,smart_decode(hex_encoded_003).claim_dict)
+
+    def test_smart_decode_raises(self):
+        with self.assertRaises(TypeError):
+            smart_decode(1)
+
+        with self.assertRaises(DecodeError):
+            smart_decode("aaab")
+
+        with self.assertRaises(DecodeError):
+            smart_decode("{'bogus_dict':1}")
+
+
+
 
 
 if __name__ == '__main__':
