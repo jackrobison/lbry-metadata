@@ -4,8 +4,10 @@ assert len(__b58chars) == 58
 __b43chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ$*+-./:'
 assert len(__b43chars) == 43
 
+ADDRESS_LENGTH = 25
 
-def base_decode(v, length, base):
+
+def base_decode(v, base):
     """ decode v into a string of len bytes."""
     if base == 58:
         chars = __b58chars
@@ -27,7 +29,7 @@ def base_decode(v, length, base):
         else:
             break
     result = chr(0)*nPad + result
-    if length is not None and len(result) != length:
+    if ADDRESS_LENGTH is not None and len(result) != ADDRESS_LENGTH:
         return None
     return result
 

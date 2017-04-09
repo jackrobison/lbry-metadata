@@ -41,7 +41,9 @@ class Validator(object):
         return self.public_key.verify_digest(signature, digest)
 
     def validate_claim_signature(self, claim, claim_address):
-        decoded_address = base_decode(claim_address, 20, 58)
+        decoded_address = base_decode(claim_address, 58)
+        if not decoded_address:
+            raise Exception("Invalid claim address")
 
         # extract and serialize the stream from the claim, then check the signature
         signature = claim.signature.decode('hex')

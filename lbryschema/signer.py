@@ -46,7 +46,10 @@ class NIST_ECDSASigner(object):
 
     def sign_stream_claim(self, claim, claim_address, cert_claim_id):
         validate_claim_id(cert_claim_id)
-        to_sign = "%s%s%s" % (base_decode(claim_address, 20, 58),
+        if not base_decode(claim_address, 58):
+            raise Exception("Invalid claim address")
+
+        to_sign = "%s%s%s" % (base_decode(claim_address, 58),
                               claim.serialized_no_signature,
                               cert_claim_id.decode('hex'))
 

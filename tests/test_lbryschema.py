@@ -153,10 +153,10 @@ class TestNIST256pSignatures(UnitTest):
     def test_validate_ecdsa_signature(self):
         cert = ClaimDict.generate_certificate(nist256p_private_key, curve=NIST256p)
         signed = ClaimDict.load_dict(example_010).sign(nist256p_private_key,
-                                                       claim_address_1, claim_id_1, curve=NIST256p)
+                                                       claim_address_2, claim_id_1, curve=NIST256p)
         self.assertDictEqual(signed.claim_dict, claim_010_signed_nist256p)
         signed_copy = ClaimDict.load_protobuf(signed.protobuf)
-        self.assertEquals(signed_copy.validate_signature(claim_address_1, cert), True)
+        self.assertEquals(signed_copy.validate_signature(claim_address_2, cert), True)
 
     def test_remove_signature_equals_unsigned(self):
         unsigned = ClaimDict.load_dict(example_010)
@@ -192,10 +192,10 @@ class TestNIST384pSignatures(UnitTest):
     def test_validate_ecdsa_signature(self):
         cert = ClaimDict.generate_certificate(nist384p_private_key, curve=NIST384p)
         signed = ClaimDict.load_dict(example_010).sign(nist384p_private_key,
-                                                       claim_address_1, claim_id_1, curve=NIST384p)
+                                                       claim_address_2, claim_id_1, curve=NIST384p)
         self.assertDictEqual(signed.claim_dict, claim_010_signed_nist384p)
         signed_copy = ClaimDict.load_protobuf(signed.protobuf)
-        self.assertEquals(signed_copy.validate_signature(claim_address_1, cert), True)
+        self.assertEquals(signed_copy.validate_signature(claim_address_2, cert), True)
 
     def test_remove_signature_equals_unsigned(self):
         unsigned = ClaimDict.load_dict(example_010)
@@ -230,11 +230,25 @@ class TestSECP256k1Signatures(UnitTest):
 
     def test_validate_ecdsa_signature(self):
         cert = ClaimDict.generate_certificate(secp256k1_private_key, curve=SECP256k1)
-        signed = ClaimDict.load_dict(example_010).sign(secp256k1_private_key,
-                                                       claim_address_1, claim_id_1, curve=SECP256k1)
+        self.assertDictEqual(cert.claim_dict, secp256k1_cert)
+        signed = ClaimDict.load_dict(example_010).sign(secp256k1_private_key, claim_address_2, claim_id_1, curve=SECP256k1)
         self.assertDictEqual(signed.claim_dict, claim_010_signed_secp256k1)
         signed_copy = ClaimDict.load_protobuf(signed.protobuf)
-        self.assertEquals(signed_copy.validate_signature(claim_address_1, cert), True)
+        self.assertEquals(signed_copy.validate_signature(claim_address_2, cert), True)
+
+    def test_fail_to_sign_with_no_claim_address(self):
+        cert = ClaimDict.generate_certificate(secp256k1_private_key, curve=SECP256k1)
+        self.assertDictEqual(cert.claim_dict, secp256k1_cert)
+        self.assertRaises(Exception, ClaimDict.load_dict(example_010).sign, secp256k1_private_key,
+                          None, claim_id_1, curve=SECP256k1)
+
+    def test_fail_to_validate_with_no_claim_address(self):
+        cert = ClaimDict.generate_certificate(secp256k1_private_key, curve=SECP256k1)
+        self.assertDictEqual(cert.claim_dict, secp256k1_cert)
+        signed = ClaimDict.load_dict(example_010).sign(secp256k1_private_key, claim_address_2, claim_id_1, curve=SECP256k1)
+        self.assertDictEqual(signed.claim_dict, claim_010_signed_secp256k1)
+        signed_copy = ClaimDict.load_protobuf(signed.protobuf)
+        self.assertRaises(Exception, signed_copy.validate_signature, None, cert)
 
     def test_remove_signature_equals_unsigned(self):
         unsigned = ClaimDict.load_dict(example_010)
@@ -268,9 +282,10 @@ class TestMetadata(UnitTest):
         claim['stream']['source']['source'] = sd_hash
         self.assertRaises(AssertionError, ClaimDict.load_dict, claim)
 
+
 class TestSmartDecode(UnitTest):
     def test_hex_decode(self):
-        self.assertEqual(decoded_hex_encoded_003,smart_decode(hex_encoded_003).claim_dict)
+        self.assertEqual(decoded_hex_encoded_003, smart_decode(hex_encoded_003).claim_dict)
 
     def test_smart_decode_raises(self):
         with self.assertRaises(TypeError):

@@ -17,7 +17,7 @@ def migrate(fee):
         "version": "_0_0_1",
         "currency": currency,
         "amount": amount,
-        "address": base_decode(address, 20, 58)
+        "address": base_decode(address, 58)
     })
 
 
@@ -55,7 +55,7 @@ class Fee(OrderedDict):
         pb = {
                 "version": self.version,
                 "currency": CURRENCY_MAP[self.currency],
-                "address": base_decode(self.address, 20, 58),
+                "address": base_decode(self.address, 58),
                 "amount": self.amount
         }
         return Fee_pb.load(pb)

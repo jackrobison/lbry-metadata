@@ -7,24 +7,24 @@ claim_address_2 = "bDtL6qriyimxz71DSYjojTBsm6cpM1bqmj"
 claim_address_1 = "bUG7VaMzLEqqyZQAyg9srxQzvf1wwnJ48w"
 
 nist256p_private_key = """-----BEGIN EC PRIVATE KEY-----
-MHcCAQEEIGomIxEhgdzuauXte1dEplhvaMNDAATmLVU1jnHjWFtToAoGCCqGSM49
-AwEHoUQDQgAEYNJiG34zcuBqhSIdcUiVqZMqneBVw0JuxLzZIHxKXaEtBx0koqB7
-rmVwhRspqHv0MZHK8S5N+48RtLuBM2Z8dw==
+MHcCAQEEIBhixPFinjHmG94r00VBjmE73XZmlSHag5Bg3BFdCeQgoAoGCCqGSM49
+AwEHoUQDQgAEtSfatRTR6ppwoDVJ94hbvhFDF42mACkWSc2Tao6zzYW4xaRPbI7j
+IBUL+6prbDM+GXZ8X2mtmeaNIgjWTT7YFw==
 -----END EC PRIVATE KEY-----
 """
 
 nist384p_private_key = """-----BEGIN EC PRIVATE KEY-----
-MIGkAgEBBDDzGJsbIL/j/leqPdsDhco6YxQRA8Dic4zzw5/YWnx66ubbc/dnM9q8
-Nq8zCgwGndagBwYFK4EEACKhZANiAAT4Jk/f7PCkodc1cPzBVpA4dzEhamBCQgRs
-6RRRRexBIm6kkphyFrWXD7AgSFzsrvtgRFiMZvy8G80QoajN3QnCjbhsJ6bbT3L/
-ww5l3R6x6clEQ0yyYmhta1yGqL76r60=
+MIGkAgEBBDD5PPbcgT62WADeVBkDFsKCTCwQULHD7eE0iZz7c9Xk+6gZazMFgsGp
+O0Rs9n+lmACgBwYFK4EEACKhZANiAASzpp0t4nIxoedhQN+J2pZ/EmwZl/x4dwdd
+AjY4ZwKBdhfWIWgtcET9PBJlda0EvxR+CTwrt1em26VNS/57eH3yNFJQdCQiMSFY
+mTtML6D/rctN1oztTSQdwHPA9x99FcU=
 -----END EC PRIVATE KEY-----
 """
 
 secp256k1_private_key = """-----BEGIN EC PRIVATE KEY-----
-MHQCAQEEIPZC9hsxKaeG450ATUUZr+LzprYOIznw5ct1FBzDv3choAcGBSuBBAAK
-oUQDQgAET2siiLU5trJ6vqyD77ZioqQ8gE7GC8MCDn+Ob3CeANdvT4G2joeTPkEJ
-aavGq7zZ++ZsXBIjg//2p1UqXcDQNA==
+MHQCAQEEIPbjaEfCCCy5HHvGHkEw3X/dTJXlr4jcEJHV1OmcBDPmoAcGBSuBBAAK
+oUQDQgAElLPrkVIapvtKrv0DkgQb9vAXtCQDBIu+iHlsQC5dx1ZnOWZwpYKQuM4i
+LNbuTlfxCHWYwovwLjYnao8iwgp0og==
 -----END EC PRIVATE KEY-----
 """
 
@@ -32,7 +32,7 @@ nist256p_cert = {
   "version": "_0_0_1", 
   "claimType": "certificateType", 
   "certificate": {
-    "publicKey": "3059301306072a8648ce3d020106082a8648ce3d0301070342000460d2621b7e3372e06a85221d714895a9932a9de055c3426ec4bcd9207c4a5da12d071d24a2a07bae6570851b29a87bf43191caf12e4dfb8f11b4bb8133667c77", 
+    "publicKey": "3059301306072a8648ce3d020106082a8648ce3d03010703420004b527dab514d1ea9a70a03549f7885bbe1143178da600291649cd936a8eb3cd85b8c5a44f6c8ee320150bfbaa6b6c333e19767c5f69ad99e68d2208d64d3ed817", 
     "keyType": "NIST256p", 
     "version": "_0_0_1"
   }
@@ -42,7 +42,7 @@ nist384p_cert = {
   "version": "_0_0_1", 
   "claimType": "certificateType", 
   "certificate": {
-    "publicKey": "3076301006072a8648ce3d020106052b8104002203620004f8264fdfecf0a4a1d73570fcc15690387731216a604242046ce9145145ec41226ea492987216b5970fb020485cecaefb6044588c66fcbc1bcd10a1a8cddd09c28db86c27a6db4f72ffc30e65dd1eb1e9c944434cb262686d6b5c86a8befaafad", 
+    "publicKey": "3076301006072a8648ce3d020106052b8104002203620004b3a69d2de27231a1e76140df89da967f126c1997fc7877075d0236386702817617d621682d7044fd3c126575ad04bf147e093c2bb757a6dba54d4bfe7b787df2345250742422312158993b4c2fa0ffadcb4dd68ced4d241dc073c0f71f7d15c5", 
     "keyType": "NIST384p", 
     "version": "_0_0_1"
   }
@@ -52,7 +52,7 @@ secp256k1_cert = {
   "version": "_0_0_1", 
   "claimType": "certificateType", 
   "certificate": {
-    "publicKey": "3056301006072a8648ce3d020106052b8104000a034200044f6b2288b539b6b27abeac83efb662a2a43c804ec60bc3020e7f8e6f709e00d76f4f81b68e87933e410969abc6abbcd9fbe66c5c122383fff6a7552a5dc0d034", 
+    "publicKey": "3056301006072a8648ce3d020106052b8104000a0342000494b3eb91521aa6fb4aaefd0392041bf6f017b42403048bbe88796c402e5dc75667396670a58290b8ce222cd6ee4e57f1087598c28bf02e36276a8f22c20a74a2", 
     "keyType": "SECP256k1", 
     "version": "_0_0_1"
   }
@@ -107,7 +107,7 @@ claim_010_signed_nist256p = {
     "certificateId": "63f2da17b0d90042c559cc73b6b17f853945c43e", 
     "signatureType": "NIST256p", 
     "version": "_0_0_1", 
-    "signature": "de693b07b28a1981d8c4edec3f8902386953f4fbe8d89ff35037ca22cc9a862793254435d0f2f2d7412378e08a69070597088ffe8a6fd3a85c03e17ec1b9243c"
+    "signature": "ec117f5e16a911f704aab8efa9178b1cdfcad0ba8e571ba86a56ecdade129fdff60ff7dcf00355bda788020a43a40fbd55aaaa080c3555fd8f0a87612b62936a"
   }, 
   "claimType": "streamType", 
   "stream": {
@@ -139,7 +139,7 @@ claim_010_signed_nist384p = {
     "certificateId": "63f2da17b0d90042c559cc73b6b17f853945c43e", 
     "signatureType": "NIST384p", 
     "version": "_0_0_1", 
-    "signature": "051de53fb07db8b3522f70b586f25379afde28c2e645aab39b3211db034cbabc70dd76ca105f7fcc9e4d8af699250e62412f5b98bd8930ed76eaeacf0465afff605b18cb6379188864a69787de60e456fc283c566d35a5dcdc4cd5c9661c17e7"
+    "signature": "18e56bb52872809ac598c366c5f0fa9ecbcadb01198b7150b0c4518049086b6b4f552f01d16eaf9cbbf061d8ee35520f8fe22f278a4d0aab5f9c8a4cadd38b6bd4bdbb3b4368e24c6e966ebc24684d24f3d19f5a3e4c7bf69273b0f94aa1c51b"
   }, 
   "claimType": "streamType", 
   "stream": {
@@ -171,7 +171,7 @@ claim_010_signed_secp256k1 = {
     "certificateId": "63f2da17b0d90042c559cc73b6b17f853945c43e", 
     "signatureType": "SECP256k1", 
     "version": "_0_0_1", 
-    "signature": "0def4b70f2af92020b0bd3b8ce73df3067d7b315d40d5c82045af8bc9acf817bb49640a5a6081874d81f2b56065d1065a2bf69471cbb01b4589226179f8b2f41"
+    "signature": "798a37bd4310339e6a9b424ebc3fd2b3263280c13c0d08b1d1fa5e53d29c102b2d340cedecc5018988819db0ac6eb61bf67dbeec4ebee7231668fd13931e6320"
   }, 
   "claimType": "streamType", 
   "stream": {

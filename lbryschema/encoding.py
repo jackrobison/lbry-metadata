@@ -35,7 +35,7 @@ def decode_fields(claim_dictionary):
     if claim_type == CLAIM_TYPES[STREAM_TYPE]:
         claim_value['source']['source'] = claim_value['source']['source'].decode('hex')
         if 'fee' in claim_value['metadata']:
-            address = base_decode(claim_value['metadata']['fee']['address'], 25, 58)
+            address = base_decode(claim_value['metadata']['fee']['address'], 58)
             claim_value['metadata']['fee']['address'] = address
     elif claim_type == CLAIM_TYPES[CERTIFICATE_TYPE]:
         public_key = claim_value["publicKey"].decode('hex')
