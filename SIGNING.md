@@ -1,6 +1,6 @@
 ### Signing a claim
 
-Reilly wants to publish _Terror on the Midway_ to the channel he claimed lbry://@FleischerSuperman. He picks the name "terroronthemidway", and fills in the information for the claim:
+Reilly wants to publish _Terror on the Midway_ to the channel he claimed `lbry://@FleischerSuperman`. He picks the name "terroronthemidway", and fills in the information for the claim:
 
     {
         "claimType": "streamType", 
@@ -37,12 +37,12 @@ This is serialized as:
     68756d626e61696c732f73757065726d616e313934302d7468756d622e706e6752005a001a41080110011a309b70337f51fe9a4481504059b4220ad4f87378d59ec
     c87bd924c3f0f23da9442b9f75ffc091b65deefe92477a86a31ea2209766964656f2f6d7034
     
-To publish the uri lbry://@FleischerSuperman/terroronthemidway, Reilly must sign the SHA256 of the the combined claim address, claim value, and certificate claim id.
+To publish the uri `lbry://@FleischerSuperman/terroronthemidway`, Reilly must sign the SHA256 of the the combined claim address, claim value, and certificate claim id.
 He states by generating an address for the new name claim:
 
     bEGGwBFf39ek6ASJV5YwiUPvDqtpgczCVZ
 
-His claim for the certificate at the uri lbry://@FleischerSuperman has a `claim_id` of
+His claim for the certificate at the uri `lbry://@FleischerSuperman` has a `claim_id` of
 
     2996b9a087c18456402b57cba6085b2a8fcc136d
 
@@ -124,6 +124,6 @@ Serialized, the signed claim is represented as:
 
 Now he can put this value in a claim transaction, and broadcast the claim!
 
-So long as his certificate claim is winning, his publication can be resolved by lbry://@FleischerSuperman/terroronthemidway
+So long as his certificate claim is winning, his publication can be resolved by `lbry://@FleischerSuperman/terroronthemidway`
 
-Even if his name is outbid, the publication can be resolved by the channel claim id at the uri: lbry://@FleischerSuperman#2996b9a087c18456402b57cba6085b2a8fcc136d/terroronthemidway
+Even if his name is outbid, the publication can be resolved by the channel claim id at the uri: `lbry://@FleischerSuperman#2996b9a087c18456402b57cba6085b2a8fcc136d/terroronthemidway`
