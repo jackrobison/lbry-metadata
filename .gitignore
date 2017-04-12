@@ -1,14 +1,7 @@
-
 *.pyc
-
 *.xml
-
 *.iml
-
 *.egg-info
-
 *.egg
-
-build
-
+/build
 _trial*

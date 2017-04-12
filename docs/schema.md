@@ -128,25 +128,3 @@ Claims may be signed using the private key to a Certificate public key:
         required bytes signature = 3;
         required bytes certificateId = 4;
     }
-
- 
-## URI
-
-#### Protocol
-
-The LBRY protocol is called `lbry`. URIs using the protocol must start with `lbry://`.
-
-### Names
-
-#### Content Name
-`content_name` is the name of piece of content. 
-
-#### Channel Name
-
-### Modifiers
-
-#### Claim ID
-
-#### Claim Sequence
-
-### Path
