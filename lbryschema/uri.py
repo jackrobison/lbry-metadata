@@ -116,6 +116,9 @@ def get_schema_regex():
     def _group(regex):
         return "(?:" + regex + ")"
 
+    # TODO: regex should include the fact that content names cannot have paths
+    #       right now this is only enforced in code, not in the regex
+
     # Escape constants
     claim_id_char = re.escape(CLAIM_ID_CHAR)
     claim_sequence_char = re.escape(CLAIM_SEQUENCE_CHAR)
