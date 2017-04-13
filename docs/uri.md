@@ -54,7 +54,7 @@ followed by at least 4 name characters.
 
 ## Modifiers
 
-Only one modifier is allowed at a time.
+Only one modifier is allowed at a time. Only channel claims may have a modifier.
 
 ### Claim ID
 
@@ -76,6 +76,8 @@ Negative claim sequence numbers will be supported eventually.
 
 ### Bid Position
 
+_not implemented yet_
+
 `bid_position` is a positive integer (>= 1) that resolves to the Nth highest-bid claim for a given name.
 A bid position is prefixed with the BID_POSITION_CHAR.
 All valid claims are considered, in order from highest bid to lowest bid, with ties being broken by claim age. 
@@ -90,6 +92,7 @@ Negative bid position numbers will be supported eventually.
 `path` is a Unix-style path that resolves to a claim within a channel. 
 A path is prefixed with PATH_CHAR.
 Only paths one level deep are currently supported.
+Only channel claims may have a path.
 
 For example, `lbry://@chan/snaps_from_last_night` resolves to the claim for `snaps_from_last_night` that is signed by `@chan`
 

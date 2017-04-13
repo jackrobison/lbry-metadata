@@ -85,26 +85,30 @@ class TestURIParser(UnitTest):
 
     def test_uri_parse(self):
         for test_string, expected_uri_obj, is_channel in parsed_uri_matches:
-            # string -> URI
-            self.assertEquals(URI.from_uri_string(test_string), expected_uri_obj, test_string)
-            # URI -> dict -> URI
-            self.assertEquals(URI.from_dict(expected_uri_obj.to_dict()), expected_uri_obj,
-                              test_string)
-            # is_channel
-            self.assertEquals(URI.from_uri_string(test_string).is_channel, is_channel,
-                              test_string)
-
-            # convert-to-string test only works if protocol is present in test_string
-            if test_string.startswith('lbry://'):
-                # string -> URI -> string
-                self.assertEquals(URI.from_uri_string(test_string).to_uri_string(), test_string,
+            try:
+                # string -> URI
+                self.assertEquals(URI.from_uri_string(test_string), expected_uri_obj, test_string)
+                # URI -> dict -> URI
+                self.assertEquals(URI.from_dict(expected_uri_obj.to_dict()), expected_uri_obj,
                                   test_string)
-                # string -> URI -> dict -> URI -> string
-                uri_dict = URI.from_uri_string(test_string).to_dict()
-                self.assertEquals(URI.from_dict(uri_dict).to_uri_string(), test_string, test_string)
-                # URI -> dict -> URI -> string
-                self.assertEquals(URI.from_dict(expected_uri_obj.to_dict()).to_uri_string(),
-                                  test_string, test_string)
+                # is_channel
+                self.assertEquals(URI.from_uri_string(test_string).is_channel, is_channel,
+                                  test_string)
+
+                # convert-to-string test only works if protocol is present in test_string
+                if test_string.startswith('lbry://'):
+                    # string -> URI -> string
+                    self.assertEquals(URI.from_uri_string(test_string).to_uri_string(), test_string,
+                                      test_string)
+                    # string -> URI -> dict -> URI -> string
+                    uri_dict = URI.from_uri_string(test_string).to_dict()
+                    self.assertEquals(URI.from_dict(uri_dict).to_uri_string(), test_string, test_string)
+                    # URI -> dict -> URI -> string
+                    self.assertEquals(URI.from_dict(expected_uri_obj.to_dict()).to_uri_string(),
+                                      test_string, test_string)
+            except URIParseError as err:
+                print "ERROR: " + test_string
+                raise
 
     def test_uri_errors(self):
         for test_str, err in parsed_uri_raises:

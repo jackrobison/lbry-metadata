@@ -28,6 +28,9 @@ class URI(object):
         self.claim_id = claim_id
         self.path = path
 
+        if self.path is not None and not self.is_channel:
+            raise ValueError("Content claims cannot have paths")
+
     def __str__(self):
         return self.to_uri_string()
 
