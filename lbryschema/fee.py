@@ -2,7 +2,8 @@ from collections import OrderedDict
 
 from lbryschema.base import base_encode, base_decode
 from lbryschema.schema import CURRENCY_NAMES, CURRENCY_MAP
-from lbryschema.schema.fee import Fee as Fee_pb
+from lbryschema.schema.fee import Fee as FeeHelper
+from lbryschema.schema import fee_pb2
 
 
 def migrate(fee):
@@ -13,7 +14,7 @@ def migrate(fee):
     amount = fee[currency]['amount']
     address = fee[currency]['address']
 
-    return Fee_pb.load({
+    return FeeHelper.load({
         "version": "_0_0_1",
         "currency": currency,
         "amount": amount,
@@ -41,6 +42,20 @@ class Fee(OrderedDict):
     def amount(self):
         return self['amount']
 
+    @property
+    def version(self):
+        return self['version']
+
+    @property
+    def protobuf(self):
+        pb = {
+            "version": self.version,
+            "currency": CURRENCY_MAP[self.currency],
+            "address": base_decode(self.address, 58),
+            "amount": self.amount
+        }
+        return FeeHelper.load(pb)
+
     @classmethod
     def load_protobuf(cls, pb):
         return cls({
@@ -50,12 +65,8 @@ class Fee(OrderedDict):
                 "amount": pb.amount
         })
 
-    @property
-    def protobuf(self):
-        pb = {
-                "version": self.version,
-                "currency": CURRENCY_MAP[self.currency],
-                "address": base_decode(self.address, 58),
-                "amount": self.amount
-        }
-        return Fee_pb.load(pb)
+    @classmethod
+    def deserialize(cls, serialized):
+        pb = fee_pb2.Fee()
+        pb.ParseFromString(serialized)
+        return cls.load_protobuf(pb)
