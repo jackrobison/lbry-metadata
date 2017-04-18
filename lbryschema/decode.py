@@ -43,14 +43,26 @@ def smart_decode(claim_value):
         except (TypeError, ValueError):
             pass
 
-    # try deserializing protobuf, if that fails try parsing from json
-    try:
-        decoded_claim = ClaimDict.deserialize(claim_value)
-        return decoded_claim
-    except (DecodeError, KeyError):
+    if claim_value.startswith("{"):
+        # try deserializing protobuf, if that fails try parsing from json
         try:
             decoded_json = json.loads(claim_value)
         except (ValueError, TypeError):
-            raise DecodeError()
+            try:
+                decoded_claim = ClaimDict.deserialize(claim_value)
+                return decoded_claim
+            except (DecodeError, KeyError):
+                raise DecodeError()
         migrated_claim = migrate_json_claim_value(decoded_json)
         return migrated_claim
+    else:
+        try:
+            decoded_claim = ClaimDict.deserialize(claim_value)
+            return decoded_claim
+        except (DecodeError, KeyError):
+            try:
+                decoded_json = json.loads(claim_value)
+            except (ValueError, TypeError):
+                raise DecodeError()
+            migrated_claim = migrate_json_claim_value(decoded_json)
+            return migrated_claim
