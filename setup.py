@@ -4,6 +4,8 @@ from lbryschema import __version__ as version
 
 requires = [
     'protobuf',
+    'jsonschema',
+    'ecdsa',
 ]
 
 base_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), "lbryschema")
