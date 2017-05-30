@@ -46,6 +46,9 @@ def migrate_003_to_010(value):
         if k in migrated_to_003:
             metadata.update({k: migrated_to_003[k]})
 
+    if 'license_url' in migrated_to_003:
+        metadata['licenseUrl'] = migrated_to_003['license_url']
+
     if "fee" in migrated_to_003:
         fee = migrated_to_003["fee"]
         currency = fee.keys()[0]
