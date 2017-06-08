@@ -8,9 +8,14 @@ from google.protobuf import json_format  # pylint: disable=no-name-in-module
 
 
 def migrate_json_claim_value(decoded_json):
-    if 'fee' in decoded_json and not decoded_json['fee'][decoded_json['fee'].keys()[0]]['amount']:
-        del decoded_json['fee']
-        return migrate_json_claim_value(decoded_json)
+    try:
+        if 'fee' in decoded_json:
+            old_fee = decoded_json['fee']
+            if not old_fee[old_fee.keys()[0]]['amount']:
+                del decoded_json['fee']
+                return migrate_json_claim_value(decoded_json)
+    except TypeError:
+        raise DecodeError("Failed to decode claim")
     try:
         pb_migrated = schema_migrator(decoded_json)
         return pb_migrated
