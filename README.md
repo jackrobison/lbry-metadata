@@ -1,6 +1,6 @@
 ## Protobuf schema for [LBRY](https://github.com/lbryio/lbry) claims and spec for lbry:// URIs
 
-lbryschema is a [protobuf](https://github.com/google/protobuf) schema that how defines claims are structured and validated in the LBRY blockchain. 
+lbryschema is a [protobuf](https://github.com/google/protobuf) schema that defines how claims are structured and validated in the LBRY blockchain. 
 There is also code to construct, parse, and validate lbry:// URIs.  
 
 ### Use
